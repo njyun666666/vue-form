@@ -1,0 +1,21 @@
+{
+  "Message": {
+    "Required": "必填",
+    "Login_Failed": "登入失敗",
+    "Forbidden": "拒絕存取",
+    "EditSuccess": "編輯成功",
+    "AddSuccess": "新增成功",
+    "RemoveSuccess": "刪除成功",
+    "EditFail": "編輯失敗",
+    "AddFail": "新增失敗",
+    "DeleteFail": "刪除失敗",
+    "InvalidEmail": "無效Email",
+    "NoFound": "沒有找到",
+    "At_least_number_entry_is_required": "至少輸入 {number} 筆",
+    "has_already_been_taken": "已經存在",
+    "is_invalid": "無效",
+    "IsError": "錯誤",
+    "NoMore": "沒了",
+    "Password_dont_match": "與密碼不符"
+  }
+}

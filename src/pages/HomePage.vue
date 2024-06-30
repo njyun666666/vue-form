@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 <template>
   <main>
     <h1 className="text-3xl font-bold underline">
-      <h1>{{ $t('Website.Title') }}</h1>
+      <h1>{{ $t('Page.Home') }}</h1>
     </h1>
     <button
       :class="
@@ -20,6 +20,6 @@ import dayjs from 'dayjs'
 
     {{ dayjs().format('LLL') }}
 
-    <Home2Page />
+    {{ $t('Message.Required') }}
   </main>
 </template>
