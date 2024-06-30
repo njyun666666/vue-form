@@ -1,0 +1,16 @@
+{
+  "vvTsSetup": {
+    "prefix": "vvTsSetup",
+    "body": [
+      "<script setup lang=\"ts\">",
+      "  ",
+      "</script>",
+      "<template>",
+      "  <div>",
+      "    ",
+      "  </div>",
+      "</template>"
+    ],
+    "description": "Vue Single-File Component with Typescript"
+  }
+}
