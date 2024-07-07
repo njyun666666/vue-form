@@ -10,9 +10,7 @@ import dayjs from 'dayjs'
     </h1>
     <button
       :class="
-        cn('bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3', {
-          'bg-red-500': true
-        })
+        cn('bg-sky-300 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3 dark:bg-red-800')
       "
     >
       <font-awesome-icon icon="fa-solid fa-user-secret" />
