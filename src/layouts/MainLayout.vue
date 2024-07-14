@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cn } from '@/libs/utils/style'
-import { breakpoints } from '@/libs/utils/layout'
+import { breakpoints, isMobile } from '@/libs/utils/layout'
 import { useLayoutStore } from '@/stores/layout'
 import { ref, watch } from 'vue'
 
@@ -9,13 +9,13 @@ const maskHidden = ref(true)
 const maskOpacity0 = ref(true)
 
 const navMouseEnter = () => {
-  if (layoutStore.isMobile) return
+  if (isMobile.value) return
 
   layoutStore.navExpandedState = true
 }
 
 const navMouseLeave = () => {
-  if (layoutStore.isMobile) return
+  if (isMobile.value) return
 
   layoutStore.navExpandedState = false
 }
@@ -107,7 +107,7 @@ watch(
     >
       <div class="pl-64">
         <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
-        <div>isMobile: {{ layoutStore.isMobile }}</div>
+        <div>isMobile: {{ isMobile }}</div>
         <div>navDefaultExpanded: {{ layoutStore.navDefaultExpanded }}</div>
         <div>navExpandedState: {{ layoutStore.navExpandedState }}</div>
         <br />

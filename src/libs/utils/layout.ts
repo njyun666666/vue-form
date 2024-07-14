@@ -1,4 +1,5 @@
 import { useBreakpoints } from '@vueuse/core'
+import { computed } from 'vue'
 
 export const breakpoints = useBreakpoints({
   default: 0,
@@ -8,3 +9,5 @@ export const breakpoints = useBreakpoints({
   xl: 1280,
   '2xl': 1536
 })
+
+export const isMobile = computed(() => breakpoints.active().value == 'default')

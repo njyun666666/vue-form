@@ -4,7 +4,6 @@ import { computed, ref, watch } from 'vue'
 import { breakpoints } from '@/libs/utils/layout'
 
 export const useLayoutStore = defineStore('layout', () => {
-  const isMobile = computed(() => breakpoints.active().value == 'default')
   const navDefaultExpanded = useStorage('navDefaultExpanded', false)
   const navExpandedState = ref(breakpoints.greaterOrEqual('xl').value && navDefaultExpanded.value)
   const messageCount = ref(0)
@@ -20,7 +19,6 @@ export const useLayoutStore = defineStore('layout', () => {
   })
 
   return {
-    isMobile,
     navDefaultExpanded,
     navExpandedState,
     webTitle
