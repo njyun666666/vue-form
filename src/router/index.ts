@@ -18,14 +18,6 @@ const router = createRouter({
             title: 'Page.Home'
           },
           component: () => import('@/pages/Dashboard/DashboardPage.vue')
-        },
-        {
-          path: '/index2',
-          name: 'index2',
-          meta: {
-            title: 'Page.Language'
-          },
-          component: () => import('@/pages/Dashboard/DashboardPage.vue')
         }
       ]
     }

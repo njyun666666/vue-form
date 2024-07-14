@@ -7,10 +7,10 @@ export const useLayoutStore = defineStore('layout', () => {
   const isMobile = computed(() => breakpoints.active().value == 'default')
   const navDefaultExpanded = useStorage('navDefaultExpanded', false)
   const navExpandedState = ref(breakpoints.greaterOrEqual('xl').value && navDefaultExpanded.value)
-  const messages = ref(0)
+  const messageCount = ref(0)
   const webTitle = ref('')
   const title = computed(() => {
-    const messagesText = messages.value > 0 ? `(${messages.value}) ` : ''
+    const messagesText = messageCount.value > 0 ? `(${messageCount.value}) ` : ''
     return `${messagesText}${webTitle.value}`
   })
   const setTitle = useTitle(title.value, { titleTemplate: '%s / Vue-Form' })
