@@ -1,4 +1,5 @@
 import { i18n } from '@/i18n/config'
+import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
 import { nextTick } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -13,6 +14,17 @@ const router = createRouter({
         {
           path: '/',
           name: 'index',
+          meta: {
+            title: 'Page.Home'
+          },
+          component: () => import('@/pages/Dashboard/DashboardPage.vue')
+        },
+        {
+          path: '/index2',
+          name: 'index2',
+          meta: {
+            title: 'Page.Language'
+          },
           component: () => import('@/pages/Dashboard/DashboardPage.vue')
         }
       ]
@@ -34,10 +46,11 @@ router.beforeEach((to) => {
 
 router.afterEach((to, from, failure) => {
   const { t } = i18n.global
+  const layoutStore = useLayoutStore()
 
   if (!failure && to.meta.title) {
     nextTick(() => {
-      // webTitle.value = t(to.meta.title as string)
+      layoutStore.webTitle = t(to.meta.title as string)
     })
   }
 })

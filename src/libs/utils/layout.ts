@@ -1,4 +1,4 @@
-import { useBreakpoints, useTitle } from '@vueuse/core'
+import { useBreakpoints } from '@vueuse/core'
 
 export const breakpoints = useBreakpoints({
   default: 0,
@@ -8,5 +8,3 @@ export const breakpoints = useBreakpoints({
   xl: 1280,
   '2xl': 1536
 })
-
-export const webTitle = useTitle(null, { titleTemplate: '%s / Vue-Form' })
