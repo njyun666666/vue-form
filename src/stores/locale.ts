@@ -1,10 +1,10 @@
-import '@/i18n/dayjs/zh-tw'
-
 import type { LangType } from '@/i18n/config'
+import '@/i18n/dayjs/zh-tw'
 import { useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { defineStore } from 'pinia'
 import { useI18n } from 'vue-i18n'
+
 // import { usePrimeVue } from 'primevue/config'
 // import primeEN from '@/i18n/primelocale/en.json'
 // import primeZH_TW from '@/i18n/primelocale/zh-tw.json'
