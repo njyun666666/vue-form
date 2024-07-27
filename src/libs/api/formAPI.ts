@@ -2,14 +2,10 @@ import appConfig from '@/appConfig'
 import { useLoginStore } from '@/stores/login'
 import axios, {
   AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-  type,
-  type,
-  type,
-  type
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig
 } from 'axios'
 
 import { loginService } from '../services/loginService'
