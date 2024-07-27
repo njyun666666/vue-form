@@ -1,5 +1,5 @@
-import type { RoleType } from '@/appConst'
 import 'vue-router'
+import type { RoleType } from '@/appConst'
 
 export {}
 

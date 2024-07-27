@@ -1,9 +1,20 @@
+import * as primeui from 'tailwindcss-primeui'
+import * as colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'selector',
   theme: {
     extend: {
+      colors: {
+        background: 'hsl(var(--background))',
+        mask: 'hsl(var(--mask))',
+        error: {
+          DEFAULT: 'hsl(var(--error))',
+          ...colors.red
+        }
+      },
       spacing: {
         9.5: '2.375rem',
         13: '3.25rem',
@@ -19,5 +30,5 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [primeui]
 }

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { isMobile } from '@/libs/utils/layout'
 import { cn } from '@/libs/utils/style'
-import { breakpoints, isMobile } from '@/libs/utils/layout'
 import { useLayoutStore } from '@/stores/layout'
+import Button from 'primevue/button'
+import ScrollPanel from 'primevue/scrollpanel'
 import { ref, watch } from 'vue'
 
 const layoutStore = useLayoutStore()
@@ -37,22 +39,38 @@ watch(
   <div class="fixed h-full w-full overflow-hidden">
     <header
       :class="
-        cn('bg-green-0 flex h-12 w-full items-center gap-2 overflow-hidden p-2 dark:bg-green-900')
+        cn(
+          'flex h-12 w-full items-center gap-2 overflow-hidden border-b bg-surface-0 p-2 text-primary border-surface',
+          'dark:bg-surface-900'
+        )
       "
     >
-      <button
-        type="button"
-        :class="cn('bg-white sm:hidden')"
-        @click="layoutStore.navExpandedState = true"
-      >
-        aaa
-      </button>
+      <div class="flex items-center gap-2">
+        <Button
+          type="button"
+          label="Secondary"
+          severity="secondary"
+          text
+          :class="cn('sm:hidden')"
+          @click="layoutStore.navExpandedState = true"
+        >
+          <font-awesome-icon icon="fa-solid fa-bars" />
+        </Button>
+
+        <div class="text-xl font-bold">
+          {{ $t('Website.Title') }}
+        </div>
+      </div>
+      <div class="flex grow items-center justify-end gap-2">
+        <Button label="Info" severity="info" />
+      </div>
     </header>
 
     <nav
       :class="
         cn(
-          'group/nav bg-blue-0 absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden duration-200 dark:bg-blue-200',
+          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-surface-0 duration-200',
+          'dark:bg-surface-900',
           'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 sm:border-0',
           {
             'border-r': layoutStore.navExpandedState,
@@ -81,7 +99,7 @@ watch(
     <div
       :class="
         cn(
-          'absolute left-0 top-0 z-[9] h-full w-full bg-black/50 duration-200',
+          'absolute left-0 top-0 z-[9] h-full w-full bg-mask duration-200',
           'sm:top-12 sm:h-[calc(100%-theme(height.12))]',
           {
             hidden: !layoutStore.navExpandedState && maskHidden,
@@ -96,8 +114,7 @@ watch(
     <main
       :class="
         cn(
-          'bg-yellow-200',
-          'absolute left-0 top-12 h-[calc(100%-theme(height.12))] w-full overflow-hidden pl-0 duration-200',
+          'absolute left-0 top-12 h-[calc(100%-theme(height.12))] w-full pl-0 duration-200',
           'sm:pl-13',
           {
             'xl:pl-64': layoutStore.navDefaultExpanded
@@ -105,17 +122,19 @@ watch(
         )
       "
     >
-      <div class="pl-64">
-        <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
-        <div>isMobile: {{ isMobile }}</div>
-        <div>navDefaultExpanded: {{ layoutStore.navDefaultExpanded }}</div>
-        <div>navExpandedState: {{ layoutStore.navExpandedState }}</div>
-        <br />
-        <div>maskOpacity0: {{ maskOpacity0 }}</div>
-        <div>maskHidden: {{ maskHidden }}</div>
-        <br />
-      </div>
-      <RouterView />
+      <ScrollPanel class="h-full w-full">
+        <!-- <div class="pl-64">
+          <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
+          <div>isMobile: {{ isMobile }}</div>
+          <div>navDefaultExpanded: {{ layoutStore.navDefaultExpanded }}</div>
+          <div>navExpandedState: {{ layoutStore.navExpandedState }}</div>
+          <br />
+          <div>maskOpacity0: {{ maskOpacity0 }}</div>
+          <div>maskHidden: {{ maskHidden }}</div>
+          <br />
+        </div> -->
+        <RouterView />
+      </ScrollPanel>
     </main>
   </div>
 </template>

@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
-import { useStorage, useTitle } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
 import { breakpoints } from '@/libs/utils/layout'
+import { useStorage, useTitle } from '@vueuse/core'
+import { defineStore } from 'pinia'
+import { computed, ref, watch } from 'vue'
 
 export const useLayoutStore = defineStore('layout', () => {
   const navDefaultExpanded = useStorage('navDefaultExpanded', false)
