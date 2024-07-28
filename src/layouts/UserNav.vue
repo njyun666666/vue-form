@@ -65,7 +65,9 @@ const toggle = (event: MouseEvent) => {
     <Button type="button" label="Toggle" @click="toggle" text rounded class="!p-0">
       <Avatar
         :image="loginStore.photoUrl?.photoUrl"
-        :label="!loginStore.photoUrl?.photoUrl && loginStore.photoUrl?.sub?.substring(0, 1)"
+        :label="
+          !loginStore.photoUrl?.photoUrl ? loginStore.photoUrl?.sub?.substring(0, 1) : undefined
+        "
         shape="circle"
         class="font-bold"
       />
