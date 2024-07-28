@@ -15,6 +15,10 @@ export default {
           ...colors.red
         }
       },
+      fontSize: {
+        '2xs': '0.625rem',
+        '3xs': '0.5rem'
+      },
       spacing: {
         9.5: '2.375rem',
         13: '3.25rem',

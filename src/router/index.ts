@@ -24,6 +24,9 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      meta: {
+        title: 'Page.Login'
+      },
       component: () => import('@/pages/Login/LoginPage.vue')
     }
   ]

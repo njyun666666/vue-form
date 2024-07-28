@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import UserNav from './UserNav.vue'
+import Brand from '@/components/Common/Brand.vue'
 import { isMobile } from '@/libs/utils/layout'
 import { cn } from '@/libs/utils/style'
 import { useLayoutStore } from '@/stores/layout'
+import { useLoginStore } from '@/stores/login'
 import Button from 'primevue/button'
 import ScrollPanel from 'primevue/scrollpanel'
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
+const loginStore = useLoginStore()
+const router = useRouter()
 const layoutStore = useLayoutStore()
 const maskHidden = ref(true)
 const maskOpacity0 = ref(true)
@@ -34,6 +40,13 @@ watch(
     }
   }
 )
+
+watch(
+  () => loginStore.loginState,
+  (val) => {
+    if (!val) router.push({ name: 'login' })
+  }
+)
 </script>
 <template>
   <div class="fixed h-full w-full overflow-hidden">
@@ -57,12 +70,10 @@ watch(
           <font-awesome-icon icon="fa-solid fa-bars" />
         </Button>
 
-        <div class="text-xl font-bold">
-          {{ $t('Website.Title') }}
-        </div>
+        <Brand />
       </div>
       <div class="flex grow items-center justify-end gap-2">
-        <Button label="Info" severity="info" />
+        <UserNav />
       </div>
     </header>
 

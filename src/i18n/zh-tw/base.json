@@ -2,18 +2,16 @@
   "Website": {
     "Title": "Vue-Form"
   },
+  "Language": {
+    "en": "English",
+    "zh-tw": "中文"
+  },
   "Page": {
     "Home": "首頁",
     "Login": "登入",
     "Register": "註冊",
     "Settings": "設定",
-    "Language": "語言",
-    "Theme": "主題",
-    "YourFeed": "你的動態",
-    "GlobalFeed": "全球動態",
     "Search": "查詢",
-    "Posts": "貼文",
-    "Likes": "喜歡的內容",
     "Profile": "個人資料"
   },
   "Datatable": {
@@ -23,10 +21,6 @@
   },
   "Action": {
     "Settings": "設定",
-    "Language": "語言",
-    "Theme": "主題",
-    "Light": "淺色",
-    "Dark": "深色",
     "Logout": "登出",
     "Login": "登入",
     "Register": "註冊",
@@ -46,11 +40,6 @@
     "TryAgain": "重試",
     "LoadMore": "載入更多",
     "Back": "返回",
-    "Comment": "留言",
-    "CopyURL": "複製連結",
-    "Post": "發佈",
-    "Follow": "追隨",
-    "Unfollow": "取消追隨",
     "EditProfile": "編輯個人資料"
   },
   "Title": {

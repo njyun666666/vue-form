@@ -2,18 +2,16 @@
   "Website": {
     "Title": "Vue-Form"
   },
+  "Language": {
+    "en": "English",
+    "zh-tw": "中文"
+  },
   "Page": {
     "Home": "Home",
     "Login": "Sign in",
     "Register": "Sign up",
     "Settings": "Settings",
-    "Language": "Language",
-    "Theme": "Theme",
-    "YourFeed": "Your Feed",
-    "GlobalFeed": "Global Feed",
     "Search": "Saerch",
-    "Posts": "Posts",
-    "Likes": "Likes",
     "Profile": "Profile"
   },
   "Datatable": {
@@ -23,10 +21,6 @@
   },
   "Action": {
     "Settings": "Settings",
-    "Language": "Language",
-    "Theme": "Theme",
-    "Light": "Light",
-    "Dark": "Dark",
     "Logout": "Logout",
     "Login": "Sign in",
     "Register": "Sign up",
@@ -46,11 +40,6 @@
     "TryAgain": "Try again",
     "LoadMore": "Load more",
     "Back": "Back",
-    "Comment": "Comment",
-    "CopyURL": "Copy url",
-    "Post": "Post",
-    "Follow": "follow",
-    "Unfollow": "unfollow",
     "EditProfile": "Edit profile"
   },
   "Title": {

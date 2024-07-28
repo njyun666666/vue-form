@@ -15,7 +15,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
 
-const login = useLoginStore()
+const loginStore = useLoginStore()
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
@@ -52,7 +52,7 @@ const onSubmit = handleSubmit(async (values) => {
   await loginService
     .login(values)
     .then(async ({ data }) => {
-      login.login(data)
+      loginStore.login(data)
 
       if (routeQueryUrl) {
         await router.push(routeQueryUrl as string)
