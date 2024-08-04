@@ -8,6 +8,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -27,5 +28,6 @@ app.use(createPinia())
 app.use(i18n)
 app.use(router)
 app.use(PrimeVue, primeVueConfig)
+app.use(VueQueryPlugin)
 
 app.mount('#app')

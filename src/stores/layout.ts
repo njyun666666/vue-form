@@ -5,7 +5,7 @@ import { computed, ref, watch } from 'vue'
 
 export const useLayoutStore = defineStore('layout', () => {
   const navDefaultExpanded = useStorage('navDefaultExpanded', false)
-  const navExpandedState = ref(breakpoints.greaterOrEqual('xl').value && navDefaultExpanded.value)
+  const navExpandedState = ref(breakpoints.isGreaterOrEqual('xl') && navDefaultExpanded.value)
   const messageCount = ref(0)
   const webTitle = ref('')
   const title = computed(() => {

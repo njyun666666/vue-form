@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import MenuNav from './MenuNav.vue'
 import UserNav from './UserNav.vue'
 import Brand from '@/components/Common/Brand.vue'
-import { isMobile } from '@/libs/utils/layout'
+import { breakpoints, isMobile } from '@/libs/utils/layout'
 import { cn } from '@/libs/utils/style'
 import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
@@ -25,8 +26,27 @@ const navMouseEnter = () => {
 const navMouseLeave = () => {
   if (isMobile.value) return
 
+  if (breakpoints.isGreaterOrEqual('xl') && layoutStore.navDefaultExpanded) {
+    layoutStore.navExpandedState = true
+    return
+  }
+
   layoutStore.navExpandedState = false
 }
+
+watch(breakpoints.active(), (val) => {
+  console.log(val)
+
+  if (breakpoints.isGreaterOrEqual('xl') && layoutStore.navDefaultExpanded) {
+    layoutStore.navExpandedState = true
+    return
+  }
+
+  if (breakpoints.isSmaller('xl')) {
+    layoutStore.navExpandedState = false
+    return
+  }
+})
 
 watch(
   () => layoutStore.navExpandedState,
@@ -93,18 +113,23 @@ watch(
       @mouseenter="navMouseEnter"
       @mouseleave="navMouseLeave"
     >
-      <button
-        type="button"
-        :class="cn('hidden xl:block')"
-        @click="
-          () => {
-            layoutStore.navDefaultExpanded = !layoutStore.navDefaultExpanded
-            layoutStore.navExpandedState = layoutStore.navDefaultExpanded
-          }
-        "
-      >
-        {{ layoutStore.navDefaultExpanded }}
-      </button>
+      <div class="grow w-64 p-1">
+        <MenuNav />
+      </div>
+      <div>
+        <button
+          type="button"
+          :class="cn('hidden xl:block')"
+          @click="
+            () => {
+              layoutStore.navDefaultExpanded = !layoutStore.navDefaultExpanded
+              layoutStore.navExpandedState = layoutStore.navDefaultExpanded
+            }
+          "
+        >
+          {{ layoutStore.navDefaultExpanded }}
+        </button>
+      </div>
     </nav>
 
     <div
@@ -134,7 +159,7 @@ watch(
       "
     >
       <ScrollPanel class="h-full w-full">
-        <!-- <div class="pl-64">
+        <div class="pl-64">
           <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
           <div>isMobile: {{ isMobile }}</div>
           <div>navDefaultExpanded: {{ layoutStore.navDefaultExpanded }}</div>
@@ -143,7 +168,7 @@ watch(
           <div>maskOpacity0: {{ maskOpacity0 }}</div>
           <div>maskHidden: {{ maskHidden }}</div>
           <br />
-        </div> -->
+        </div>
         <RouterView />
       </ScrollPanel>
     </main>

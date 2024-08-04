@@ -3,7 +3,7 @@ import type { MenuViewModel } from '../models/Menu/Menu'
 
 class MenuService {
   menus() {
-    return formAPI.get<MenuViewModel>(`/api/Menus`)
+    return formAPI.get<MenuViewModel[]>(`/api/Menus`)
   }
 }
 
