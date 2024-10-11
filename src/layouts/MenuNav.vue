@@ -4,6 +4,7 @@ import { menuService } from '@/libs/services/menuService'
 import { cn } from '@/libs/utils/style'
 import { useLayoutStore } from '@/stores/layout'
 import { useQuery } from '@tanstack/vue-query'
+import Button from 'primevue/button'
 import type { MenuItem } from 'primevue/menuitem'
 import PanelMenu, { type PanelMenuContext } from 'primevue/panelmenu'
 import { computed } from 'vue'
@@ -91,63 +92,47 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
       multiple
       class="w-full"
       :pt="{
-        panel: 'overflow-hidden rounded',
+        panel: 'overflow-hidden rounded-md',
         content: ''
       }"
     >
       <template #item="{ item, active, root }">
-        <RouterLink v-if="!item.items" v-slot="{ href, navigate }" :to="item.url">
-          <a
+        <RouterLink v-if="!item.items" :to="item.url">
+          <Button
             :class="
-              cn(
-                'flex items-center cursor-pointer text-color duration-200 py-2 pr-2 rounded',
-                'hover:bg-surface-200 hover:dark:bg-surface-700',
-                {
-                  'pl-3': !root && layoutStore.navExpandedState
-                }
-              )
+              cn('flex !justify-start w-full pl-0 py-2 pr-2 duration-200 transition-all', {
+                'pl-3': !root && layoutStore.navExpandedState
+              })
             "
-            :href="href"
-            @click="navigate"
+            severity="secondary"
+            text
           >
             <font-awesome-icon
               v-if="item.icon"
               :icon="item.icon"
-              :class="cn('w-4 h-4 pl-3.5 pr-4 shrink-0 bg-red-500/0')"
+              :class="cn('w-4 h-4 px-3.5 shrink-0')"
             />
-            <span
-              :class="
-                cn('duration-200', {
-                  'opacity-0': !layoutStore.navExpandedState
-                })
-              "
-              >{{ $t(item.label) }}</span
-            >
-          </a>
+            <span :class="cn('duration-200', { 'opacity-0': !layoutStore.navExpandedState })">
+              {{ $t(item.label) }}
+            </span>
+          </Button>
         </RouterLink>
-        <a
+
+        <Button
           v-else
-          :class="
-            cn(
-              'flex items-center cursor-pointer text-color duration-200 py-2 pr-2 rounded',
-              'hover:bg-surface-200 hover:dark:bg-surface-700'
-            )
-          "
+          :class="cn('pl-0 py-2 pr-2 w-full flex items-center duration-200')"
+          severity="secondary"
+          text
         >
           <span :class="item.icon" />
           <font-awesome-icon
             v-if="item.icon"
             :icon="item.icon"
-            :class="cn('w-4 h-4 pl-3.5 pr-4 shrink-0')"
+            :class="cn('w-4 h-4 px-3.5 shrink-0')"
           />
-          <span
-            :class="
-              cn('duration-200', {
-                'opacity-0': !layoutStore.navExpandedState
-              })
-            "
-            >{{ $t(item.label) }}</span
-          >
+          <span :class="cn('duration-200', { 'opacity-0': !layoutStore.navExpandedState })">
+            {{ $t(item.label) }}
+          </span>
           <font-awesome-icon
             v-if="item.items"
             icon="fa-solid fa-angle-right"
@@ -158,7 +143,7 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
               })
             "
           />
-        </a>
+        </Button>
       </template>
     </PanelMenu>
   </div>

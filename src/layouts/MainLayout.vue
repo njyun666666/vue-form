@@ -81,7 +81,6 @@ watch(
       <div class="flex items-center gap-2">
         <Button
           type="button"
-          label="Secondary"
           severity="secondary"
           text
           :class="cn('sm:hidden')"
@@ -113,13 +112,17 @@ watch(
       @mouseenter="navMouseEnter"
       @mouseleave="navMouseLeave"
     >
-      <div class="grow w-64 p-1">
-        <MenuNav />
+      <div class="grow shrink w-64 overflow-hidden p-1">
+        <ScrollPanel class="h-full w-full">
+          <MenuNav />
+        </ScrollPanel>
       </div>
-      <div>
-        <button
+      <div class="px-1 pb-1 shrink-0">
+        <Button
           type="button"
-          :class="cn('hidden xl:block')"
+          :class="cn('hidden xl:block w-full')"
+          severity="secondary"
+          text
           @click="
             () => {
               layoutStore.navDefaultExpanded = !layoutStore.navDefaultExpanded
@@ -127,8 +130,11 @@ watch(
             }
           "
         >
-          {{ layoutStore.navDefaultExpanded }}
-        </button>
+          <font-awesome-icon
+            icon="fa-solid fa-angles-right"
+            :class="cn('duration-200', { 'rotate-180': layoutStore.navDefaultExpanded })"
+          />
+        </Button>
       </div>
     </nav>
 
