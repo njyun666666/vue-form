@@ -1,7 +1,7 @@
 export default {
   root: ({ props }) => ({
     class: [
-      'relative',
+      'relative [&>input]:w-full',
       { '[&>input]:pr-10': props.toggleMask },
       { 'flex [&>input]:w-full': props.fluid, 'inline-flex': !props.fluid }
     ]

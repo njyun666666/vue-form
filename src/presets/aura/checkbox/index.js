@@ -55,6 +55,10 @@ export default {
           props.disabled
       },
 
+      {
+        '[&>svg]:text-primary-contrast [&>svg]:w-[0.875rem] [&>svg]:h-[0.875rem]': context.checked
+      },
+
       // Transitions
       'transition-colors',
       'duration-200'
@@ -96,7 +100,7 @@ export default {
 
       // Colors
       {
-        'text-white dark:text-surface-950': context.checked,
+        'text-primary-contrast': context.checked,
         'text-primary': state.d_indeterminate
       },
 

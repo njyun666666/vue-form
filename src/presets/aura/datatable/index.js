@@ -371,29 +371,27 @@ export default {
       leaveToClass: 'opacity-0'
     }
   },
-  bodyRow: ({ context, props }) => ({
+  bodyRow: ({ context, props, parent }) => ({
     class: [
       // Color
-      'dark:text-white/80',
-      { 'bg-highlight': context.selected && props.highlightOnSelect },
-      { 'bg-surface-0 text-surface-600 dark:bg-surface-900': !context.selected },
+      { 'bg-highlight': context.selected },
+      { 'bg-surface-0 text-surface-600 dark:text-white/80 dark:bg-surface-900': !context.selected },
       { 'font-bold bg-surface-0 dark:bg-surface-900 z-20': props.frozenRow },
       {
         'odd:bg-surface-0 odd:text-surface-600 dark:odd:bg-surface-900 even:bg-surface-50 even:text-surface-600 dark:even:bg-surface-800/50':
           context.stripedRows
       },
-
       // State
       {
-        'hover:bg-surface-300/20 dark:hover:bg-surface-800/50 hover:text-surface-600':
-          props.selectionMode && !context.selected
+        'hover:bg-surface-300/20 dark:hover:bg-surface-800/50':
+          (props.selectionMode && !context.selected) || parent.instance.rowHover
       },
 
       // Transition
       { 'transition duration-200': (props.selectionMode && !context.selected) || props.rowHover },
 
       // Misc
-      { 'cursor-pointer': props.selectionMode }
+      { 'cursor-pointer': props.selectionMode || parent.instance.rowHover }
     ]
   }),
   rowExpansion: {

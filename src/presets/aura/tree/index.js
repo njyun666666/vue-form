@@ -46,7 +46,7 @@ export default {
 
       // Colors
       context.selected
-        ? 'bg-highlight text-primary-600 dark:text-white'
+        ? 'bg-highlight text-highlight-contrast '
         : 'bg-transparent text-surface-600 dark:text-white/70',
 
       // States
@@ -80,7 +80,7 @@ export default {
       'bg-transparent',
       {
         'text-surface-600 dark:text-white/70': !context.selected,
-        'text-primary-600 dark:text-white': context.selected,
+        'text-highlight-contrast': context.selected,
         invisible: context.leaf
       },
 
@@ -103,7 +103,7 @@ export default {
       // Color
       {
         'text-surface-600 dark:text-white/70': !context.selected,
-        'text-primary-600 dark:text-white': context.selected
+        'text-highlight-contrast': context.selected
       }
     ]
   }),
@@ -111,7 +111,7 @@ export default {
     class: [
       {
         'text-surface-600 dark:text-white/70': !context.selected,
-        'text-primary-600 dark:text-white': context.selected
+        'text-highlight-contrast': context.selected
       }
     ]
   }),
@@ -124,9 +124,4 @@ export default {
       'absolute top-[50%] right-[50%] -mt-2 -mr-2 animate-spin'
     ]
   }
-  // pcFilterContainer: {
-  //     root: {
-  //         class: '[&>[data-pc-name=inputtext]]:w-full'
-  //     }
-  // }
 }

@@ -5,6 +5,9 @@ export default {
       {
         'focus-visible:outline-offset-2 focus-visible:ring-1 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400':
           !context.disabled
+      },
+      {
+        'hover:text-surface-700 dark:hover:text-surface-0': !context.disabled
       }
     ]
   }),

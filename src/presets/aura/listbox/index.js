@@ -23,7 +23,7 @@ export default {
   list: {
     class: 'p-1 list-none m-0 outline-none'
   },
-  option: ({ context }) => ({
+  option: ({ context, props }) => ({
     class: [
       'relative',
 
@@ -45,15 +45,16 @@ export default {
         'text-surface-700 dark:text-white/80': !context.focused && !context.selected,
         'bg-surface-200 dark:bg-surface-600/60': context.focused && !context.selected,
         'text-surface-700 dark:text-white/80': context.focused && !context.selected,
-        'bg-highlight': context.selected
+        'bg-highlight': context.selected && !props.checkmark,
+        'bg-surface-0 dark:bg-surface-900': props.checkmark && context.selected
       },
 
       //States
       {
         'hover:bg-surface-100 dark:hover:bg-[rgba(255,255,255,0.03)]':
-          !context.focused && !context.selected
+          (!context.focused && !context.selected) || (props.checkmark && context.selected)
       },
-      { 'hover:bg-highlight-emphasis': context.selected },
+      { 'hover:bg-highlight-emphasis': context.selected && !props.checkmark },
       {
         'hover:text-surface-700 hover:bg-surface-100 dark:hover:text-white dark:hover:bg-[rgba(255,255,255,0.03)]':
           context.focused && !context.selected
