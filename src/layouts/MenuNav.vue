@@ -8,10 +8,12 @@ import Button from 'primevue/button'
 import type { MenuItem } from 'primevue/menuitem'
 import PanelMenu from 'primevue/panelmenu'
 import Skeleton from 'primevue/skeleton'
-import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 
+const route = useRoute()
 const layoutStore = useLayoutStore()
+const expandedKeys = ref<Record<string, boolean>>({})
 
 const { isFetching, data } = useQuery({
   queryKey: ['menuService.menus'],
@@ -19,7 +21,7 @@ const { isFetching, data } = useQuery({
 })
 
 const items = computed(() => {
-  return data.value?.map((x) => transformToMenuItem(x))
+  return data.value?.map((x) => transformToMenuItem(x)) || []
 })
 
 const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
@@ -32,6 +34,44 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
   }
   return menuItem
 }
+
+const findRoutePathMenu = (url: string, menuItems: MenuItem[], keys: string[] = []): string[] => {
+  for (const menuItem of menuItems) {
+    const newPath = [...keys, menuItem.key as string]
+
+    if (menuItem.url === url) {
+      return newPath
+    }
+
+    if (menuItem.items) {
+      const result = findRoutePathMenu(url, menuItem.items, newPath)
+
+      if (result.length > 0) {
+        return result
+      }
+    }
+  }
+
+  return []
+}
+
+watch(
+  isFetching,
+  () => {
+    if (!isFetching) return
+
+    const keys = findRoutePathMenu(route.path, items.value)
+
+    expandedKeys.value = keys.reduce(
+      (prve, val) => {
+        prve[val] = true
+        return prve
+      },
+      {} as Record<string, boolean>
+    )
+  },
+  { once: true }
+)
 </script>
 <template>
   <div class="">
@@ -40,10 +80,10 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
         <Skeleton width="100%" height="2.5rem"></Skeleton>
       </template>
     </div>
-
     <PanelMenu
       v-else
       :model="items"
+      v-model:expandedKeys="expandedKeys"
       multiple
       class="w-full"
       :pt="{
