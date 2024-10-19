@@ -7,67 +7,15 @@ import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
 import type { MenuItem } from 'primevue/menuitem'
 import PanelMenu from 'primevue/panelmenu'
+import Skeleton from 'primevue/skeleton'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const layoutStore = useLayoutStore()
 
-const getdata = () => {
-  const data: MenuViewModel[] = [
-    {
-      menuId: 'be001d7baf21420c75d3335ff71d6663',
-      menuName: 'Page.Home',
-      icon: 'fa-solid fa-house',
-      url: '/'
-    },
-    {
-      menuId: 'b607cd761d59e53ac20df9a8d416e6f7',
-      menuName: 'Org',
-      icon: 'fa-solid fa-sitemap',
-      url: '',
-      children: [
-        {
-          menuId: 'f299178acaaacd49f8b488ccf38218ff',
-          menuName: 'OrgDept',
-          icon: 'fa-solid fa-building',
-          url: '/org/dept'
-        },
-        {
-          menuId: '191a783fc56e2ee5d9f9d39bef4d84ea',
-          menuName: 'OrgUser',
-          icon: 'fa-solid fa-user',
-          url: '/org/user'
-        }
-      ]
-    },
-    {
-      menuId: 'a57c380bb1b8dcc7ac82e8517a4ecbb6',
-      menuName: 'Auth',
-      icon: 'fa-solid fa-user-shield',
-      url: '/auth',
-      children: [
-        {
-          menuId: '72fe7fd63df3166bbd272ceca5eae970',
-          menuName: 'AuthMenu',
-          icon: 'fa-solid fa-user-shield',
-          url: '/auth/menu'
-        },
-        {
-          menuId: '22d9325a4ccd6c186d3803b625685f82',
-          menuName: 'AuthRole',
-          icon: 'fa-solid fa-user-shield',
-          url: '/auth/role'
-        }
-      ]
-    }
-  ]
-
-  return data
-}
-
-const { isPending, isFetching, isError, data, error } = useQuery({
+const { isFetching, data } = useQuery({
   queryKey: ['menuService.menus'],
-  queryFn: getdata //() => menuService.menus().then(({ data }) => data)
+  queryFn: () => menuService.menus().then(({ data }) => data)
 })
 
 const items = computed(() => {
@@ -87,7 +35,14 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
 </script>
 <template>
   <div class="">
+    <div v-if="isFetching" class="flex flex-col gap-1">
+      <template v-for="n in 3" :key="n">
+        <Skeleton width="100%" height="2.5rem"></Skeleton>
+      </template>
+    </div>
+
     <PanelMenu
+      v-else
       :model="items"
       multiple
       class="w-full"
