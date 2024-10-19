@@ -18,6 +18,31 @@ const router = createRouter({
             title: 'Page.Home'
           },
           component: () => import('@/pages/Dashboard/DashboardPage.vue')
+        },
+        {
+          path: 'org',
+          name: 'org',
+          meta: {
+            title: 'Page.Home'
+          },
+          children: [
+            {
+              path: 'dept',
+              name: 'orgdept',
+              meta: {
+                title: 'Page.Home'
+              },
+              component: () => import('@/pages/Org/OrgDeptPage.vue')
+            },
+            {
+              path: 'user',
+              name: 'orguser',
+              meta: {
+                title: 'Page.Home'
+              },
+              component: () => import('@/pages/Org/OrgDeptPage.vue')
+            }
+          ]
         }
       ]
     },
