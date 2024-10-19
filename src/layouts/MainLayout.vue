@@ -95,7 +95,7 @@ watch(route, () => {
         <Brand />
       </div>
       <div class="flex grow items-center justify-end gap-2">
-        <UserNav />
+        <UserNav class="flex items-center" />
       </div>
     </header>
 

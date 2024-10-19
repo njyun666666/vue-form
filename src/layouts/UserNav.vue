@@ -74,7 +74,7 @@ const toggle = (event: MouseEvent) => {
     </Button>
     <TieredMenu ref="menu" id="overlay_tmenu" :model="items" popup>
       <template #item="{ item, props, hasSubmenu }">
-        <a class="flex items-center" v-bind="props.action">
+        <a class="flex items-center" v-bind="props.action" aria-hidden="false">
           <font-awesome-icon
             v-if="item.selected !== undefined"
             icon="fa-solid fa-circle"
@@ -85,7 +85,7 @@ const toggle = (event: MouseEvent) => {
             "
           />
           <font-awesome-icon v-if="item.icon" :icon="item.icon" />
-          <span class="ml-2">{{ $t(item.label) }}</span>
+          <span class="ml-2">{{ $t(item.label as string) }}</span>
           <font-awesome-icon v-if="hasSubmenu" icon="fa-solid fa-angle-right" class="ml-auto" />
         </a>
       </template>
