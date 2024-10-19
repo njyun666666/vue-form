@@ -9,10 +9,11 @@ import { useLoginStore } from '@/stores/login'
 import Button from 'primevue/button'
 import ScrollPanel from 'primevue/scrollpanel'
 import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const loginStore = useLoginStore()
 const router = useRouter()
+const route = useRoute()
 const layoutStore = useLayoutStore()
 const maskHidden = ref(true)
 const maskOpacity0 = ref(true)
@@ -34,9 +35,7 @@ const navMouseLeave = () => {
   layoutStore.navExpandedState = false
 }
 
-watch(breakpoints.active(), (val) => {
-  console.log(val)
-
+watch(breakpoints.active(), () => {
   if (breakpoints.isGreaterOrEqual('xl') && layoutStore.navDefaultExpanded) {
     layoutStore.navExpandedState = true
     return
@@ -67,6 +66,10 @@ watch(
     if (!val) router.push({ name: 'login' })
   }
 )
+
+watch(route, () => {
+  navMouseLeave()
+})
 </script>
 <template>
   <div class="fixed h-full w-full overflow-hidden">
@@ -156,7 +159,7 @@ watch(
     <main
       :class="
         cn(
-          'absolute left-0 top-12 h-[calc(100%-theme(height.12))] w-full pl-0 duration-200',
+          'absolute left-0 top-12 z-[8] h-[calc(100%-theme(height.12))] w-full pl-0 duration-200',
           'sm:pl-13',
           {
             'xl:pl-64': layoutStore.navDefaultExpanded
