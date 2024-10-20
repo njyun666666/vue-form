@@ -37,14 +37,14 @@ const transformToMenuItem = (menu: MenuViewModel): MenuItem => {
 
 const findRoutePathMenu = (url: string, menuItems: MenuItem[], keys: string[] = []): string[] => {
   for (const menuItem of menuItems) {
-    const newPath = [...keys, menuItem.key as string]
+    const newKeys = [...keys, menuItem.key as string]
 
     if (menuItem.url === url) {
-      return newPath
+      return newKeys
     }
 
     if (menuItem.items) {
-      const result = findRoutePathMenu(url, menuItem.items, newPath)
+      const result = findRoutePathMenu(url, menuItem.items, newKeys)
 
       if (result.length > 0) {
         return result
