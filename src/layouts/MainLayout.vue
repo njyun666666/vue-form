@@ -168,7 +168,7 @@ watch(route, () => {
       "
     >
       <ScrollPanel class="h-full w-full">
-        <div class="pl-64">
+        <!-- <div class="pl-64">
           <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
           <div>isMobile: {{ isMobile }}</div>
           <div>navDefaultExpanded: {{ layoutStore.navDefaultExpanded }}</div>
@@ -177,7 +177,7 @@ watch(route, () => {
           <div>maskOpacity0: {{ maskOpacity0 }}</div>
           <div>maskHidden: {{ maskHidden }}</div>
           <br />
-        </div>
+        </div> -->
         <RouterView />
       </ScrollPanel>
     </main>
