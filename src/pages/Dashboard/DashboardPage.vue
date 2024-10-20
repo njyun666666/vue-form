@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BasePage from '../BasePage.vue'
+</script>
 <template>
-  <h1>DashboardPage</h1>
+  <BasePage>
+    <h1>DashboardPage</h1>
+  </BasePage>
 </template>

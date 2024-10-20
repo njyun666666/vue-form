@@ -9,22 +9,36 @@ import type { MenuItem } from 'primevue/menuitem'
 import TieredMenu from 'primevue/tieredmenu'
 import { computed, ref } from 'vue'
 
+interface UserNavItem extends MenuItem {
+  i18n?: boolean
+}
+
 const dark = useDark()
 const loginStore = useLoginStore()
 const localeStore = useLocaleStore()
 const menu = ref()
-const items = computed<MenuItem[]>(() => [
+const items = computed<UserNavItem[]>(() => [
+  {
+    label: loginStore.tokenPayload?.sub,
+    disabled: true
+  },
+  {
+    separator: true
+  },
   {
     label: 'Layout.Theme',
+    i18n: true,
     icon: 'fa-solid fa-palette',
     items: [
       {
         label: 'Layout.Light',
+        i18n: true,
         selected: !dark.value,
         command: () => (dark.value = false)
       },
       {
         label: 'Layout.Dark',
+        i18n: true,
         selected: dark.value,
         command: () => (dark.value = true)
       }
@@ -32,15 +46,18 @@ const items = computed<MenuItem[]>(() => [
   },
   {
     label: 'Layout.Language',
+    i18n: true,
     icon: 'fa-solid fa-globe',
     items: [
       {
         label: 'Language.zh-tw',
+        i18n: true,
         selected: localeStore.lang == 'zh-tw',
         command: () => localeStore.setLang('zh-tw')
       },
       {
         label: 'Language.en',
+        i18n: true,
         selected: localeStore.lang == 'en',
         command: () => localeStore.setLang('en')
       }
@@ -51,6 +68,7 @@ const items = computed<MenuItem[]>(() => [
   },
   {
     label: 'Action.Logout',
+    i18n: true,
     icon: 'fa-solid fa-right-from-bracket',
     command: () => loginStore.logout()
   }
@@ -64,9 +82,11 @@ const toggle = (event: MouseEvent) => {
   <div>
     <Button type="button" label="Toggle" @click="toggle" text rounded class="!p-0">
       <Avatar
-        :image="loginStore.photoUrl?.photoUrl"
+        :image="loginStore.tokenPayload?.photoUrl"
         :label="
-          !loginStore.photoUrl?.photoUrl ? loginStore.photoUrl?.sub?.substring(0, 1) : undefined
+          !loginStore.tokenPayload?.photoUrl
+            ? loginStore.tokenPayload?.sub?.substring(0, 1)
+            : undefined
         "
         shape="circle"
         class="font-bold"
@@ -85,7 +105,14 @@ const toggle = (event: MouseEvent) => {
             "
           />
           <font-awesome-icon v-if="item.icon" :icon="item.icon" />
-          <span class="ml-2">{{ $t(item.label as string) }}</span>
+          <span class="ml-2">
+            <template v-if="item.i18n">
+              {{ $t(item.label as string) }}
+            </template>
+            <template v-else>
+              {{ item.label }}
+            </template>
+          </span>
           <font-awesome-icon v-if="hasSubmenu" icon="fa-solid fa-angle-right" class="ml-auto" />
         </a>
       </template>

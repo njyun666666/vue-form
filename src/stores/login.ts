@@ -76,7 +76,7 @@ export const useLoginStore = defineStore('login', () => {
   return {
     user,
     loginState,
-    photoUrl: tokenPayload,
+    tokenPayload,
     setUser,
     login,
     logout,

@@ -23,14 +23,14 @@ const router = createRouter({
           path: 'org',
           name: 'org',
           meta: {
-            title: 'Page.Home'
+            title: 'Org.Org'
           },
           children: [
             {
               path: 'dept',
               name: 'orgdept',
               meta: {
-                title: 'Page.Home'
+                title: 'Org.Dept'
               },
               component: () => import('@/pages/Org/OrgDeptPage.vue')
             },
@@ -38,9 +38,9 @@ const router = createRouter({
               path: 'user',
               name: 'orguser',
               meta: {
-                title: 'Page.Home'
+                title: 'Org.User'
               },
-              component: () => import('@/pages/Org/OrgDeptPage.vue')
+              component: () => import('@/pages/Org/OrgUserPage.vue')
             }
           ]
         }
