@@ -3,6 +3,6 @@ import BasePage from '../BasePage.vue'
 </script>
 <template>
   <BasePage>
-    <h1>OrgDeptPage</h1>
+    <h1>{{ $t('Org.Dept') }}</h1>
   </BasePage>
 </template>
