@@ -2,6 +2,7 @@
   "Org": {
     "Org": "Organization",
     "Dept": "Department",
-    "User": "User"
+    "User": "User",
+    "DeptName": "Department Name"
   }
 }

@@ -9,7 +9,7 @@ interface Props {
 const props = defineProps<Props>()
 </script>
 <template>
-  <div :class="cn('base-page', 'p-2', props.class)">
+  <div :class="cn('base-page', 'p-4', props.class)">
     <slot />
   </div>
 </template>
