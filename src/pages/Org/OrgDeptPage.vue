@@ -8,20 +8,15 @@ import { toTypedSchema } from '@vee-validate/zod'
 import type { AxiosError } from 'axios'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
-import type { ColumnProps } from 'primevue/column'
-import ColumnGroup from 'primevue/columngroup'
-import DataTable from 'primevue/datatable'
-import FloatLabel from 'primevue/floatlabel'
+import DataTable, { type DataTablePageEvent, type DataTableSortMeta } from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
-import Row from 'primevue/row'
 import { useForm } from 'vee-validate'
-import { ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import { z } from 'zod'
 
-const { t } = useI18n()
 const loading = ref(false)
-const multiSortMeta = ref()
+const first = ref(0)
 const query = ref<QueryModel<OrgDeptModel>>({
   pageIndex: 0,
   pageSize: 5,
@@ -32,7 +27,7 @@ const formSchema = z.object({
   deptName: z.string().trim()
 })
 
-const { defineField, handleSubmit, isSubmitting } = useForm({
+const { defineField, handleSubmit } = useForm({
   validationSchema: toTypedSchema(formSchema),
   initialValues: {
     deptName: ''
@@ -42,32 +37,40 @@ const { defineField, handleSubmit, isSubmitting } = useForm({
 const [deptName] = defineField('deptName')
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(values)
+  first.value = 0
+  query.value.pageIndex = 0
   query.value.filter = values
-
-  // errorMessage.value = undefined
+  await fetchData()
 })
 
-watch(
-  () => query,
-  async () => {
-    loading.value = true
+const onPageChange = async (e: DataTablePageEvent) => {
+  first.value = e.first
+  query.value.pageSize = e.rows
+  query.value.pageIndex = e.page
+  await fetchData()
+}
 
-    await orgDeptService
-      .query(query.value)
-      .then(async ({ data }) => {
-        queryView.value = data
-      })
-      .catch((error: AxiosError<ResponseErrors>) => {
-        // errorMessage.value = error.response!.data
-      })
+const onUpdateMultiSortMeta = async (e: DataTableSortMeta[] | null | undefined) => {
+  first.value = 0
+  query.value.pageIndex = 0
+  query.value.sort = e ?? []
+  await fetchData()
+}
 
-    loading.value = false
-  },
-  {
-    deep: true
-  }
-)
+const fetchData = async () => {
+  loading.value = true
+
+  await orgDeptService
+    .query(query.value)
+    .then(async ({ data }) => {
+      queryView.value = data
+    })
+    .catch((error: AxiosError<ResponseErrors>) => {
+      console.warn(error)
+    })
+
+  loading.value = false
+}
 </script>
 <template>
   <BasePage>
@@ -93,30 +96,26 @@ watch(
         lazy
         paginator
         sortMode="multiple"
+        :first="first"
         :loading="loading"
         :value="queryView?.data"
         :rows="query.pageSize"
         :rowsPerPageOptions="[5, 10, 20, 50]"
         :totalRecords="queryView?.count"
         :multiSortMeta="query.sort"
-        @page="
-          (e) => {
-            query.pageSize = e.rows
-            query.pageIndex = e.page
-          }
-        "
-        @update:multiSortMeta="
-          (e) => {
-            query.sort = e ?? []
-          }
-        "
+        selectionMode="single"
+        @page="onPageChange"
+        @update:multiSortMeta="onUpdateMultiSortMeta"
       >
-        <Column field="deptId" header="deptId" sortable>
+        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
           <template #body="{ data }">
-            {{ data.deptId }}
+            <RouterLink :to="{ name: 'org/dept/:deptId', params: { deptId: data.deptId } }">
+              <div class="px-4 py-3 w-full">
+                {{ data.deptName }}
+              </div>
+            </RouterLink>
           </template>
         </Column>
-        <Column field="deptName" :header="$t('Org.DeptName')" sortable></Column>
       </DataTable>
     </div>
   </BasePage>

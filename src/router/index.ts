@@ -28,7 +28,15 @@ const router = createRouter({
           children: [
             {
               path: 'dept',
-              name: 'orgdept',
+              name: 'org/dept',
+              meta: {
+                title: 'Org.Dept'
+              },
+              component: () => import('@/pages/Org/OrgDeptPage.vue')
+            },
+            {
+              path: 'dept/:deptId',
+              name: 'org/dept/:deptId',
               meta: {
                 title: 'Org.Dept'
               },
@@ -36,7 +44,7 @@ const router = createRouter({
             },
             {
               path: 'user',
-              name: 'orguser',
+              name: 'org/user',
               meta: {
                 title: 'Org.User'
               },
