@@ -1,28 +1,31 @@
 <script setup lang="ts">
 import BasePage from '../BasePage.vue'
-import type { ResponseErrors } from '@/libs/api/formAPI'
-import type { OrgDeptModel, OrgDeptViewModel } from '@/libs/models/OrgDept/OrgDeptModel'
-import type { QueryModel, QueryViewModel } from '@/libs/models/Query/QueryModel'
+import type { OrgDeptModel } from '@/libs/models/OrgDept/OrgDeptModel'
+import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
+import { useDatatable } from '@/libs/utils/datatable'
 import { toTypedSchema } from '@vee-validate/zod'
-import type { AxiosError } from 'axios'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
-import DataTable, { type DataTablePageEvent, type DataTableSortMeta } from 'primevue/datatable'
+import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { z } from 'zod'
 
-const loading = ref(false)
-const first = ref(0)
 const query = ref<QueryModel<OrgDeptModel>>({
   pageIndex: 0,
   pageSize: 5,
   sort: [{ field: 'deptName', order: 1 }]
 })
-const queryView = ref<QueryViewModel<OrgDeptViewModel[]>>()
+
+const fetchData = async (data: QueryModel<OrgDeptModel>) => {
+  return await orgDeptService.query(data).then(async ({ data }) => data)
+}
+
+const datatable = useDatatable(query, fetchData)
+
 const formSchema = z.object({
   deptName: z.string().trim()
 })
@@ -37,40 +40,8 @@ const { defineField, handleSubmit } = useForm({
 const [deptName] = defineField('deptName')
 
 const onSubmit = handleSubmit(async (values) => {
-  first.value = 0
-  query.value.pageIndex = 0
-  query.value.filter = values
-  await fetchData()
+  await datatable.onSubmit(values)
 })
-
-const onPageChange = async (e: DataTablePageEvent) => {
-  first.value = e.first
-  query.value.pageSize = e.rows
-  query.value.pageIndex = e.page
-  await fetchData()
-}
-
-const onUpdateMultiSortMeta = async (e: DataTableSortMeta[] | null | undefined) => {
-  first.value = 0
-  query.value.pageIndex = 0
-  query.value.sort = e ?? []
-  await fetchData()
-}
-
-const fetchData = async () => {
-  loading.value = true
-
-  await orgDeptService
-    .query(query.value)
-    .then(async ({ data }) => {
-      queryView.value = data
-    })
-    .catch((error: AxiosError<ResponseErrors>) => {
-      console.warn(error)
-    })
-
-  loading.value = false
-}
 </script>
 <template>
   <BasePage>
@@ -93,19 +64,9 @@ const fetchData = async () => {
     <div class="mt-8">
       <DataTable
         class="w-full"
-        lazy
-        paginator
-        sortMode="multiple"
-        :first="first"
-        :loading="loading"
-        :value="queryView?.data"
-        :rows="query.pageSize"
-        :rowsPerPageOptions="[5, 10, 20, 50]"
-        :totalRecords="queryView?.count"
-        :multiSortMeta="query.sort"
-        selectionMode="single"
-        @page="onPageChange"
-        @update:multiSortMeta="onUpdateMultiSortMeta"
+        v-bind="datatable.props.value"
+        @page="datatable.onPageChange"
+        @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
         <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
           <template #body="{ data }">

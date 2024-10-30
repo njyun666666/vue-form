@@ -6,7 +6,7 @@ class OrgDeptService {
   readonly queryUrl = '/api/OrgDepts/Query'
 
   query(data: QueryModel<OrgDeptModel>) {
-    return formAPI.post<QueryViewModel<OrgDeptViewModel[]>>(this.queryUrl, data)
+    return formAPI.post<QueryViewModel<OrgDeptViewModel>>(this.queryUrl, data)
   }
 }
 

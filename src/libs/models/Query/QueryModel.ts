@@ -8,7 +8,7 @@ export interface QueryModel<T> {
 }
 
 export interface QueryViewModel<T> {
-  data: T
+  data: T[]
   pageCount: number
   count: number
 }

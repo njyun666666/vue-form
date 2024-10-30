@@ -1,5 +1,5 @@
 export interface OrgDeptModel {
-  deptName: string
+  deptName?: string
 }
 
 export interface OrgDeptViewModel {
