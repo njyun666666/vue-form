@@ -30,11 +30,6 @@ export const useDatatable = <TQuery, TView>(
     totalRecords: queryView.value.count
   }))
 
-  const resetPage = () => {
-    first.value = 0
-    query.value.pageIndex = 0
-  }
-
   const onPageChange = async (e: DataTablePageEvent) => {
     first.value = e.first
     query.value.pageSize = e.rows
@@ -64,15 +59,15 @@ export const useDatatable = <TQuery, TView>(
   }
 
   const onSubmit = async (filter: TQuery) => {
+    first.value = 0
     query.value.filter = filter
-    resetPage()
+    query.value.pageIndex = 0
     await handleFetchData()
   }
 
   return {
     props,
     queryView,
-    resetPage,
     onPageChange,
     onUpdateMultiSortMeta,
     handleFetchData,
