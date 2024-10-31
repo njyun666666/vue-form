@@ -30,7 +30,7 @@ export const useDatatable = <TQuery, TView>(
     totalRecords: queryView.value.count
   }))
 
-  const onPageChange = async (e: DataTablePageEvent) => {
+  const onPage = async (e: DataTablePageEvent) => {
     first.value = e.first
     query.value.pageSize = e.rows
     query.value.pageIndex = e.page
@@ -68,7 +68,7 @@ export const useDatatable = <TQuery, TView>(
   return {
     props,
     queryView,
-    onPageChange,
+    onPage,
     onUpdateMultiSortMeta,
     handleFetchData,
     onSubmit

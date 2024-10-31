@@ -55,7 +55,10 @@ const onSubmit = handleSubmit(async (values) => {
         </div>
         <div class="flex items-end">
           <div>
-            <Button type="submit" :label="$t('Action.Search')" />
+            <Button type="submit">
+              <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+              {{ $t('Action.Search') }}
+            </Button>
           </div>
         </div>
       </div>
@@ -65,7 +68,7 @@ const onSubmit = handleSubmit(async (values) => {
       <DataTable
         class="w-full"
         v-bind="datatable.props.value"
-        @page="datatable.onPageChange"
+        @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
         <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
