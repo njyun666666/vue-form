@@ -16,7 +16,7 @@ import { z } from 'zod'
 
 const query = ref<QueryModel<OrgDeptModel>>({
   pageIndex: 0,
-  pageSize: 5,
+  pageSize: 10,
   sort: [{ field: 'deptName', order: 1 }]
 })
 

@@ -1,3 +1,4 @@
+import { appConst } from '@/appConst'
 import { i18n } from '@/i18n/config'
 import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
@@ -23,7 +24,8 @@ const router = createRouter({
           path: 'org',
           name: 'org',
           meta: {
-            title: 'Org.Org'
+            title: 'Org.Org',
+            roles: [appConst.Role.Org]
           },
           children: [
             {

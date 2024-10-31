@@ -1,4 +1,4 @@
-export type RoleType = keyof typeof appConst.Role
+export type RoleType = (typeof appConst.Role)[keyof typeof appConst.Role]
 
 export const appConst = {
   Role: {
@@ -11,4 +11,4 @@ export const appConst = {
     AuthRole: '22d9325a4ccd6c186d3803b625685f82'
   },
   StaleTime: 24 * 60 * 60 * 1000
-}
+} as const
