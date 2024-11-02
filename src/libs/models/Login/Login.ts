@@ -1,7 +1,7 @@
 import type { JwtPayload } from 'jwt-decode'
 
 export interface LoginModel {
-  email: string
+  email?: string | null
   password: string
 }
 

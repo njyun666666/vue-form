@@ -2,6 +2,7 @@
 import appConfig from '@/appConfig'
 import Brand from '@/components/Common/Brand.vue'
 import ErrorMessage from '@/components/Common/ErrorMessage.vue'
+import InputField from '@/components/UI/InputField.vue'
 import type { ResponseErrors } from '@/libs/api/formAPI'
 import { loginService } from '@/libs/services/loginService'
 import { useLoginStore } from '@/stores/login'
@@ -25,9 +26,9 @@ const errorMessage = ref<ResponseErrors>()
 const formSchema = z.object({
   email: z
     .string()
-    .email({ message: t('Message.InvalidEmail') })
     .trim()
     .min(1, { message: t('Message.Required') })
+    .email({ message: t('Message.InvalidEmail') })
     .toLowerCase(),
   password: z
     .string()
@@ -72,12 +73,11 @@ const onSubmit = handleSubmit(async (values) => {
       <Brand />
     </div>
     <div className="w-full md:w-2/5 text-center">
-      <form @submit="onSubmit" novalidate>
+      <form novalidate @submit="onSubmit">
         <div class="flex flex-col gap-5 text-left">
           <ErrorMessage keypath="Login" :errors="errorMessage"> </ErrorMessage>
 
-          <div class="flex flex-col gap-2">
-            <label for="email">{{ $t('Login.Email') }}</label>
+          <InputField for="email" :label="$t('Login.Email')" :error="errors.email">
             <InputText
               id="email"
               type="email"
@@ -85,11 +85,9 @@ const onSubmit = handleSubmit(async (values) => {
               v-model="email"
               :invalid="!!errors.email"
             />
-            <small class="text-error">{{ errors.email }}</small>
-          </div>
+          </InputField>
 
-          <div class="flex flex-col gap-2">
-            <label for="password">{{ $t('Login.Password') }}</label>
+          <InputField for="password" :label="$t('Login.Password')" :error="errors.password">
             <InputText
               id="password"
               type="password"
@@ -97,8 +95,7 @@ const onSubmit = handleSubmit(async (values) => {
               v-model="password"
               :invalid="!!errors.password"
             />
-            <small class="text-error">{{ errors.password }}</small>
-          </div>
+          </InputField>
 
           <div class="text-center">
             <Button rounded type="submit" :label="$t('Action.Login')" :loading="isSubmitting" />

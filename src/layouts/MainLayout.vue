@@ -25,7 +25,7 @@ const navMouseEnter = () => {
 }
 
 const navMouseLeave = () => {
-  if (isMobile.value) return
+  // if (isMobile.value) return
 
   if (breakpoints.isGreaterOrEqual('xl') && layoutStore.navDefaultExpanded) {
     layoutStore.navExpandedState = true

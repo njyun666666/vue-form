@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BasePage from '../BasePage.vue'
+import InputField from '@/components/UI/InputField.vue'
 import type { OrgDeptModel } from '@/libs/models/OrgDept/OrgDeptModel'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
@@ -30,7 +31,7 @@ const formSchema = z.object({
   deptName: z.string().trim()
 })
 
-const { defineField, handleSubmit } = useForm({
+const { defineField, handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(formSchema),
   initialValues: {
     deptName: ''
@@ -47,12 +48,11 @@ const onSubmit = handleSubmit(async (values) => {
   <BasePage>
     <h1>{{ $t('Org.Dept') }}</h1>
 
-    <form @submit="onSubmit" novalidate>
+    <form novalidate @submit="onSubmit">
       <div class="mt-4 grid gap-4 grid-cols-3">
-        <div class="flex flex-col gap-2">
-          <label for="deptName">{{ $t('Org.DeptName') }}</label>
-          <InputText id="deptName" v-model="deptName" aria-describedby="username-help" />
-        </div>
+        <InputField for="deptName" :label="$t('Org.DeptName')" :error="errors.deptName">
+          <InputText id="deptName" v-model="deptName" />
+        </InputField>
         <div class="flex items-end">
           <div>
             <Button type="submit">
