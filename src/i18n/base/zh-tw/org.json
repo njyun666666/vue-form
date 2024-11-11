@@ -3,6 +3,7 @@
     "Org": "組織",
     "Dept": "部門",
     "User": "人員",
-    "DeptName": "部門名稱"
+    "DeptName": "部門名稱",
+    "DeptInfo": "部門資訊"
   }
 }

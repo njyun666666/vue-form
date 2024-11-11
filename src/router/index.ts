@@ -42,7 +42,7 @@ const router = createRouter({
               meta: {
                 title: 'Org.Dept'
               },
-              component: () => import('@/pages/Org/OrgDeptPage.vue')
+              component: () => import('@/pages/Org/OrgDeptInfoPage.vue')
             },
             {
               path: 'user',

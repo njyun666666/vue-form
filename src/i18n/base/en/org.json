@@ -3,6 +3,7 @@
     "Org": "Organization",
     "Dept": "Department",
     "User": "User",
-    "DeptName": "Department Name"
+    "DeptName": "Department Name",
+    "DeptInfo": "Department Information"
   }
 }

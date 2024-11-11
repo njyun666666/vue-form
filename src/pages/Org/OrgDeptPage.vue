@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BasePage from '../BasePage.vue'
 import InputField from '@/components/UI/InputField.vue'
-import type { OrgDeptModel } from '@/libs/models/OrgDept/OrgDeptModel'
+import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useDatatable } from '@/libs/utils/datatable'
@@ -15,13 +15,13 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { z } from 'zod'
 
-const query = ref<QueryModel<OrgDeptModel>>({
+const query = ref<QueryModel<OrgDeptQuery>>({
   pageIndex: 0,
   pageSize: 10,
   sort: [{ field: 'deptName', order: 1 }]
 })
 
-const fetchData = async (data: QueryModel<OrgDeptModel>) => {
+const fetchData = async (data: QueryModel<OrgDeptQuery>) => {
   return await orgDeptService.query(data).then(async ({ data }) => data)
 }
 
