@@ -17,7 +17,8 @@ const expandedKeys = ref<Record<string, boolean>>({})
 
 const { isFetching, data } = useQuery({
   queryKey: ['menuService.menus'],
-  queryFn: () => menuService.menus().then(({ data }) => data)
+  queryFn: () => menuService.menus().then(({ data }) => data),
+  staleTime: 60 * 60 * 1000
 })
 
 const items = computed(() => {

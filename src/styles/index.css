@@ -5,6 +5,7 @@
 @import 'tailwindcss/components';
 @import './primevue/tailwind.css';
 @import 'tailwindcss/utilities';
+@import 'primeicons/primeicons.css';
 
 @layer base {
   /* Primary and Surface Palettes */
