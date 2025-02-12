@@ -12,6 +12,7 @@ export default {
         mask: 'hsl(var(--mask))',
         surface: {
           DEFAULT: 'var(--surface)',
+          0: colors.white,
           ...colors.neutral
         },
         color: 'var(--p-text-color)',
