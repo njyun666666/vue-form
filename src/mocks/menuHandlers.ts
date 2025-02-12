@@ -1,4 +1,5 @@
 import appConfig from '@/appConfig'
+import type { MenuViewModel } from '@/libs/models/Menu/Menu'
 import { menuService } from '@/libs/services/menuService'
 import { HttpResponse, http } from 'msw'
 
@@ -10,6 +11,12 @@ export const menuHandlers = [
         menuName: 'Page.Home',
         icon: 'fa-solid fa-house',
         url: '/'
+      },
+      {
+        menuId: 'form',
+        menuName: 'Page.ApplicationForm',
+        icon: 'fa-solid fa-file-circle-plus',
+        url: '/form'
       },
       {
         menuId: 'b607cd761d59e53ac20df9a8d416e6f7',
@@ -31,6 +38,6 @@ export const menuHandlers = [
           }
         ]
       }
-    ])
+    ] as MenuViewModel[])
   })
 ]

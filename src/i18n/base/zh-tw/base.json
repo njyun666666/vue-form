@@ -12,7 +12,8 @@
     "Register": "註冊",
     "Settings": "設定",
     "Search": "查詢",
-    "Profile": "個人資料"
+    "Profile": "個人資料",
+    "ApplicationForm": "申請表單"
   },
   "Datatable": {
     "RowsPerPage": "每頁筆數",

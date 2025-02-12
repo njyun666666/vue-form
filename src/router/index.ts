@@ -53,6 +53,40 @@ const router = createRouter({
               component: () => import('@/pages/Org/OrgUserPage.vue')
             }
           ]
+        },
+        {
+          path: 'form',
+          name: 'form',
+          meta: {
+            title: 'Page.ApplicationForm'
+          },
+          component: () => import('@/pages/Form/FormAddPage.vue'),
+          children: [
+            {
+              path: 'info/:formId',
+              name: 'form/info/:formId',
+              meta: {
+                title: 'Page.form'
+              },
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            },
+            {
+              path: 'add/:formClass',
+              name: 'add/:formClass',
+              meta: {
+                title: 'Page.Add'
+              },
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            },
+            {
+              path: 'sign/:formId',
+              name: 'sign/:formId',
+              meta: {
+                title: 'Page.Sign'
+              },
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            }
+          ]
         }
       ]
     },

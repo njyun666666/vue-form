@@ -1,4 +1,5 @@
 import base from './base.json'
+import form from './form.json'
 import layout from './layout.json'
 import login from './login.json'
 import message from './message.json'
@@ -9,7 +10,8 @@ const en = {
   ...layout,
   ...login,
   ...message,
-  ...org
+  ...org,
+  ...form
 }
 
 export default en
