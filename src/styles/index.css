@@ -13,6 +13,7 @@
     --background: 0 0% 96%;
     --mask: 0 0% 0% / 0.4;
     --error: 0 84% 60%;
+    --surface: var(--p-surface-200);
     --p-primary-50: theme(colors.emerald.50);
     --p-primary-100: theme(colors.emerald.100);
     --p-primary-200: theme(colors.emerald.200);
@@ -71,6 +72,7 @@
     --background: 0 0% 0%;
     --mask: 0 0% 0% / 0.4;
     --error: 0 91% 71%;
+    --surface: var(--p-surface-800);
     --p-primary-color: var(--p-primary-400);
     --p-primary-contrast-color: var(--p-surface-900);
     --p-primary-hover-color: var(--p-primary-300);
@@ -89,7 +91,7 @@
   }
 
   * {
-    @apply border-surface;
+    /* @apply border-surface; */
   }
 
   body {
