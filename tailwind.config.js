@@ -10,6 +10,7 @@ export default {
       colors: {
         background: 'hsl(var(--background))',
         mask: 'hsl(var(--mask))',
+        surface: 'hsl(var(--p-content-border-color))',
         error: {
           DEFAULT: 'hsl(var(--error))',
           ...colors.red
