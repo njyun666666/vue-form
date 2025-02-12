@@ -60,7 +60,7 @@ const router = createRouter({
           meta: {
             title: 'Page.ApplicationForm'
           },
-          component: () => import('@/pages/Form/FormAddPage.vue'),
+          component: () => import('@/pages/Form/FormPage.vue'),
           children: [
             {
               path: 'info/:formId',
@@ -73,9 +73,6 @@ const router = createRouter({
             {
               path: 'add/:formClass',
               name: 'add/:formClass',
-              meta: {
-                title: 'Page.Add'
-              },
               component: () => import('@/pages/Dashboard/DashboardPage.vue')
             },
             {

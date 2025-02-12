@@ -33,62 +33,6 @@ export const formHandlers = [
             formClassName: 'Form.Class.B'
           }
         ]
-      },
-      {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
-        list: [
-          {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
-          },
-          {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
-          }
-        ]
-      },
-      {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
-        list: [
-          {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
-          },
-          {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
-          }
-        ]
-      },
-      {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
-        list: [
-          {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
-          },
-          {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
-          }
-        ]
-      },
-      {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
-        list: [
-          {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
-          },
-          {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
-          }
-        ]
       }
     ] as FormApplication[])
   })
