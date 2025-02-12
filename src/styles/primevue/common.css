@@ -1,4 +1,4 @@
-@layer base {
+@layer components {
   .p-connected-overlay-enter-from {
     @apply scale-y-75 opacity-0;
   }
