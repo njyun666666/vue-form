@@ -3,7 +3,7 @@ import * as colors from 'tailwindcss/colors'
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx,css}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'selector',
   theme: {
     extend: {
@@ -33,6 +33,9 @@ export default {
       },
       minHeight: {
         5: '1.25rem'
+      },
+      animationDuration: {
+        450: '450ms'
       }
     }
   },
