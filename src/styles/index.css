@@ -91,7 +91,7 @@
   }
 
   * {
-    /* @apply border-surface; */
+    @apply border-surface;
   }
 
   body {
