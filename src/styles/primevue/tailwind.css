@@ -1,4 +1,4 @@
-@import './common' layer(base);
+@import './common';
 
 /* Form */
 @import './autocomplete';
