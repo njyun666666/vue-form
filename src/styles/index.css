@@ -115,7 +115,7 @@
     @apply my-4;
   }
 
-  .animate-duration-450 {
+  /* .animate-duration-450 {
     animation-duration: 450ms;
-  }
+  } */
 }

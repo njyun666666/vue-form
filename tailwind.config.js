@@ -37,10 +37,10 @@ export default {
       },
       minHeight: {
         5: '1.25rem'
-      },
-      animationDuration: {
-        450: '450ms'
       }
+      // animationDuration: {
+      //   450: '450ms'
+      // }
     }
   },
   plugins: [primeui]
