@@ -11,9 +11,7 @@ export default {
         background: 'hsl(var(--background))',
         mask: 'hsl(var(--mask))',
         surface: {
-          DEFAULT: 'var(--surface)',
-          0: colors.white,
-          ...colors.neutral
+          DEFAULT: 'var(--surface)'
         },
         color: 'var(--p-text-color)',
         error: {
@@ -38,9 +36,6 @@ export default {
       minHeight: {
         5: '1.25rem'
       }
-      // animationDuration: {
-      //   450: '450ms'
-      // }
     }
   },
   plugins: [primeui]
