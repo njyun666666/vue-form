@@ -1,0 +1,12 @@
+{
+  "Form": {
+    "Group": {
+      "HR": "HR",
+      "IT": "IT"
+    },
+    "Class": {
+      "A": "A form",
+      "B": "B form"
+    }
+  }
+}

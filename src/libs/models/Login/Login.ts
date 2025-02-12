@@ -1,7 +1,7 @@
 import type { JwtPayload } from 'jwt-decode'
 
 export interface LoginModel {
-  email: string
+  email?: string | null
   password: string
 }
 
@@ -17,5 +17,5 @@ export interface RefreshTokenModel {
 export interface UserPayload extends JwtPayload {
   uid: string
   role: string | string[]
-  photoURL?: string
+  photoUrl?: string
 }

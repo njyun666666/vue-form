@@ -1,11 +1,11 @@
-import { defineStore } from 'pinia'
-import { useStorage, useTitle } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
 import { breakpoints } from '@/libs/utils/layout'
+import { useStorage, useTitle } from '@vueuse/core'
+import { defineStore } from 'pinia'
+import { computed, ref, watch } from 'vue'
 
 export const useLayoutStore = defineStore('layout', () => {
   const navDefaultExpanded = useStorage('navDefaultExpanded', false)
-  const navExpandedState = ref(breakpoints.greaterOrEqual('xl').value && navDefaultExpanded.value)
+  const navExpandedState = ref(breakpoints.isGreaterOrEqual('xl') && navDefaultExpanded.value)
   const messageCount = ref(0)
   const webTitle = ref('')
   const title = computed(() => {

@@ -1,5 +1,5 @@
-import type { LoginModel, LoginViewModel, RefreshTokenModel } from '../models/Login/Login'
 import formAPI from '../api/formAPI'
+import type { LoginModel, LoginViewModel, RefreshTokenModel } from '../models/Login/Login'
 
 class LoginService {
   readonly loginUrl = '/api/Login'

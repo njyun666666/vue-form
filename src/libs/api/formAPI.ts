@@ -1,3 +1,7 @@
+import { loginService } from '../services/loginService'
+import HttpStatusCodes from './httpStatusCodes'
+import appConfig from '@/appConfig'
+import { useLoginStore } from '@/stores/login'
 import axios, {
   AxiosError,
   type AxiosInstance,
@@ -5,10 +9,6 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig
 } from 'axios'
-import HttpStatusCodes from './httpStatusCodes'
-import appConfig from '@/appConfig'
-import { useLoginStore } from '@/stores/login'
-import { loginService } from '../services/loginService'
 
 export interface ResponseErrors {
   errors: {

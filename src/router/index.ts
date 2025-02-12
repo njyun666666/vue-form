@@ -1,3 +1,4 @@
+import { appConst } from '@/appConst'
 import { i18n } from '@/i18n/config'
 import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
@@ -18,8 +19,81 @@ const router = createRouter({
             title: 'Page.Home'
           },
           component: () => import('@/pages/Dashboard/DashboardPage.vue')
+        },
+        {
+          path: 'org',
+          name: 'org',
+          meta: {
+            title: 'Org.Org',
+            roles: [appConst.Role.Org]
+          },
+          children: [
+            {
+              path: 'dept',
+              name: 'org/dept',
+              meta: {
+                title: 'Org.Dept'
+              },
+              component: () => import('@/pages/Org/OrgDeptPage.vue')
+            },
+            {
+              path: 'dept/:deptId',
+              name: 'org/dept/:deptId',
+              meta: {
+                title: 'Org.Dept'
+              },
+              component: () => import('@/pages/Org/OrgDeptInfoPage.vue')
+            },
+            {
+              path: 'user',
+              name: 'org/user',
+              meta: {
+                title: 'Org.User'
+              },
+              component: () => import('@/pages/Org/OrgUserPage.vue')
+            }
+          ]
+        },
+        {
+          path: 'form',
+          name: 'form',
+          meta: {
+            title: 'Page.ApplicationForm'
+          },
+          component: () => import('@/pages/Form/FormPage.vue'),
+          children: [
+            {
+              path: 'info/:formId',
+              name: 'form/info/:formId',
+              meta: {
+                title: 'Page.form'
+              },
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            },
+            {
+              path: 'add/:formClass',
+              name: 'add/:formClass',
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            },
+            {
+              path: 'sign/:formId',
+              name: 'sign/:formId',
+              meta: {
+                title: 'Page.Sign'
+              },
+              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+            }
+          ]
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: {
+        title: 'Page.Login'
+      },
+      component: () => import('@/pages/Login/LoginPage.vue')
     }
   ]
 })
@@ -27,13 +101,13 @@ const router = createRouter({
 router.beforeEach((to) => {
   const loginStore = useLoginStore()
 
-  // if (to.name != 'login' && !loginStore.loginState) {
-  //   return { name: 'login', query: { url: to.fullPath } }
-  // }
+  if (to.name != 'login' && !loginStore.loginState) {
+    return { name: 'login', query: { url: to.fullPath } }
+  }
 
-  // if (to.meta.roles && !loginStore.checkRole(to.meta.roles)) {
-  //   return { name: 'message', params: { message: 'Forbidden' } }
-  // }
+  if (to.meta.roles && !loginStore.checkRole(to.meta.roles)) {
+    return { name: 'message', params: { message: 'Forbidden' } }
+  }
 })
 
 router.afterEach((to, from, failure) => {

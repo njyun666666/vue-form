@@ -1,0 +1,56 @@
+{
+  "Website": {
+    "Title": "Vue-Form"
+  },
+  "Language": {
+    "en": "English",
+    "zh-tw": "中文"
+  },
+  "Page": {
+    "Home": "Home",
+    "Login": "Sign in",
+    "Register": "Sign up",
+    "Settings": "Settings",
+    "Search": "Saerch",
+    "Profile": "Profile",
+    "ApplicationForm": "Application form"
+  },
+  "Datatable": {
+    "RowsPerPage": "Rows per page",
+    "PageOf": "Page",
+    "NoResults": "No results."
+  },
+  "Action": {
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "Login": "Sign in",
+    "Register": "Sign up",
+    "Need_an_account": "Need an account?",
+    "Have_an_account": "Have an account?",
+    "Search": "Search",
+    "Add": "Add",
+    "Edit": "Edit",
+    "Save": "Save",
+    "Remove": "Remove",
+    "InsertPrev": "Insert prev",
+    "InsertNext": "Insert next",
+    "MoveUp": "Move up",
+    "MoveDown": "Move down",
+    "OK": "OK",
+    "Cancel": "Cancel",
+    "TryAgain": "Try again",
+    "LoadMore": "Load more",
+    "Back": "Back",
+    "EditProfile": "Edit profile"
+  },
+  "Title": {
+    "Add": "Add {title}",
+    "Edit": "Edit {title}",
+    "Confirm": "Confirm {title}",
+    "ConfirmText": "Do you want to {action} {title}?",
+    "Article": "Article",
+    "Comment": "Comment",
+    "PopularTags": "Popular Tags",
+    "Profile": "Profile"
+  }
+}

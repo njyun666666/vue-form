@@ -1,11 +1,11 @@
-import { computed } from 'vue'
-import { defineStore } from 'pinia'
-import { StorageSerializers, useStorage } from '@vueuse/core'
-import { jwtDecode } from 'jwt-decode'
-import { useRoute, useRouter } from 'vue-router'
+import type { RoleType } from '@/appConst'
 import type { LoginViewModel, UserPayload } from '@/libs/models/Login/Login'
 import { loginService } from '@/libs/services/loginService'
-import type { RoleType } from '@/appConst'
+import { StorageSerializers, useStorage } from '@vueuse/core'
+import { jwtDecode } from 'jwt-decode'
+import { defineStore } from 'pinia'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export const useLoginStore = defineStore('login', () => {
   const router = useRouter()
