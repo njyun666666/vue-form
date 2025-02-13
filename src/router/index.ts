@@ -56,32 +56,24 @@ const router = createRouter({
         },
         {
           path: 'form',
-          name: 'form',
-          meta: {
-            title: 'Page.ApplicationForm'
-          },
-          component: () => import('@/pages/Form/FormPage.vue'),
           children: [
             {
-              path: 'info/:formId',
-              name: 'form/info/:formId',
+              path: '',
+              name: 'form',
               meta: {
-                title: 'Page.form'
+                title: 'Page.ApplicationForm'
               },
-              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+              component: () => import('@/pages/Form/ApplicationFormsPage.vue')
             },
             {
-              path: 'add/:formClass',
-              name: 'add/:formClass',
-              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+              path: ':formPageType/:formClass',
+              name: 'form/:formPageType/:formClass',
+              component: () => import('@/pages/Form/FormContentPage.vue')
             },
             {
-              path: 'sign/:formId',
-              name: 'sign/:formId',
-              meta: {
-                title: 'Page.Sign'
-              },
-              component: () => import('@/pages/Dashboard/DashboardPage.vue')
+              path: ':formPageType/:formClass/:formId',
+              name: 'form/:formPageType/:formClass/:formId',
+              component: () => import('@/pages/Form/FormContentPage.vue')
             }
           ]
         }
@@ -94,6 +86,10 @@ const router = createRouter({
         title: 'Page.Login'
       },
       component: () => import('@/pages/Login/LoginPage.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { name: 'index' }
     }
   ]
 })
