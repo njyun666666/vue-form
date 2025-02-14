@@ -1,0 +1,10 @@
+{
+  "A": {
+    "title": "標題",
+    "content": "內容",
+    "amount": "金額",
+    "datetime": "時間",
+    "checkbox": "勾選框",
+    "select": "下拉選單"
+  }
+}

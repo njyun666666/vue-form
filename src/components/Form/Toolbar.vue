@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
 import type { FormPageType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
@@ -31,21 +32,61 @@ switch (props.formPageType) {
     break
 }
 
-function handleClick(setting: FormActionSetting) {
-  if (setting.beforeAction) setting.beforeAction()
-  setting.action()
-  if (setting.afterAction) setting.afterAction()
+async function handleClick(setting: FormActionSetting) {
+  setting.loading = true
+
+  if (setting.beforeAction) {
+    const result = await setting.beforeAction()
+    if (result === false) {
+      setting.loading = false
+      return
+    }
+  }
+
+  if (setting.saveAction) {
+    const result = await setting.saveAction()
+    if (result === false) {
+      setting.loading = false
+      return
+    }
+
+    const save = result as FormSaveViewModel
+
+    if (save.result) {
+      //
+    } else {
+      //
+    }
+  }
+
+  if (setting.action) {
+    const result = await setting.action()
+    if (result === false) {
+      setting.loading = false
+      return
+    }
+  }
+
+  if (setting.afterAction) {
+    const result = await setting.afterAction()
+    if (result === false) {
+      setting.loading = false
+      return
+    }
+  }
+
+  setting.loading = false
 }
 
-function applicationAction() {
+async function applicationAction() {
   console.log('application')
 }
 
-function approveAction() {
+async function approveAction() {
   console.log('approve')
 }
 
-function rejectAction() {
+async function rejectAction() {
   console.log('reject')
 }
 
@@ -59,21 +100,29 @@ defineExpose({
   <div class="flex w-full bg-surface-0 dark:bg-surface-900 gap-1 p-1">
     <Button
       v-if="applicationBtn.display"
-      label="Application"
+      :label="$t('Action.Application')"
+      icon="pi pi-plus"
       variant="text"
+      :loading="applicationBtn.loading"
       @click="handleClick(applicationBtn)"
     />
+
     <Button
       v-if="approveBtn.display"
-      label="Approve"
+      :label="$t('Action.Approve')"
+      icon="pi pi-check"
       variant="text"
+      :loading="approveBtn.loading"
       @click="handleClick(approveBtn)"
     />
+
     <Button
       v-if="rejectBtn.display"
-      label="Reject"
+      :label="$t('Action.Reject')"
+      icon="pi pi-times"
       severity="danger"
       variant="text"
+      :loading="rejectBtn.loading"
       @click="handleClick(rejectBtn)"
     />
   </div>

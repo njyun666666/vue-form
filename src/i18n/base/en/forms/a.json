@@ -1,0 +1,10 @@
+{
+  "A": {
+    "title": "title",
+    "content": "content",
+    "amount": "amount",
+    "datetime": "datetime",
+    "checkbox": "checkbox",
+    "select": "select"
+  }
+}
