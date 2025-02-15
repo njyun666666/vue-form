@@ -2,14 +2,19 @@
 import A from '@/components/Form/A/AForm.vue'
 import B from '@/components/Form/B/BForm.vue'
 import Toolbar from '@/components/Form/Toolbar.vue'
+import { formService } from '@/libs/services/formService'
 import { type FormClassType, type FormPageType } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
 import { useLayoutStore } from '@/stores/layout'
+import Skeleton from 'primevue/skeleton'
 import { computed, onMounted, provide, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 // import type { ComponentExposed } from 'vue-component-type-helpers'
+
+const loading = ref(true)
+const auth = ref(false)
 const layout = useLayoutStore()
 const { t } = useI18n()
 const route = useRoute()
@@ -54,6 +59,22 @@ const webTitle = computed(() => {
 
 layout.webTitle = webTitle.value
 
+formService
+  .checkAuth(formPageType.value, formClass.value, formId.value)
+  .then(({ data }) => {
+    if (!data.formPageType.includes(formPageType.value)) {
+      router.replace(`/form/${'info' as FormPageType}/${formClass.value}/${formId.value}`)
+      return
+    }
+
+    auth.value = true
+    loading.value = false
+  })
+  .catch((error) => {
+    console.error(error)
+    loading.value = false
+  })
+
 provide('toolbar', toolbar)
 // provide('toolbar2', toolbar2)
 
@@ -62,11 +83,21 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="flex flex-col w-full h-full">
+  <div v-if="loading" class="p-4 flex gap-5 flex-col">
+    <Skeleton width="50%" height="2rem"></Skeleton>
+    <div class="flex gap-5">
+      <div class="flex flex-col gap-5 w-1/4" v-for="n in 4" :key="n">
+        <Skeleton width="50%" height="1.5rem"></Skeleton>
+        <Skeleton width="100%" height="1.5rem"></Skeleton>
+      </div>
+    </div>
+  </div>
+  <div v-if="!loading && !auth">no auth</div>
+  <div v-if="auth" class="flex flex-col w-full h-full">
     <Toolbar ref="toolbar" class="shrink-0" :formPageType="formPageType" />
     <!-- <Toolbar ref="toolbar2" class="shrink-0"></Toolbar> -->
-    <div class="flex-grow h-full w-full">
-      <BasePage class="mb-52">
+    <div class="grow overflow-hidden">
+      <BasePage>
         <component :is="mapping[formClass]"></component>
       </BasePage>
     </div>

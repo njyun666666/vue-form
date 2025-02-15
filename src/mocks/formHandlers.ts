@@ -1,10 +1,12 @@
 import appConfig from '@/appConfig'
-import type { FormApplication, FormClass } from '@/libs/models/Form/Form'
+import type { FormApplication, FormCheckAuthViewModel } from '@/libs/models/Form/Form'
 import { formService } from '@/libs/services/formService'
-import { HttpResponse, http } from 'msw'
+import { HttpResponse, delay, http } from 'msw'
 
 export const formHandlers = [
-  http.get(`${appConfig.FORM_API}${formService.applicationListUrl}`, () => {
+  http.get(`${appConfig.FORM_API}${formService.applicationListUrl}`, async () => {
+    await delay()
+
     return HttpResponse.json([
       {
         groupId: 'hr',
@@ -35,5 +37,11 @@ export const formHandlers = [
         ]
       }
     ] as FormApplication[])
+  }),
+  http.get(`${appConfig.FORM_API}${formService.checkAuthUrl}/add/*/*`, async () => {
+    await delay()
+    return HttpResponse.json({
+      formPageType: ['add', 'info', 'sign']
+    } as FormCheckAuthViewModel)
   })
 ]

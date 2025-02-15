@@ -1,3 +1,5 @@
+import type { FormPageType } from '@/libs/types/FormTypes'
+
 export interface FormApplication {
   groupId: string
   groupName: string
@@ -7,4 +9,8 @@ export interface FormApplication {
 export interface FormClass {
   formClass: string
   formClassName: string
+}
+
+export interface FormCheckAuthViewModel {
+  formPageType: FormPageType[]
 }
