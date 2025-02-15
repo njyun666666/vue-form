@@ -1,13 +1,12 @@
 export class FormBaseInfoModel {
-  formId!: string
-  serial!: string
-  applicationId!: string
-  applicationName!: string
-  applicationDate!: Date
+  formId?: string
+  applicationId?: string
+  applicationName?: string
+  applicationDate?: Date
 }
 
 export class FormSaveViewModel {
-  result!: boolean
-  formId!: string
-  message!: string
+  result?: boolean
+  formId?: string
+  message?: string
 }

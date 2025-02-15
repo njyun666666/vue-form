@@ -6,10 +6,10 @@ export class AModel {
 }
 
 export class AInfo {
-  title!: string
-  content!: string
-  amount!: number
-  datetime!: Date
-  checkbox!: string[]
-  select!: string[]
+  title?: string
+  content?: string
+  amount?: number
+  datetime?: Date
+  checkbox?: string[]
+  select?: string[]
 }

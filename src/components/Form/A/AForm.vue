@@ -53,7 +53,7 @@ async function onSubmit() {
   }
 
   return aService
-    .save(values as AModel)
+    .save(values)
     .then(({ data }) => data)
     .catch((error) => {
       console.error(error)
