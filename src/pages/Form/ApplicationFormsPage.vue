@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formService } from '@/libs/services/formService'
-import type { FormPageType } from '@/libs/types/FormTypes'
+import { FormPageAction } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
 import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
@@ -38,8 +38,11 @@ const { isFetching, data } = useQuery({
               v-for="formClass in item.list"
               :key="formClass.formClass"
               :to="{
-                name: 'form/:formPageType/:formClass',
-                params: { formPageType: 'add' as FormPageType, formClass: formClass.formClass }
+                name: 'form/:formPageAction/:formClass',
+                params: {
+                  formPageAction: FormPageAction.add,
+                  formClass: formClass.formClass
+                }
               }"
             >
               <Button label="Secondary" severity="secondary" variant="text">

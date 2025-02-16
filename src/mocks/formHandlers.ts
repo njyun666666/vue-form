@@ -1,6 +1,7 @@
 import appConfig from '@/appConfig'
 import type { FormApplication, FormCheckAuthViewModel } from '@/libs/models/Form/Form'
 import { formService } from '@/libs/services/formService'
+import { FormPageAction } from '@/libs/types/FormTypes'
 import { HttpResponse, delay, http } from 'msw'
 
 export const formHandlers = [
@@ -41,7 +42,7 @@ export const formHandlers = [
   http.get(`${appConfig.FORM_API}${formService.checkAuthUrl}/add/*/*`, async () => {
     await delay()
     return HttpResponse.json({
-      formPageType: ['add', 'info', 'sign']
+      formPageAction: [FormPageAction.add, FormPageAction.info, FormPageAction.sign]
     } as FormCheckAuthViewModel)
   })
 ]

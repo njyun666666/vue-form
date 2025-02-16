@@ -66,13 +66,13 @@ const router = createRouter({
               component: () => import('@/pages/Form/ApplicationFormsPage.vue')
             },
             {
-              path: ':formPageType/:formClass',
-              name: 'form/:formPageType/:formClass',
+              path: ':formPageAction/:formClass',
+              name: 'form/:formPageAction/:formClass',
               component: () => import('@/pages/Form/FormPage.vue')
             },
             {
-              path: ':formPageType/:formClass/:formId',
-              name: 'form/:formPageType/:formClass/:formId',
+              path: ':formPageAction/:formClass/:formId',
+              name: 'form/:formPageAction/:formClass/:formId',
               component: () => import('@/pages/Form/FormPage.vue')
             }
           ]

@@ -3,7 +3,7 @@ import A from '@/components/Form/A/AForm.vue'
 import B from '@/components/Form/B/BForm.vue'
 import Toolbar from '@/components/Form/Toolbar.vue'
 import { formService } from '@/libs/services/formService'
-import { type FormClassType, type FormPageType } from '@/libs/types/FormTypes'
+import { type FormClassType, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
 import { useLayoutStore } from '@/stores/layout'
 import Skeleton from 'primevue/skeleton'
@@ -19,7 +19,9 @@ const layout = useLayoutStore()
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const formPageType = ref((route.params['formPageType'] as string)?.toLowerCase() as FormPageType)
+const formPageAction = ref(
+  (route.params['formPageAction'] as string)?.toLowerCase() as FormPageActionType
+)
 const formClass = ref((route.params['formClass'] as string)?.toUpperCase() as FormClassType)
 const formId = ref((route.params['formId'] as string)?.toUpperCase())
 const toolbar = useTemplateRef<InstanceType<typeof Toolbar>>('toolbar')
@@ -32,8 +34,8 @@ const mapping: {
   B: B
 }
 
-if (!formPageType.value) {
-  console.error(`formPageType is undefined`)
+if (!formPageAction.value) {
+  console.error(`FormPageActionType is undefined`)
   router.replace('/')
 }
 
@@ -48,7 +50,7 @@ if (!mapping[formClass.value]) {
 }
 
 const webTitle = computed(() => {
-  let title = `${t(`Form.Class.${formClass.value}`)} / ${t(`Form.PageType.${formPageType.value}`)}`
+  let title = `${t(`Form.Class.${formClass.value}`)} / ${t(`Form.PageType.${formPageAction.value}`)}`
 
   if (formId.value) {
     title = `${formId.value} / ${title}`
@@ -60,10 +62,10 @@ const webTitle = computed(() => {
 layout.webTitle = webTitle.value
 
 formService
-  .checkAuth(formPageType.value, formClass.value, formId.value)
+  .checkAuth(formPageAction.value, formClass.value, formId.value)
   .then(({ data }) => {
-    if (!data.formPageType.includes(formPageType.value)) {
-      router.replace(`/form/${'info' as FormPageType}/${formClass.value}/${formId.value}`)
+    if (!data.formPageAction.includes(formPageAction.value)) {
+      router.replace(`/form/${FormPageAction.info}/${formClass.value}/${formId.value}`)
       return
     }
 
@@ -94,7 +96,7 @@ onMounted(() => {
   </div>
   <div v-if="!loading && !auth">no auth</div>
   <div v-if="auth" class="flex flex-col w-full h-full">
-    <Toolbar ref="toolbar" class="shrink-0" :formPageType="formPageType" />
+    <Toolbar ref="toolbar" class="shrink-0" :formPageAction="formPageAction" />
     <!-- <Toolbar ref="toolbar2" class="shrink-0"></Toolbar> -->
     <div class="grow overflow-hidden">
       <BasePage>

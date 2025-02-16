@@ -1,4 +1,4 @@
-import type { FormPageType } from '@/libs/types/FormTypes'
+import type { FormPageActionType } from '@/libs/types/FormTypes'
 
 export interface FormApplication {
   groupId: string
@@ -12,5 +12,5 @@ export interface FormClass {
 }
 
 export interface FormCheckAuthViewModel {
-  formPageType: FormPageType[]
+  formPageAction: FormPageActionType[]
 }

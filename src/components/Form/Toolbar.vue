@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
-import type { FormPageType } from '@/libs/types/FormTypes'
+import { FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
 import { ref } from 'vue'
 
 interface Props {
-  formPageType: FormPageType
+  formPageAction: FormPageActionType
 }
 
 const props = defineProps<Props>()
@@ -15,15 +15,15 @@ const applicationBtn = ref(new FormActionSetting(applicationAction))
 const approveBtn = ref(new FormActionSetting(approveAction))
 const rejectBtn = ref(new FormActionSetting(rejectAction))
 
-switch (props.formPageType) {
-  case 'add':
+switch (props.formPageAction) {
+  case FormPageAction.add:
     applicationBtn.value.display = true
     break
 
-  case 'info':
+  case FormPageAction.info:
     break
 
-  case 'sign':
+  case FormPageAction.sign:
     approveBtn.value.display = true
     rejectBtn.value.display = true
     break

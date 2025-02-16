@@ -6,6 +6,6 @@ const route = useRoute()
 </script>
 <template>
   <FormContentPage
-    :key="`${route.params['formPageType']}/${route.params['formClass']}/${route.params['formId']}`"
+    :key="`${route.params['formPageAction']}/${route.params['formClass']}/${route.params['formId']}`"
   ></FormContentPage>
 </template>

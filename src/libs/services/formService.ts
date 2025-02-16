@@ -1,6 +1,6 @@
 import formAPI from '../api/formAPI'
 import type { FormApplication, FormCheckAuthViewModel } from '../models/Form/Form'
-import type { FormClassType, FormPageType } from '../types/FormTypes'
+import type { FormClassType, FormPageActionType } from '../types/FormTypes'
 
 class FormService {
   readonly applicationListUrl = '/api/Form/applicationList'
@@ -10,9 +10,9 @@ class FormService {
     return formAPI.get<FormApplication[]>(this.applicationListUrl)
   }
 
-  checkAuth(formPageType: FormPageType, formClass: FormClassType, formId: string) {
+  checkAuth(formPageAction: FormPageActionType, formClass: FormClassType, formId: string) {
     return formAPI.get<FormCheckAuthViewModel>(
-      `/api/Form/checkAuth/${formPageType}/${formClass}/${formId ?? ''}`
+      `/api/Form/checkAuth/${formPageAction}/${formClass}/${formId ?? ''}`
     )
   }
 }
