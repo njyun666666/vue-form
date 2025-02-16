@@ -35,7 +35,7 @@ const mapping: {
 }
 
 if (!formPageAction.value) {
-  console.error(`FormPageActionType is undefined`)
+  console.error(`formPageAction is undefined`)
   router.replace('/')
 }
 
