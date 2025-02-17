@@ -2,14 +2,15 @@ import { FormBaseInfoModel } from '../FormModel'
 
 export class AModel {
   baseInfo?: FormBaseInfoModel
-  info?: AInfo
+  info?: AInfoModel
 }
 
-export class AInfo {
+export class AInfoModel {
   title?: string
   content?: string
   amount?: number
   datetime?: Date
+  radio?: string
   checkbox?: string[]
-  select?: string[]
+  select?: string
 }

@@ -1,64 +1,57 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
+import { useLoginStore } from '@/stores/login'
+import DatePicker from 'primevue/datepicker'
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
+import { type Ref, inject } from 'vue'
 
-const { value: formId, errorMessage: formIdError } = useField<string>('baseInfo.formId')
-const { value: applicationId, errorMessage: applicationIdError } =
-  useField<string>('baseInfo.applicationId')
-const { value: applicationName, errorMessage: applicationNameError } = useField<string>(
-  'baseInfo.applicationName'
-)
-const { value: applicationDate, errorMessage: applicationDateError } = useField<Date>(
-  'baseInfo.applicationDate'
-)
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
+const login = useLoginStore()
+
+const { value: formId } = useField<string>('baseInfo.formId')
+const { value: applicationId } = useField<string>('baseInfo.applicationId')
+const { value: applicationName } = useField<string>('baseInfo.applicationName')
+const { value: applicationDate } = useField<Date>('baseInfo.applicationDate')
+
+if (pageInfo?.value.formPageAction == 'add') {
+  applicationId.value = String(login.tokenPayload?.uid)
+  applicationName.value = String(login.tokenPayload?.sub)
+  applicationDate.value = new Date()
+}
 </script>
 <template>
   <div>
     <div class="flex flex-wrap gap-5">
-      <InputField for="formId" :label="$t('Form.BaseInfo.formId')" :error="formIdError">
-        <InputText id="formId" type="formId" v-model="formId" :invalid="!!formIdError" disabled />
+      <InputField for="formId" :label="$t('Form.BaseInfo.formId')">
+        <InputText id="formId" type="text" v-model="formId" disabled />
       </InputField>
 
-      <InputField
+      <!-- <InputField
         for="applicationId"
         :label="$t('Form.BaseInfo.applicationId')"
-        :error="applicationIdError"
       >
         <InputText
           id="applicationId"
-          type="applicationId"
+          type="text"
           v-model="applicationId"
-          :invalid="!!applicationIdError"
           disabled
         />
+      </InputField> -->
+
+      <InputField for="applicationName" :label="$t('Form.BaseInfo.applicationName')">
+        <InputText id="applicationName" type="text" v-model="applicationName" disabled />
       </InputField>
 
-      <InputField
-        for="applicationName"
-        :label="$t('Form.BaseInfo.applicationName')"
-        :error="applicationNameError"
-      >
-        <InputText
-          id="applicationName"
-          type="applicationName"
-          v-model="applicationName"
-          :invalid="!!applicationNameError"
+      <InputField for="applicationDate" :label="$t('Form.BaseInfo.applicationDate')">
+        <DatePicker
+          id="applicationDate"
+          showTime
+          hourFormat="24"
+          v-model="applicationDate"
           disabled
         />
-      </InputField>
-
-      <InputField
-        for="applicationDate"
-        :label="$t('Form.BaseInfo.applicationDate')"
-        :error="applicationDateError"
-      >
-        <!-- <InputText
-    id="applicationDate"
-    type="applicationDate"
-    v-model="applicationDate"
-        :invalid="!!applicationDateError"
-      /> -->
       </InputField>
     </div>
   </div>

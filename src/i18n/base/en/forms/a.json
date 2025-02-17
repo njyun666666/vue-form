@@ -1,9 +1,11 @@
 {
   "A": {
+    "FormInfo": "Information",
     "title": "title",
     "content": "content",
     "amount": "amount",
     "datetime": "datetime",
+    "radio": "radio",
     "checkbox": "checkbox",
     "select": "select"
   }

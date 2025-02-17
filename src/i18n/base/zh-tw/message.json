@@ -11,6 +11,7 @@
     "DeleteFail": "刪除失敗",
     "InvalidEmail": "無效Email",
     "NoFound": "沒有找到",
+    "Select_at_least_number_items_is_required": "至少選擇 {number} 項",
     "At_least_number_entry_is_required": "至少輸入 {number} 筆",
     "has_already_been_taken": "已經存在",
     "is_invalid": "無效",

@@ -8,11 +8,15 @@ export const messages = {
 }
 
 type MessageSchema = typeof zh_tw
-export type LangType = 'en' | 'zh-tw'
+export type LangType = keyof typeof messages
 
 export const i18n = createI18n<[MessageSchema], LangType>({
   legacy: false,
-  locale: localStorage.lang || (navigator.language.toLowerCase().startsWith('zh') ? 'zh-tw' : 'en'),
-  fallbackLocale: 'zh-tw',
+  locale:
+    localStorage.lang ||
+    (navigator.language.toLowerCase().startsWith('zh')
+      ? ('zh-tw' as LangType)
+      : ('en' as LangType)),
+  fallbackLocale: 'zh-tw' as LangType,
   messages
 })

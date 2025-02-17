@@ -4,7 +4,8 @@ import type Toolbar from '../Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
 import { baseInfoSchema } from '@/components/Form/form'
-import type { AModel } from '@/libs/models/Form/A/A'
+import { AInfoModel, type AModel } from '@/libs/models/Form/A/A'
+import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
@@ -13,7 +14,7 @@ import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
 // import type { ComponentExposed } from 'vue-component-type-helpers'
-
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
 const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
 
@@ -25,20 +26,8 @@ const { defineField, handleSubmit, errors, validate, values } = useForm({
     })
   ),
   initialValues: {
-    baseInfo: {
-      formId: '111',
-      applicationId: 'wwww',
-      applicationName: 'eee',
-      applicationDate: new Date()
-    },
-    info: {
-      title: 'ttttttt',
-      content: '',
-      amount: 0,
-      datetime: new Date(),
-      checkbox: [],
-      select: []
-    }
+    baseInfo: new FormBaseInfoModel(),
+    info: new AInfoModel()
   }
 })
 
@@ -86,8 +75,6 @@ onMounted(() => {
       <AFormInfo />
     </div>
 
-    <div>
-      {{ values }}
-    </div>
+    <pre>{{ JSON.stringify(values, null, 2) }}</pre>
   </form>
 </template>

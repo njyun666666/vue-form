@@ -2,6 +2,7 @@
 import A from '@/components/Form/A/AForm.vue'
 import B from '@/components/Form/B/BForm.vue'
 import Toolbar from '@/components/Form/Toolbar.vue'
+import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { formService } from '@/libs/services/formService'
 import { type FormClassType, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
@@ -19,11 +20,14 @@ const layout = useLayoutStore()
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const formPageAction = ref(
-  (route.params['formPageAction'] as string)?.toLowerCase() as FormPageActionType
-)
-const formClass = ref((route.params['formClass'] as string)?.toUpperCase() as FormClassType)
-const formId = ref((route.params['formId'] as string)?.toUpperCase())
+const pageInfo = ref(new FormPageInfoModel())
+
+pageInfo.value.formPageAction = (
+  route.params['formPageAction'] as string
+)?.toLowerCase() as FormPageActionType
+pageInfo.value.formClass = (route.params['formClass'] as string)?.toUpperCase() as FormClassType
+pageInfo.value.formId = (route.params['formId'] as string)?.toUpperCase()
+
 const toolbar = useTemplateRef<InstanceType<typeof Toolbar>>('toolbar')
 // const toolbar2 = useTemplateRef<ComponentExposed<typeof Toolbar>>('toolbar2')
 
@@ -34,26 +38,26 @@ const mapping: {
   B: B
 }
 
-if (!formPageAction.value) {
+if (!pageInfo.value.formPageAction) {
   console.error(`formPageAction is undefined`)
   router.replace('/')
 }
 
-if (!formClass.value) {
+if (!pageInfo.value.formClass) {
   console.error(`formClass is undefined`)
   router.replace('/')
 }
 
-if (!mapping[formClass.value]) {
+if (!mapping[pageInfo.value.formClass]) {
   console.error(`formClass component is not mapped`)
   router.replace('/')
 }
 
 const webTitle = computed(() => {
-  let title = `${t(`Form.Class.${formClass.value}`)} / ${t(`Form.PageType.${formPageAction.value}`)}`
+  let title = `${t(`Form.Class.${pageInfo.value.formClass}`)} / ${t(`Form.PageType.${pageInfo.value.formPageAction}`)}`
 
-  if (formId.value) {
-    title = `${formId.value} / ${title}`
+  if (pageInfo.value.formId) {
+    title = `${pageInfo.value.formId} / ${title}`
   }
 
   return title
@@ -62,10 +66,12 @@ const webTitle = computed(() => {
 layout.webTitle = webTitle.value
 
 formService
-  .checkAuth(formPageAction.value, formClass.value, formId.value)
+  .checkAuth(pageInfo.value)
   .then(({ data }) => {
-    if (!data.formPageAction.includes(formPageAction.value)) {
-      router.replace(`/form/${FormPageAction.info}/${formClass.value}/${formId.value}`)
+    if (!data.formPageAction.includes(pageInfo.value.formPageAction)) {
+      router.replace(
+        `/form/${FormPageAction.info}/${pageInfo.value.formClass}/${pageInfo.value.formId}`
+      )
       return
     }
 
@@ -77,6 +83,7 @@ formService
     loading.value = false
   })
 
+provide('pageInfo', pageInfo)
 provide('toolbar', toolbar)
 // provide('toolbar2', toolbar2)
 
@@ -96,11 +103,11 @@ onMounted(() => {
   </div>
   <div v-if="!loading && !auth">no auth</div>
   <div v-if="auth" class="flex flex-col w-full h-full">
-    <Toolbar ref="toolbar" class="shrink-0" :formPageAction="formPageAction" />
+    <Toolbar ref="toolbar" class="shrink-0" :formPageAction="pageInfo.formPageAction" />
     <!-- <Toolbar ref="toolbar2" class="shrink-0"></Toolbar> -->
     <div class="grow overflow-hidden">
       <BasePage>
-        <component :is="mapping[formClass]"></component>
+        <component :is="mapping[pageInfo.formClass]"></component>
       </BasePage>
     </div>
   </div>

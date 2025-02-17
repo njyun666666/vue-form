@@ -1,5 +1,5 @@
 import appConfig from '@/appConfig'
-import type { FormApplication, FormCheckAuthViewModel } from '@/libs/models/Form/Form'
+import type { FormApplication, FormCheckAuthViewModel } from '@/libs/models/Form/FormModel'
 import { formService } from '@/libs/services/formService'
 import { FormPageAction } from '@/libs/types/FormTypes'
 import { HttpResponse, delay, http } from 'msw'

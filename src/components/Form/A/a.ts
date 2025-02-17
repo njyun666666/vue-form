@@ -1,10 +1,16 @@
+import { i18n } from '@/i18n/config'
 import { z } from 'zod'
 
+const { t } = i18n.global
+
 export const aFormInfoSchema = z.object({
-  title: z.string().min(1, '標題必填'),
-  content: z.string().min(1, '內容必填'),
-  amount: z.number().min(1, '金額必須大於 0'),
+  title: z.string().min(1, t('Message.Required')),
+  content: z.string().min(1, t('Message.Required')),
+  amount: z.number(),
   datetime: z.date(),
-  checkbox: z.array(z.string()).min(1, '至少選一個'),
-  select: z.array(z.string()).min(1, '至少選一個')
+  radio: z.string(),
+  checkbox: z
+    .array(z.string())
+    .min(1, t('Message.Select_at_least_number_items_is_required', { number: 1 })),
+  select: z.string()
 })
