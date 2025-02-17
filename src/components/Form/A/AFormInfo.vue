@@ -2,6 +2,8 @@
 import InputField from '@/components/UI/InputField.vue'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
+import { optionService } from '@/libs/services/optionService'
+import { useQuery } from '@tanstack/vue-query'
 import { toTypedSchema } from '@vee-validate/zod'
 import Checkbox from 'primevue/checkbox'
 import DatePicker from 'primevue/datepicker'
@@ -10,7 +12,7 @@ import InputText from 'primevue/inputtext'
 import RadioButton from 'primevue/radiobutton'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
-import { useField, useForm } from 'vee-validate'
+import { useField } from 'vee-validate'
 import { type Ref, inject, ref } from 'vue'
 import { z } from 'zod'
 
@@ -24,11 +26,11 @@ const { value: radio, errorMessage: radioError } = useField<string>('info.radio'
 const { value: checkbox, errorMessage: checkboxError } = useField<string[]>('info.checkbox')
 const { value: select, errorMessage: selectError } = useField<string>('info.select')
 
-const cityList = ref<OptionModel<string>[]>([
-  { label: '臺北市', value: 'Taipei' },
-  { label: '新北市', value: 'NewTaipei' },
-  { label: '桃園市', value: 'Taoyuan' }
-])
+const { data: cityList, isFetching: cityIsFetching } = useQuery({
+  queryKey: [optionService.cityUrl],
+  queryFn: () => optionService.city().then(({ data }) => data),
+  staleTime: 24 * 60 * 60 * 1000
+})
 </script>
 
 <template>
@@ -127,6 +129,7 @@ const cityList = ref<OptionModel<string>[]>([
           optionValue="value"
           class="w-full"
           :invalid="!!selectError"
+          :loading="cityIsFetching"
         />
       </InputField>
     </div>
