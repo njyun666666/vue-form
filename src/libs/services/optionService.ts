@@ -4,12 +4,17 @@ import qs from 'qs'
 
 class OptionService {
   readonly deptUrl = '/api/Option/Dept'
+  readonly cityUrl = '/api/Option/City'
 
   dept(data: OptionQueryModel<string>) {
     return formAPI.get<OptionModel<string>[]>(this.deptUrl, {
       params: data,
       paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' })
     })
+  }
+
+  city() {
+    return formAPI.get<OptionModel<string>[]>(this.cityUrl)
   }
 }
 

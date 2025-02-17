@@ -41,7 +41,10 @@
     "TryAgain": "Try again",
     "LoadMore": "Load more",
     "Back": "Back",
-    "EditProfile": "Edit profile"
+    "EditProfile": "Edit profile",
+    "Application": "Application",
+    "Approve": "Approve",
+    "Reject": "Reject"
   },
   "Title": {
     "Add": "Add {title}",

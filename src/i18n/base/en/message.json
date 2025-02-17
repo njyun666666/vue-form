@@ -11,6 +11,7 @@
     "DeleteFail": "Delete failed",
     "InvalidEmail": "Invalid Email",
     "NoFound": "No found",
+    "Select_at_least_number_items_is_required": "Select at least {number} items",
     "At_least_number_entry_is_required": "At least {number} entry is required",
     "has_already_been_taken": "has already been taken",
     "is_invalid": "is invalid",

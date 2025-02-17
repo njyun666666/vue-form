@@ -167,7 +167,7 @@ watch(route, () => {
         )
       "
     >
-      <ScrollPanel class="h-full w-full">
+      <div class="h-full w-full">
         <!-- <div class="pl-64">
           <div class="text-xl font-bold">{{ breakpoints.active() }}</div>
           <div>isMobile: {{ isMobile }}</div>
@@ -179,7 +179,7 @@ watch(route, () => {
           <br />
         </div> -->
         <RouterView />
-      </ScrollPanel>
+      </div>
     </main>
   </div>
 </template>

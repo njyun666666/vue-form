@@ -1,0 +1,7 @@
+.p-button-text {
+  @apply enabled:hover:bg-primary-100 enabled:active:bg-primary-200 dark:enabled:hover:bg-primary/5 dark:enabled:active:bg-primary/15;
+}
+
+.p-button-text.p-button-secondary {
+  @apply enabled:hover:bg-surface-200 enabled:active:bg-surface-300 dark:enabled:hover:bg-surface-800 dark:enabled:active:bg-surface-700;
+}

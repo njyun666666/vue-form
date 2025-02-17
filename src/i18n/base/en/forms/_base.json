@@ -1,0 +1,21 @@
+{
+  "PageType": {
+    "add": "申請表單",
+    "info": "表單資訊",
+    "sign": "簽核表單"
+  },
+  "Group": {
+    "HR": "HR",
+    "IT": "IT"
+  },
+  "Class": {
+    "A": "A form",
+    "B": "B form"
+  },
+  "BaseInfo": {
+    "formId": "Form Id",
+    "applicationId": "Application Id",
+    "applicationName": "Application Name",
+    "applicationDate": "Application Date"
+  }
+}

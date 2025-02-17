@@ -41,7 +41,10 @@
     "TryAgain": "重試",
     "LoadMore": "載入更多",
     "Back": "返回",
-    "EditProfile": "編輯個人資料"
+    "EditProfile": "編輯個人資料",
+    "Application": "申請",
+    "Approve": "核准",
+    "Reject": "駁回"
   },
   "Title": {
     "Add": "新增{title}",
