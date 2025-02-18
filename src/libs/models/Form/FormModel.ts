@@ -27,10 +27,14 @@ export class FormSaveViewModel {
 
 export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionType[]
+  flowId?: string
+  step: number
 }
 
 export class FormPageInfoModel {
   formPageAction!: FormPageActionType
   formClass!: FormClassType
   formId?: string
+  flowId?: string
+  step!: number
 }

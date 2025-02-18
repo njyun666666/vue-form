@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
-import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
+import type { FormFieldModeType } from '@/libs/types/FormTypes'
 import { useQuery } from '@tanstack/vue-query'
-import { toTypedSchema } from '@vee-validate/zod'
 import Checkbox from 'primevue/checkbox'
 import DatePicker from 'primevue/datepicker'
 import InputNumber from 'primevue/inputnumber'
@@ -12,86 +12,178 @@ import InputText from 'primevue/inputtext'
 import RadioButton from 'primevue/radiobutton'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
-import { useField } from 'vee-validate'
-import { type Ref, inject, ref } from 'vue'
+import { type FormContext, useField } from 'vee-validate'
+import { type Ref, computed, inject, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
+const form = inject<FormContext<AModel>>('form')
+const { t } = useI18n()
 
-const { value: title, errorMessage: titleError } = useField<string>('info.title')
-const { value: content, errorMessage: contentError } = useField<string>('info.content')
-const { value: amount, errorMessage: amountError } = useField<number>('info.amount')
-const { value: datetime, errorMessage: datetimeError } = useField<Date>('info.datetime')
-const { value: radio, errorMessage: radioError } = useField<string>('info.radio')
-const { value: checkbox, errorMessage: checkboxError } = useField<string[]>('info.checkbox')
-const { value: select, errorMessage: selectError } = useField<string>('info.select')
+const field = {
+  title: useField<string>('info.title'),
+  content: useField<string>('info.content'),
+  amount: useField<number>('info.amount'),
+  datetime: useField<Date>('info.datetime'),
+  radio: useField<number>('info.radio'),
+  checkbox: useField<string[]>('info.checkbox'),
+  select: useField<string>('info.select')
+}
+
+const fieldMode = computed(() => {
+  const mode: Record<string, FormFieldModeType> = {
+    title: 'required',
+    content: 'required',
+    amount: 'readonly',
+    datetime: 'readonly',
+    radio: 'required',
+    checkbox: 'readonly',
+    select: 'readonly'
+  }
+
+  if (pageInfo?.value.step == 2) {
+    mode.amount = 'required'
+    mode.datetime = 'required'
+  }
+
+  if (pageInfo?.value.step == 1) {
+    switch (field.radio.value.value) {
+      case 1:
+        mode.checkbox = 'required'
+        mode.select = 'readonly'
+        break
+
+      case 2:
+        mode.checkbox = 'readonly'
+        mode.select = 'required'
+        break
+
+      case 3:
+        mode.checkbox = 'required'
+        mode.select = 'required'
+        break
+
+      default:
+        break
+    }
+  }
+
+  return mode
+})
 
 const { data: cityList, isFetching: cityIsFetching } = useQuery({
   queryKey: [optionService.cityUrl],
   queryFn: () => optionService.city().then(({ data }) => data),
   staleTime: 24 * 60 * 60 * 1000
 })
+
+async function validate() {
+  let isValid = true
+
+  return isValid
+}
+
+defineExpose({
+  fieldMode,
+  validate
+})
 </script>
 
 <template>
   <div>
-    <h2>{{ $t('Form.A.FormInfo') }}</h2>
+    <h2>Step 1</h2>
     <div class="grid grid-cols-12 gap-5">
-      <InputField class="col-span-full" for="title" :label="$t('Form.A.title')" :error="titleError">
-        <InputText id="title" type="text" v-model="title" :invalid="!!titleError" />
+      <InputField
+        class="col-span-full"
+        for="title"
+        :label="$t('Form.A.title')"
+        :error="field.title.errorMessage.value"
+        :isRequired="fieldMode.title == 'required'"
+      >
+        <InputText
+          id="title"
+          type="text"
+          v-model.trim="field.title.value.value"
+          :invalid="!!field.title.errorMessage.value"
+        />
       </InputField>
 
       <InputField
         class="col-span-full"
         for="content"
         :label="$t('Form.A.content')"
-        :error="contentError"
+        :error="field.content.errorMessage.value"
+        :isRequired="fieldMode.content == 'required'"
       >
-        <Textarea v-model="content" rows="2" class="w-full" autoResize :invalid="!!contentError" />
+        <Textarea
+          v-model.trim="field.content.value.value"
+          rows="2"
+          class="w-full"
+          autoResize
+          :invalid="!!field.content.errorMessage.value"
+        />
       </InputField>
+    </div>
 
+    <h2>Step 2 ({{ fieldMode.amount }})</h2>
+    <div class="grid grid-cols-12 gap-5">
       <InputField
-        class="col-span-4"
+        class="col-span-6"
         for="content"
         :label="$t('Form.A.amount')"
-        :error="contentError"
+        :error="field.amount.errorMessage.value"
+        :isRequired="fieldMode.amount == 'required'"
       >
         <InputNumber
-          v-model="amount"
+          v-model="field.amount.value.value"
           :minFractionDigits="2"
-          :maxFractionDigits="5"
+          :maxFractionDigits="2"
           :max="9999999.99"
-          :invalid="!!amountError"
+          :invalid="!!field.amount.errorMessage.value"
+          :disabled="fieldMode.amount == 'readonly'"
         />
       </InputField>
 
       <InputField
-        class="col-span-4"
+        class="col-span-6"
         for="content"
         :label="$t('Form.A.datetime')"
-        :error="datetimeError"
+        :error="field.datetime.errorMessage.value"
+        :isRequired="fieldMode.datetime == 'required'"
       >
         <DatePicker
           id="datetime"
-          v-model="datetime"
+          v-model="field.datetime.value.value"
           showTime
           hourFormat="24"
           showButtonBar
-          :invalid="!!datetimeError"
+          :invalid="!!field.datetime.errorMessage.value"
+          :disabled="fieldMode.datetime == 'readonly'"
         />
       </InputField>
+    </div>
 
-      <InputField class="col-span-4" for="content" :label="$t('Form.A.radio')" :error="radioError">
+    <h2>Step 3 ({{ fieldMode.radio }})</h2>
+    <div class="grid grid-cols-12 gap-5">
+      <InputField
+        class="col-span-4"
+        for="content"
+        :label="$t('Form.A.radio')"
+        :error="field.radio.errorMessage.value"
+        :isRequired="fieldMode.radio == 'required'"
+      >
         <div class="flex flex-wrap gap-2">
-          <div v-for="item of cityList" :key="item.value" class="flex gap-2 shrink-0">
+          <div v-for="n in 3" :key="n" class="flex gap-2 shrink-0">
             <RadioButton
-              v-model="radio"
-              :inputId="`info.radio.${item.value}`"
+              v-model="field.radio.value.value"
+              :inputId="`info.radio.${n}`"
               name="info.radio"
-              :value="item.value"
-              :invalid="!!radioError"
+              :value="n"
+              :invalid="!!field.radio.errorMessage.value"
+              :disabled="fieldMode.radio == 'readonly'"
             />
-            <label :for="`info.radio.${item.value}`">{{ item.label }}</label>
+            <label :for="`info.radio.${n}`">{{ n }}</label>
           </div>
         </div>
       </InputField>
@@ -100,16 +192,18 @@ const { data: cityList, isFetching: cityIsFetching } = useQuery({
         class="col-span-4"
         for="content"
         :label="$t('Form.A.checkbox')"
-        :error="checkboxError"
+        :error="field.checkbox.errorMessage.value"
+        :isRequired="fieldMode.checkbox == 'required'"
       >
         <div class="flex flex-wrap gap-2">
           <div v-for="item of cityList" :key="item.value" class="flex gap-2 shrink-0">
             <Checkbox
-              v-model="checkbox"
+              v-model="field.checkbox.value.value"
               :inputId="`info.checkbox.${item.value}`"
               name="info.checkbox"
               :value="item.value"
-              :invalid="!!checkboxError"
+              :invalid="!!field.checkbox.errorMessage.value"
+              :disabled="fieldMode.checkbox == 'readonly'"
             />
             <label :for="`info.checkbox.${item.value}`">{{ item.label }}</label>
           </div>
@@ -120,16 +214,18 @@ const { data: cityList, isFetching: cityIsFetching } = useQuery({
         class="col-span-4"
         for="content"
         :label="$t('Form.A.select')"
-        :error="selectError"
+        :error="field.select.errorMessage.value"
+        :isRequired="fieldMode.select == 'required'"
       >
         <Select
-          v-model="select"
+          v-model="field.select.value.value"
           :options="cityList"
           optionLabel="label"
           optionValue="value"
           class="w-full"
-          :invalid="!!selectError"
+          :invalid="!!field.select.errorMessage.value"
           :loading="cityIsFetching"
+          :disabled="fieldMode.select == 'readonly'"
         />
       </InputField>
     </div>

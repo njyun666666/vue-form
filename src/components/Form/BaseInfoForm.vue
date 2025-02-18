@@ -10,38 +10,33 @@ import { type Ref, inject } from 'vue'
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
 const login = useLoginStore()
 
-const { value: formId } = useField<string>('baseInfo.formId')
-const { value: applicationId } = useField<string>('baseInfo.applicationId')
-const { value: applicationName } = useField<string>('baseInfo.applicationName')
-const { value: applicationDate } = useField<Date>('baseInfo.applicationDate')
+const field = {
+  formId: useField<string>('baseInfo.formId'),
+  applicationId: useField<string>('baseInfo.applicationId'),
+  applicationName: useField<string>('baseInfo.applicationName'),
+  applicationDate: useField<Date>('baseInfo.applicationDate')
+}
 
 if (pageInfo?.value.formPageAction == 'add') {
-  applicationId.value = String(login.tokenPayload?.uid)
-  applicationName.value = String(login.tokenPayload?.sub)
-  applicationDate.value = new Date()
+  field.applicationId.value.value = String(login.tokenPayload?.uid)
+  field.applicationName.value.value = String(login.tokenPayload?.sub)
+  field.applicationDate.value.value = new Date()
 }
 </script>
 <template>
   <div>
-    <div class="flex flex-wrap gap-5">
+    <div class="grid grid-cols-3 gap-5">
       <InputField for="formId" :label="$t('Form.BaseInfo.formId')">
-        <InputText id="formId" type="text" v-model="formId" disabled />
+        <InputText id="formId" type="text" v-model="field.formId.value.value" disabled />
       </InputField>
 
-      <!-- <InputField
-        for="applicationId"
-        :label="$t('Form.BaseInfo.applicationId')"
-      >
+      <InputField for="applicationName" :label="$t('Form.BaseInfo.applicationName')">
         <InputText
-          id="applicationId"
+          id="applicationName"
           type="text"
-          v-model="applicationId"
+          v-model="field.applicationName.value.value"
           disabled
         />
-      </InputField> -->
-
-      <InputField for="applicationName" :label="$t('Form.BaseInfo.applicationName')">
-        <InputText id="applicationName" type="text" v-model="applicationName" disabled />
       </InputField>
 
       <InputField for="applicationDate" :label="$t('Form.BaseInfo.applicationDate')">
@@ -49,7 +44,7 @@ if (pageInfo?.value.formPageAction == 'add') {
           id="applicationDate"
           showTime
           hourFormat="24"
-          v-model="applicationDate"
+          v-model="field.applicationDate.value.value"
           disabled
         />
       </InputField>

@@ -10,7 +10,7 @@ export class AInfoModel {
   content?: string
   amount?: number
   datetime?: Date
-  radio?: string
+  radio?: number
   checkbox?: string[]
   select?: string
 }

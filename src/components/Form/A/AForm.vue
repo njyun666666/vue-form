@@ -4,26 +4,39 @@ import type Toolbar from '../Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
 import { baseInfoSchema } from '@/components/Form/form'
-import { AInfoModel, type AModel } from '@/libs/models/Form/A/A'
+import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
+import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-import { type Ref, inject, onMounted } from 'vue'
+import { type Ref, inject, onMounted, provide, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
+const { t } = useI18n()
 // import type { ComponentExposed } from 'vue-component-type-helpers'
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
 const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
+const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
 
-const { defineField, handleSubmit, errors, validate, values } = useForm({
+const form = useForm({
   validationSchema: toTypedSchema(
-    z.object({
-      baseInfo: baseInfoSchema,
-      info: aFormInfoSchema
-    })
+    z
+      .object({
+        baseInfo: baseInfoSchema,
+        info: aFormInfoSchema
+      })
+      .superRefine((val, ctx) => {
+        requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('Message.Required'),
+            path: [`info.${field}`]
+          })
+        })
+      })
   ),
   initialValues: {
     baseInfo: new FormBaseInfoModel(),
@@ -32,17 +45,19 @@ const { defineField, handleSubmit, errors, validate, values } = useForm({
 })
 
 async function onSubmit() {
-  const isValid = await validate()
-  console.log(isValid.values)
-  console.log(values)
+  const isValid = await form.validate()
+  console.log('values', isValid.values)
+  // console.log(values)
 
-  if (!isValid.valid) {
-    console.warn(isValid.errors)
+  const aFormInfoValid = await AFormInfoRef.value?.validate()
+
+  if (!isValid.valid || !aFormInfoValid) {
+    console.error(isValid.errors)
     return false
   }
 
   return aService
-    .save(values)
+    .save(isValid.values as AModel)
     .then(({ data }) => data)
     .catch((error) => {
       console.error(error)
@@ -63,6 +78,8 @@ onMounted(() => {
   //   console.log('afterAction')
   // }
 })
+
+provide('form', form)
 </script>
 <template>
   <form novalidate @submit="onSubmit">
@@ -72,9 +89,9 @@ onMounted(() => {
     </div>
 
     <div>
-      <AFormInfo />
+      <AFormInfo ref="AFormInfoRef" />
     </div>
 
-    <pre>{{ JSON.stringify(values, null, 2) }}</pre>
+    <pre>{{ JSON.stringify(form.values, null, 2) }}</pre>
   </form>
 </template>

@@ -42,7 +42,9 @@ export const formHandlers = [
   http.get(`${appConfig.FORM_API}${formService.checkAuthUrl}/add/*/*`, async () => {
     await delay()
     return HttpResponse.json({
-      formPageAction: [FormPageAction.add, FormPageAction.info, FormPageAction.sign]
+      formPageAction: [FormPageAction.add, FormPageAction.info, FormPageAction.sign],
+      flowId: 'A-flow-1',
+      step: 1
     } as FormCheckAuthViewModel)
   })
 ]
