@@ -33,13 +33,18 @@ const field = {
 
 const fieldMode = computed(() => {
   const mode: Record<string, FormFieldModeType> = {
-    title: 'required',
-    content: 'required',
+    title: 'readonly',
+    content: 'readonly',
     amount: 'readonly',
     datetime: 'readonly',
-    radio: 'required',
+    radio: 'readonly',
     checkbox: 'readonly',
     select: 'readonly'
+  }
+
+  if (pageInfo?.value.step == 1) {
+    mode.title = 'required'
+    mode.content = 'required'
   }
 
   if (pageInfo?.value.step == 2) {
@@ -47,7 +52,7 @@ const fieldMode = computed(() => {
     mode.datetime = 'required'
   }
 
-  if (pageInfo?.value.step == 1) {
+  if (pageInfo?.value.step == 3) {
     switch (field.radio.value.value) {
       case 1:
         mode.checkbox = 'required'
