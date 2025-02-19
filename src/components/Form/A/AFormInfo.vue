@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProductDetail from '../ProductDetail/ProductDetail.vue'
 import InputField from '@/components/UI/InputField.vue'
 import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
@@ -13,12 +14,11 @@ import RadioButton from 'primevue/radiobutton'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import { type FormContext, useField } from 'vee-validate'
-import { type Ref, computed, inject, ref } from 'vue'
+import { type Ref, computed, inject } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { z } from 'zod'
 
-const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
-const form = inject<FormContext<AModel>>('form')
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
+const form = inject<FormContext<AModel>>('form')!
 const { t } = useI18n()
 
 const field = {
@@ -131,7 +131,9 @@ defineExpose({
       </InputField>
     </div>
 
-    <h2>Step 2 ({{ fieldMode.amount }})</h2>
+    <ProductDetail arrayPath="productDetail" :pageInfo="pageInfo" class="mt-4" />
+
+    <h2>Step 2</h2>
     <div class="grid grid-cols-12 gap-5">
       <InputField
         class="col-span-6"
@@ -169,7 +171,7 @@ defineExpose({
       </InputField>
     </div>
 
-    <h2>Step 3 ({{ fieldMode.radio }})</h2>
+    <h2>Step 3</h2>
     <div class="grid grid-cols-12 gap-5">
       <InputField
         class="col-span-4"

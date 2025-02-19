@@ -1,8 +1,10 @@
 import { FormBaseInfoModel } from '../FormModel'
+import type { ProductDetailModel } from '../ProductDetail/ProductDetail'
 
 export class AModel {
   baseInfo?: FormBaseInfoModel
   info?: AInfoModel
+  productDetail?: ProductDetailModel[]
 }
 
 export class AInfoModel {

@@ -15,6 +15,7 @@ import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
+import Tooltip from 'primevue/tooltip'
 import { createApp } from 'vue'
 import { z } from 'zod'
 
@@ -31,6 +32,7 @@ app.use(i18n)
 app.use(router)
 app.use(PrimeVue, primeVueConfig)
 app.use(VueQueryPlugin)
+app.directive('tooltip', Tooltip)
 
 z.setErrorMap(zodErrorMap)
 

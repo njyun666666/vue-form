@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseInfoForm from '../BaseInfoForm.vue'
+import { productDetailSchema } from '../ProductDetail/productDetail'
 import type Toolbar from '../Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
@@ -26,7 +27,8 @@ const form = useForm({
     z
       .object({
         baseInfo: baseInfoSchema,
-        info: aFormInfoSchema
+        info: aFormInfoSchema,
+        productDetail: z.array(productDetailSchema)
       })
       .superRefine((val, ctx) => {
         requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
@@ -40,7 +42,8 @@ const form = useForm({
   ),
   initialValues: {
     baseInfo: new FormBaseInfoModel(),
-    info: new AInfoModel()
+    info: new AInfoModel(),
+    productDetail: []
   }
 })
 
