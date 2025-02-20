@@ -7,7 +7,6 @@ import { HttpResponse, delay, http } from 'msw'
 export const formHandlers = [
   http.get(`${appConfig.FORM_API}${formService.applicationListUrl}`, async () => {
     await delay()
-
     return HttpResponse.json([
       {
         groupId: 'hr',
@@ -39,12 +38,16 @@ export const formHandlers = [
       }
     ] as FormApplication[])
   }),
-  http.get(`${appConfig.FORM_API}${formService.checkAuthUrl}/add/*/*`, async () => {
-    await delay()
-    return HttpResponse.json({
-      formPageAction: [FormPageAction.add, FormPageAction.info, FormPageAction.sign],
-      flowId: 'A-flow-1',
-      step: 1
-    } as FormCheckAuthViewModel)
-  })
+  http.get(
+    `${appConfig.FORM_API}${formService.checkAuthUrl}/add/:formClass/*`,
+    async ({ params }) => {
+      await delay()
+      const { formClass } = params
+      return HttpResponse.json({
+        formPageAction: [FormPageAction.add, FormPageAction.info, FormPageAction.sign],
+        flowId: `${formClass}-flow-1`,
+        step: 1
+      } as FormCheckAuthViewModel)
+    }
+  )
 ]
