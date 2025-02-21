@@ -39,12 +39,14 @@ const fieldMode = computed(() => {
     datetime: 'readonly',
     radio: 'readonly',
     checkbox: 'readonly',
-    select: 'readonly'
+    select: 'readonly',
+    productDetail: 'readonly'
   }
 
   if (pageInfo?.value.step == 1) {
     mode.title = 'required'
     mode.content = 'required'
+    mode.productDetail = 'required'
   }
 
   if (pageInfo?.value.step == 2) {
@@ -131,7 +133,7 @@ defineExpose({
       </InputField>
     </div>
 
-    <ProductDetail arrayPath="productDetail" :pageInfo="pageInfo" class="mt-4" />
+    <ProductDetail arrayPath="productDetail" class="mt-4" :mode="fieldMode.productDetail" />
 
     <h2>Step 2</h2>
     <div class="grid grid-cols-12 gap-5">

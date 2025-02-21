@@ -12,10 +12,10 @@ export const zodErrorMap: z.ZodErrorMap = (issue, ctx) => {
   return { message: ctx.defaultError }
 }
 
-export function requiredFieldsValidator(
+export const requiredFieldsValidator = (
   val: Record<string, unknown>,
   fieldMode: Record<string, FormFieldModeType> = {}
-) {
+) => {
   const failedFields: string[] = []
 
   Object.entries(val).forEach(([key, value]) => {

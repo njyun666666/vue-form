@@ -1,5 +1,3 @@
 import { v4 } from 'uuid'
 
-export function uuid() {
-  return v4().replace(/-/g, '')
-}
+export const uuid = () => v4().replace(/-/g, '')

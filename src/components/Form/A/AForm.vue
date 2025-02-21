@@ -22,7 +22,7 @@ const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
 const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
 
-const form = useForm({
+const form = useForm<AModel>({
   validationSchema: toTypedSchema(
     z
       .object({
@@ -38,6 +38,35 @@ const form = useForm({
             path: [`info.${field}`]
           })
         })
+      })
+      .superRefine((val, ctx) => {
+        // ctx.addIssue({
+        //   code: z.ZodIssueCode.custom,
+        //   message: `qqqqqqqq`,
+        //   path: [`productDetail[0].id`]
+        // })
+        // ctx.addIssue({
+        //   code: z.ZodIssueCode.custom,
+        //   message: 'test error',
+        //   path: ['productDetail', '0', 'id']
+        // })
+        if (
+          AFormInfoRef.value?.fieldMode.productDetail == 'required' &&
+          val.productDetail.length == 0
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('Message.At_least_number_entry_is_required', { number: 1 }),
+            path: ['productDetail']
+          })
+        }
+        // val.productDetail?.forEach((item, index) => {
+        //   ctx.addIssue({
+        //     code: z.ZodIssueCode.custom,
+        //     message: `qqqqqqqq`,
+        //     path: [`productDetail.${index}.field`]
+        //   })
+        // })
       })
   ),
   initialValues: {
