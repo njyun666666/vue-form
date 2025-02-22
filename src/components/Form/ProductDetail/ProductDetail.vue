@@ -93,12 +93,14 @@ const getIndex = (guid: string) => fieldArray.fields.value.findIndex((x) => x.va
       <Column field="price" header="price" bodyClass="content-start min-w-[150px]">
         <template #editor="{ data, field, index }">
           <InputField :error="getError(index, field)">
+            <!-- <InputText v-model="data.value[field]" fluid :invalid="!!getError(index, field)" /> -->
+
             <InputNumber
               v-model="data.value[field]"
               inputId="integeronly"
               fluid
               inputClass="text-right"
-              @update:modelValue="(val) => fieldArray.update(getIndex(data.value.guid), data.value)"
+              @update:modelValue="(val) => fieldArray.update(index, data.value)"
               :invalid="!!getError(index, field)"
             />
           </InputField>

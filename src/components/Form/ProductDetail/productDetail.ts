@@ -5,7 +5,7 @@ export const productDetailSchema = z
     guid: z.string(),
     id: z.string(),
     name: z.string(),
-    price: z.number(),
+    price: z.number().nullable(),
     description: z.string(),
     image: z.string(),
     category: z.string(),
