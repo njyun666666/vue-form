@@ -5,7 +5,7 @@ export const aFormInfoSchema = z
     title: z.string().toUpperCase(),
     content: z.string(),
     amount: z.number(),
-    datetime: z.date(),
+    datetime: z.date().nullish(),
     radio: z.number(),
     checkbox: z.array(z.string()),
     select: z.string()
