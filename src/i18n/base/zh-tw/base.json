@@ -44,7 +44,8 @@
     "EditProfile": "編輯個人資料",
     "Application": "申請",
     "Approve": "核准",
-    "Reject": "駁回"
+    "Reject": "駁回",
+    "UploadFile": "上傳檔案"
   },
   "Title": {
     "Add": "新增{title}",

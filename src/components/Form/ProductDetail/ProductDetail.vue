@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import RequiredMark from '@/components/Common/RequiredMark.vue'
+import FileImageUpload from '@/components/UI/FileImageUpload.vue'
+import FileUpload from '@/components/UI/FileUpload.vue'
 import InputField from '@/components/UI/InputField.vue'
 import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
@@ -7,6 +9,7 @@ import { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDeta
 import { optionService } from '@/libs/services/optionService'
 import type { FormFieldModeType } from '@/libs/types/FormTypes'
 import { cn } from '@/libs/utils/style'
+import { uuid } from '@/libs/utils/uuid'
 import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
@@ -38,7 +41,17 @@ const editingRows = computed(() => fieldArray.fields.value.map((x) => x.value.gu
 const fieldArray = useFieldArray<ProductDetailModel>(props.arrayPath)
 const getError = (index: number, field: string) =>
   (form.errors.value as any)[`productDetail[${index}].${field}`]
-const add = () => fieldArray.push(new ProductDetailModel())
+const add = () => {
+  const item = new ProductDetailModel()
+  item.id = uuid().substring(0, 8)
+  item.name = 'Asus 5090'
+  item.price = 100000
+  item.description = 'Asus 5090'
+  item.image = uuid()
+  item.category = 'gpu'
+
+  fieldArray.push(item)
+}
 const remove = (index: number, data: ProductDetailModel) => {
   if (data.id) data.isDeleted = true
   else fieldArray.remove(index)
@@ -154,12 +167,13 @@ const { data: productCategoryList, isFetching: productCategoryIsFetching } = use
         </template>
         <template #editor="{ data, field, index }">
           <InputField :error="getError(index, field)">
-            <InputText
+            <!-- <InputText
               v-model="data.value[field]"
               fluid
               :invalid="!!getError(index, field)"
               :disabled="fieldMode?.image == 'readonly'"
-            />
+            /> -->
+            <FileImageUpload :groupId="data.value[field]" :mode="fieldMode?.image" />
           </InputField>
         </template>
       </Column>

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const aFormInfoSchema = z
   .object({
-    title: z.string().toUpperCase(),
+    title: z.string(),
     content: z.string(),
     amount: z.number(),
     datetime: z.date().nullish(),

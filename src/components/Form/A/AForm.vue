@@ -22,6 +22,16 @@ const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
 const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
 
+const initialValues: AModel = {
+  baseInfo: new FormBaseInfoModel(),
+  info: new AInfoModel(),
+  productDetail: []
+}
+
+if (pageInfo?.value.formPageAction == 'add') {
+  // initialValues.info.
+}
+
 const form = useForm<AModel>({
   validationSchema: toTypedSchema(
     z
@@ -64,11 +74,7 @@ const form = useForm<AModel>({
         })
       })
   ),
-  initialValues: {
-    baseInfo: new FormBaseInfoModel(),
-    info: new AInfoModel(),
-    productDetail: []
-  }
+  initialValues: initialValues
 })
 
 async function onSubmit() {

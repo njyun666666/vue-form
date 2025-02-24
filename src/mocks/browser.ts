@@ -1,3 +1,4 @@
+import { fileHandlers } from './fileHandlers'
 import { formHandlers } from './formHandlers'
 import { loginHandlers } from './loginHandlers'
 import { menuHandlers } from './menuHandlers'
@@ -8,5 +9,6 @@ export const worker = setupWorker(
   ...loginHandlers,
   ...menuHandlers,
   ...formHandlers,
-  ...optionHandlers
+  ...optionHandlers,
+  ...fileHandlers
 )
