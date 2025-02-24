@@ -110,6 +110,16 @@ const productDetailFieldMode = computed(() => {
   return mode
 })
 
+const dateTimeModel = computed({
+  get: () => {
+    const value = field.datetime.value
+    return typeof value === 'string' ? new Date(value) : value.value
+  },
+  set: (newValue) => {
+    field.datetime.value.value = newValue
+  }
+})
+
 const { data: cityList, isFetching: cityIsFetching } = useQuery({
   queryKey: [optionService.cityUrl],
   queryFn: () => optionService.city().then(({ data }) => data),
@@ -202,7 +212,7 @@ defineExpose({
       >
         <DatePicker
           id="datetime"
-          v-model="field.datetime.value.value"
+          v-model="dateTimeModel"
           showTime
           hourFormat="24"
           showButtonBar
