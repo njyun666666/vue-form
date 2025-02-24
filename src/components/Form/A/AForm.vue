@@ -40,16 +40,6 @@ const form = useForm<AModel>({
         })
       })
       .superRefine((val, ctx) => {
-        // ctx.addIssue({
-        //   code: z.ZodIssueCode.custom,
-        //   message: `qqqqqqqq`,
-        //   path: [`productDetail[0].id`]
-        // })
-        // ctx.addIssue({
-        //   code: z.ZodIssueCode.custom,
-        //   message: 'test error',
-        //   path: ['productDetail', '0', 'id']
-        // })
         if (
           AFormInfoRef.value?.fieldMode.productDetail == 'required' &&
           val.productDetail.length == 0
@@ -60,13 +50,18 @@ const form = useForm<AModel>({
             path: ['productDetail']
           })
         }
-        // val.productDetail?.forEach((item, index) => {
-        //   ctx.addIssue({
-        //     code: z.ZodIssueCode.custom,
-        //     message: `qqqqqqqq`,
-        //     path: [`productDetail.${index}.field`]
-        //   })
-        // })
+
+        val.productDetail?.forEach((item, index) => {
+          requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
+            (field) => {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: t('Message.Required'),
+                path: [`productDetail.${index}.${field}`]
+              })
+            }
+          )
+        })
       })
   ),
   initialValues: {

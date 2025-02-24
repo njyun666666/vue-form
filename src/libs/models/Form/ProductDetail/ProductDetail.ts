@@ -1,7 +1,7 @@
 import { uuid } from '@/libs/utils/uuid'
 
 export class ProductDetailModel {
-  guid?: string
+  private _guid?: string
   id?: string
   name?: string
   price?: number
@@ -10,7 +10,10 @@ export class ProductDetailModel {
   category?: string
   isDeleted?: boolean
 
-  constructor(guid?: string) {
-    this.guid = guid || uuid()
+  constructor() {}
+
+  get guid() {
+    this._guid = this.id || this._guid || uuid()
+    return this._guid
   }
 }

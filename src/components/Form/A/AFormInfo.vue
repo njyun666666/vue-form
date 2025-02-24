@@ -3,6 +3,7 @@ import ProductDetail from '../ProductDetail/ProductDetail.vue'
 import InputField from '@/components/UI/InputField.vue'
 import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
+import type { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 import { optionService } from '@/libs/services/optionService'
 import type { FormFieldModeType } from '@/libs/types/FormTypes'
 import { useQuery } from '@tanstack/vue-query'
@@ -79,6 +80,32 @@ const fieldMode = computed(() => {
   return mode
 })
 
+const productDetailFieldMode = computed(() => {
+  const mode: Partial<Record<keyof ProductDetailModel, FormFieldModeType>> = {
+    id: 'readonly',
+    name: 'readonly',
+    price: 'readonly',
+    description: 'readonly',
+    image: 'readonly',
+    category: 'readonly'
+  }
+
+  if (pageInfo?.value.step == 1) {
+    mode.id = 'required'
+    mode.name = 'required'
+    mode.price = 'required'
+    mode.description = 'required'
+    mode.image = 'required'
+    mode.category = 'required'
+  }
+
+  if (pageInfo?.value.step == 2) {
+    mode.price = 'required'
+  }
+
+  return mode
+})
+
 const { data: cityList, isFetching: cityIsFetching } = useQuery({
   queryKey: [optionService.cityUrl],
   queryFn: () => optionService.city().then(({ data }) => data),
@@ -93,6 +120,7 @@ async function validate() {
 
 defineExpose({
   fieldMode,
+  productDetailFieldMode,
   validate
 })
 </script>
@@ -133,7 +161,12 @@ defineExpose({
       </InputField>
     </div>
 
-    <ProductDetail arrayPath="productDetail" class="mt-4" :mode="fieldMode.productDetail" />
+    <ProductDetail
+      arrayPath="productDetail"
+      class="mt-4"
+      :mode="fieldMode.productDetail"
+      :fieldMode="productDetailFieldMode"
+    />
 
     <h2>Step 2</h2>
     <div class="grid grid-cols-12 gap-5">

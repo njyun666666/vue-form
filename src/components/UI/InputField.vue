@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RequiredMark from '../Common/RequiredMark.vue'
 import { cn } from '@/libs/utils/style'
 import type { HTMLAttributes } from 'vue'
 
@@ -14,7 +15,7 @@ const props = defineProps<Props>()
 <template>
   <div :class="cn('flex flex-col gap-2', props.clsss)">
     <label v-if="label" :for="props.for">
-      <span v-if="isRequired" class="text-error font-bold">*</span>
+      <RequiredMark v-if="isRequired" />
       {{ label }}
     </label>
     <slot />

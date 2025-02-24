@@ -5,6 +5,7 @@ import qs from 'qs'
 class OptionService {
   readonly deptUrl = '/api/Option/Dept'
   readonly cityUrl = '/api/Option/City'
+  readonly productCategoryUrl = '/api/Option/ProductCategory'
 
   dept(data: OptionQueryModel<string>) {
     return formAPI.get<OptionModel<string>[]>(this.deptUrl, {
@@ -15,6 +16,10 @@ class OptionService {
 
   city() {
     return formAPI.get<OptionModel<string>[]>(this.cityUrl)
+  }
+
+  productCategory() {
+    return formAPI.get<OptionModel<string>[]>(this.productCategoryUrl)
   }
 }
 
