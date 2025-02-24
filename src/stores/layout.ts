@@ -8,6 +8,7 @@ export const useLayoutStore = defineStore('layout', () => {
   const navExpandedState = ref(breakpoints.isGreaterOrEqual('xl') && navDefaultExpanded.value)
   const messageCount = ref(0)
   const webTitle = ref('')
+  const loading = ref(false)
   const title = computed(() => {
     const messagesText = messageCount.value > 0 ? `(${messageCount.value}) ` : ''
     return `${messagesText}${webTitle.value}`
@@ -21,6 +22,7 @@ export const useLayoutStore = defineStore('layout', () => {
   return {
     navDefaultExpanded,
     navExpandedState,
-    webTitle
+    webTitle,
+    loading
   }
 })

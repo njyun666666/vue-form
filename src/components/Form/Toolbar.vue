@@ -2,7 +2,10 @@
 import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
 import { FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
+import router from '@/router'
+import { useLayoutStore } from '@/stores/layout'
 import Button from 'primevue/button'
+import { useToast } from 'primevue/usetoast'
 import { ref } from 'vue'
 
 interface Props {
@@ -10,6 +13,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const layoutStore = useLayoutStore()
+const toast = useToast()
 
 const applicationBtn = ref(new FormActionSetting(applicationAction))
 const approveBtn = ref(new FormActionSetting(approveAction))
@@ -33,12 +38,14 @@ switch (props.formPageAction) {
 }
 
 async function handleClick(setting: FormActionSetting) {
+  layoutStore.loading = true
   setting.loading = true
 
   if (setting.beforeAction) {
     const result = await setting.beforeAction()
     if (result === false) {
       setting.loading = false
+      layoutStore.loading = false
       return
     }
   }
@@ -47,6 +54,7 @@ async function handleClick(setting: FormActionSetting) {
     const result = await setting.saveAction()
     if (result === false) {
       setting.loading = false
+      layoutStore.loading = false
       return
     }
 
@@ -54,6 +62,18 @@ async function handleClick(setting: FormActionSetting) {
 
     if (save.result) {
       //
+      toast.add({ severity: 'success', summary: 'Info', detail: 'Message Content', life: 3000 })
+      router.push({
+        name: 'form/:formPageAction/:formClass/:formId',
+        params: {
+          formPageAction: FormPageAction.info,
+          formClass: save.formClass,
+          formId: save.formId
+        }
+      })
+
+      layoutStore.loading = false
+      return
     } else {
       //
     }
@@ -63,6 +83,7 @@ async function handleClick(setting: FormActionSetting) {
     const result = await setting.action()
     if (result === false) {
       setting.loading = false
+      layoutStore.loading = false
       return
     }
   }
@@ -71,11 +92,13 @@ async function handleClick(setting: FormActionSetting) {
     const result = await setting.afterAction()
     if (result === false) {
       setting.loading = false
+      layoutStore.loading = false
       return
     }
   }
 
   setting.loading = false
+  layoutStore.loading = false
 }
 
 async function applicationAction() {

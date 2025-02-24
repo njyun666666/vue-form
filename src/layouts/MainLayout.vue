@@ -181,5 +181,12 @@ watch(route, () => {
         <RouterView />
       </div>
     </main>
+
+    <div
+      v-if="layoutStore.loading"
+      class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-[2000] flex items-center justify-center"
+    >
+      <i class="pi pi-spin pi-spinner text-4xl"></i>
+    </div>
   </div>
 </template>

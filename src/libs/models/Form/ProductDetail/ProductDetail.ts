@@ -10,7 +10,15 @@ export class ProductDetailModel {
   category?: string
   isDeleted?: boolean
 
-  constructor() {}
+  constructor(input?: ProductDetailModel) {
+    this.id = input?.id
+    this.name = input?.name
+    this.price = input?.price
+    this.description = input?.description
+    this.image = input?.image
+    this.category = input?.category
+    this.isDeleted = input?.isDeleted
+  }
 
   get guid() {
     this._guid = this.id || this._guid || uuid()

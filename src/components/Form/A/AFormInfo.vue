@@ -44,6 +44,8 @@ const fieldMode = computed(() => {
     productDetail: 'readonly'
   }
 
+  if (pageInfo.value.formPageAction == 'info') return mode
+
   if (pageInfo?.value.step == 1) {
     mode.title = 'required'
     mode.content = 'required'
@@ -89,6 +91,8 @@ const productDetailFieldMode = computed(() => {
     image: 'readonly',
     category: 'readonly'
   }
+
+  if (pageInfo.value.formPageAction == 'info') return mode
 
   if (pageInfo?.value.step == 1) {
     mode.id = 'required'
@@ -141,6 +145,7 @@ defineExpose({
           type="text"
           v-model.trim="field.title.value.value"
           :invalid="!!field.title.errorMessage.value"
+          :disabled="fieldMode.title == 'readonly'"
         />
       </InputField>
 
@@ -157,6 +162,7 @@ defineExpose({
           class="w-full"
           autoResize
           :invalid="!!field.content.errorMessage.value"
+          :disabled="fieldMode.content == 'readonly'"
         />
       </InputField>
     </div>

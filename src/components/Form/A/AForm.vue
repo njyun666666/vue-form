@@ -17,7 +17,7 @@ import * as z from 'zod'
 
 const { t } = useI18n()
 // import type { ComponentExposed } from 'vue-component-type-helpers'
-const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
 const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
@@ -30,6 +30,11 @@ const initialValues: AModel = {
 
 if (pageInfo?.value.formPageAction == 'add') {
   // initialValues.info.
+} else {
+  console.log(`${pageInfo?.value!.formId}`)
+  aService.data(`${pageInfo.value.formId}`).then((data) => {
+    form.setValues(data.data)
+  })
 }
 
 const form = useForm<AModel>({

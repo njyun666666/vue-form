@@ -2,10 +2,11 @@
 import InputField from '@/components/UI/InputField.vue'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { useLoginStore } from '@/stores/login'
-import DatePicker from 'primevue/datepicker'
+import dayjs from 'dayjs'
+// import DatePicker from 'primevue/datepicker'
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
-import { type Ref, inject } from 'vue'
+import { type Ref, computed, inject } from 'vue'
 
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
 const login = useLoginStore()
@@ -22,6 +23,13 @@ if (pageInfo?.value.formPageAction == 'add') {
   field.applicationName.value.value = String(login.tokenPayload?.sub)
   field.applicationDate.value.value = new Date()
 }
+const applicationDate = computed(() => {
+  if (field.applicationDate.value.value) {
+    return dayjs(field.applicationDate.value.value).format('YYYY/MM/DD HH:mm')
+  }
+
+  return undefined
+})
 </script>
 <template>
   <div>
@@ -40,13 +48,15 @@ if (pageInfo?.value.formPageAction == 'add') {
       </InputField>
 
       <InputField for="applicationDate" :label="$t('Form.BaseInfo.applicationDate')">
-        <DatePicker
+        <InputText id="applicationDate" type="text" v-model="applicationDate" disabled />
+        <!-- <DatePicker
           id="applicationDate"
           showTime
+          dateFormat="yy/mm/dd"
           hourFormat="24"
-          v-model="field.applicationDate.value.value"
+          v-model="applicationDate"
           disabled
-        />
+        /> -->
       </InputField>
     </div>
   </div>

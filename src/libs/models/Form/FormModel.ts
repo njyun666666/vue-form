@@ -22,6 +22,7 @@ export class FormBaseInfoModel {
 export class FormSaveViewModel {
   result?: boolean
   formId?: string
+  formClass?: string
   message?: string
 }
 
