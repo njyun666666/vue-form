@@ -3,6 +3,7 @@ import appConfig from '@/appConfig'
 import { formFaker } from '@/faker/form'
 import type {
   FormApplication,
+  FormBaseInfoModel,
   FormCheckAuthViewModel,
   FormSaveViewModel
 } from '@/libs/models/Form/FormModel'
@@ -75,12 +76,15 @@ export const formHandlers = [
       } as FormCheckAuthViewModel)
     }
   ),
-  http.post(`${appConfig.FORM_API}/api/:formClass/Save`, async ({ params }) => {
+  http.post(`${appConfig.FORM_API}/api/:formClass/Save`, async ({ params, request }) => {
     await delay()
     const { formClass } = params
+    const json = (await request.json()) as { baseInfo: FormBaseInfoModel }
+    const formId = json?.baseInfo?.formId || `${formClass}001`
+
     return HttpResponse.json({
       result: true,
-      formId: `${formClass}001`,
+      formId: formId,
       formClass: formClass
     } as FormSaveViewModel)
   }),

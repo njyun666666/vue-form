@@ -37,7 +37,12 @@ export const A003 = {
     applicationDate: '2025-02-26T08:15:55.000Z',
     description: '測試第3步'
   },
-  info: { title: '測試第3步', content: 'test content' },
+  info: {
+    title: '測試第3步',
+    content: 'test content',
+    amount: 123.45,
+    datetime: '2025-02-25T05:49:27.000Z'
+  },
   productDetail: [
     {
       id: 'bfd4ac7b',

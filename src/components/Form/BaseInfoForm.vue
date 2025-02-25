@@ -25,14 +25,11 @@ if (pageInfo?.value.formPageAction == FormPageAction.application) {
   field.applicationId.value.value = String(login.tokenPayload?.uid)
   field.applicationName.value.value = String(login.tokenPayload?.sub)
   field.applicationDate.value.value = new Date()
-}
-const applicationDate = computed(() => {
+} else {
   if (field.applicationDate.value.value) {
-    return dayjs(field.applicationDate.value.value).format('YYYY/MM/DD HH:mm')
+    field.applicationDate.value.value = new Date(field.applicationDate.value.value)
   }
-
-  return undefined
-})
+}
 </script>
 <template>
   <div>
@@ -51,7 +48,12 @@ const applicationDate = computed(() => {
       </InputField>
 
       <InputField for="applicationDate" :label="$t('Form.BaseInfo.applicationDate')">
-        <InputText id="applicationDate" type="text" v-model="applicationDate" disabled />
+        <InputText
+          id="applicationDate"
+          type="text"
+          :value="dayjs(field.applicationDate.value.value).format('YYYY/MM/DD HH:mm')"
+          disabled
+        />
         <!-- <DatePicker
           id="applicationDate"
           showTime
