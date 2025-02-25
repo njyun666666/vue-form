@@ -1,4 +1,5 @@
 import type { FormSaveViewModel } from './FormModel'
+import type { FormApprovalActionType } from '@/libs/types/FormTypes'
 
 export class FormActionSetting {
   display!: boolean
@@ -8,8 +9,12 @@ export class FormActionSetting {
   afterAction?: () => Promise<boolean | void>
   loading!: boolean
 
-  constructor(action: () => Promise<void>) {
+  constructor(action: () => Promise<boolean | void>) {
     this.display = false
     this.action = action
   }
+}
+
+export class ActionDialogProps {
+  action?: FormApprovalActionType
 }

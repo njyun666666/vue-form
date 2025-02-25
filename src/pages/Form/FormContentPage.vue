@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import A from '@/components/Form/A/AForm.vue'
 import B from '@/components/Form/B/BForm.vue'
-import Toolbar from '@/components/Form/Toolbar.vue'
+import Toolbar from '@/components/Form/Toolbar/Toolbar.vue'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { formService } from '@/libs/services/formService'
 import { type FormClassType, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'

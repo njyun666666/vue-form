@@ -4,6 +4,9 @@
     "info": "表單資訊",
     "approval": "簽核表單"
   },
+  "Approval": {
+    "comment": "Comment"
+  },
   "Group": {
     "HR": "HR",
     "IT": "IT"

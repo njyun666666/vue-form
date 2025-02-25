@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
+import ActionDialog from './ActionDialog.vue'
+import type { ApprovalModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
-import { FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
+import { FormApprovalAction, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import router from '@/router'
 import { useLayoutStore } from '@/stores/layout'
 import Button from 'primevue/button'
+import { useDialog } from 'primevue/usedialog'
 import { useToast } from 'primevue/usetoast'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -14,9 +16,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 const layoutStore = useLayoutStore()
 const toast = useToast()
-const { t } = useI18n()
+const dialog = useDialog()
 
 const applicationBtn = ref(new FormActionSetting(applicationAction))
 const approveBtn = ref(new FormActionSetting(approveAction))
@@ -121,7 +124,32 @@ async function applicationAction() {
 }
 
 async function approveAction() {
-  console.log('approve')
+  dialog.open(ActionDialog, {
+    props: {
+      header: t('Form.Approval.comment'),
+      modal: true,
+      style: {
+        width: '50vw'
+      },
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    },
+    data: {
+      action: FormApprovalAction.approve
+    },
+    onSubmit: (e: ApprovalModel) => {
+      console.log(e)
+    }
+    // emit: {
+    //   onSubmit: (e: ApprovalModel) => {
+    //     console.log('eeeee', e)
+    //   }
+    // }
+  })
+
+  return false
 }
 
 async function rejectAction() {

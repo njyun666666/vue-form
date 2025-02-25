@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseInfoForm from '../BaseInfoForm.vue'
 import { productDetailSchema } from '../ProductDetail/productDetail'
-import type Toolbar from '../Toolbar.vue'
+import type Toolbar from '../Toolbar/Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
 import { baseInfoSchema } from '@/components/Form/form'
@@ -12,12 +12,14 @@ import { FormPageAction } from '@/libs/types/FormTypes'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import Skeleton from 'primevue/skeleton'
+import { useConfirm } from 'primevue/useconfirm'
 import { Form, useForm } from 'vee-validate'
 import { type Ref, inject, onMounted, provide, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
 const { t } = useI18n()
+const confirm = useConfirm()
 const loading = ref(true)
 // import type { ComponentExposed } from 'vue-component-type-helpers'
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
@@ -94,6 +96,18 @@ async function onSubmit() {
 
   if (!isValid.valid || !aFormInfoValid) {
     console.error(isValid.errors)
+    confirm.require({
+      message: 'Are you sure you want to proceed?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      rejectProps: {
+        class: 'hidden'
+      },
+      acceptProps: {
+        label: t('Message')
+      }
+    })
+
     return false
   }
 
