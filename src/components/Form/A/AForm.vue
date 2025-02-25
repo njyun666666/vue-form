@@ -8,9 +8,10 @@ import { baseInfoSchema } from '@/components/Form/form'
 import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
+import { FormPageAction } from '@/libs/types/FormTypes'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
+import { Form, useForm } from 'vee-validate'
 import { type Ref, inject, onMounted, provide, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
@@ -28,7 +29,7 @@ const initialValues: AModel = {
   productDetail: []
 }
 
-if (pageInfo?.value.formPageAction == 'add') {
+if (pageInfo?.value.formPageAction == FormPageAction.application) {
   // initialValues.info.
 } else {
   console.log(`${pageInfo?.value!.formId}`)
@@ -84,7 +85,7 @@ const form = useForm<AModel>({
 
 async function onSubmit() {
   const isValid = await form.validate()
-  console.log('values', isValid.values)
+  // console.log('values', isValid.values)
   // console.log(values)
 
   const aFormInfoValid = await AFormInfoRef.value?.validate()
@@ -94,8 +95,10 @@ async function onSubmit() {
     return false
   }
 
+  form.setFieldValue('baseInfo.description', form.values?.info?.title)
+
   return aService
-    .save(isValid.values || {})
+    .save(form.values || {})
     .then(({ data }) => data)
     .catch((error) => {
       console.error(error)

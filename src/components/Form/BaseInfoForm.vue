@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
+import { FormPageAction } from '@/libs/types/FormTypes'
 import { useLoginStore } from '@/stores/login'
 import dayjs from 'dayjs'
 // import DatePicker from 'primevue/datepicker'
@@ -13,12 +14,14 @@ const login = useLoginStore()
 
 const field = {
   formId: useField<string>('baseInfo.formId'),
+  formClass: useField<string>('baseInfo.formClass'),
   applicationId: useField<string>('baseInfo.applicationId'),
   applicationName: useField<string>('baseInfo.applicationName'),
   applicationDate: useField<Date>('baseInfo.applicationDate')
 }
 
-if (pageInfo?.value.formPageAction == 'add') {
+if (pageInfo?.value.formPageAction == FormPageAction.application) {
+  field.formClass.value.value = pageInfo?.value.formClass
   field.applicationId.value.value = String(login.tokenPayload?.uid)
   field.applicationName.value.value = String(login.tokenPayload?.sub)
   field.applicationDate.value.value = new Date()

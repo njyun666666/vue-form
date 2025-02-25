@@ -1,7 +1,7 @@
 export const FormPageAction = {
-  add: 'add',
+  application: 'application',
   info: 'info',
-  sign: 'sign'
+  approval: 'approval'
 }
 
 export const FormFieldMode = {

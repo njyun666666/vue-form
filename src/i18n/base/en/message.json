@@ -17,6 +17,8 @@
     "is_invalid": "is invalid",
     "IsError": "error",
     "NoMore": "no more",
-    "Password_dont_match": "Password don't match"
+    "Password_dont_match": "Password don't match",
+    "Application_Success": "Application success",
+    "Application_Fail": "Application fail"
   }
 }

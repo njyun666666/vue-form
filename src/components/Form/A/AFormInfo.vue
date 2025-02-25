@@ -5,7 +5,7 @@ import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import type { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 import { optionService } from '@/libs/services/optionService'
-import type { FormFieldModeType } from '@/libs/types/FormTypes'
+import { type FormFieldModeType, FormPageAction } from '@/libs/types/FormTypes'
 import { useQuery } from '@tanstack/vue-query'
 import Checkbox from 'primevue/checkbox'
 import DatePicker from 'primevue/datepicker'
@@ -44,7 +44,7 @@ const fieldMode = computed(() => {
     productDetail: 'readonly'
   }
 
-  if (pageInfo.value.formPageAction == 'info') return mode
+  if (pageInfo.value.formPageAction == FormPageAction.info) return mode
 
   if (pageInfo?.value.step == 1) {
     mode.title = 'required'
@@ -92,7 +92,7 @@ const productDetailFieldMode = computed(() => {
     category: 'readonly'
   }
 
-  if (pageInfo.value.formPageAction == 'info') return mode
+  if (pageInfo.value.formPageAction == FormPageAction.info) return mode
 
   if (pageInfo?.value.step == 1) {
     mode.id = 'required'

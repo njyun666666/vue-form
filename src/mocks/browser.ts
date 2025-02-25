@@ -1,3 +1,4 @@
+import { aformHandlers } from './aformHandlers'
 import { fileHandlers } from './fileHandlers'
 import { formHandlers } from './formHandlers'
 import { loginHandlers } from './loginHandlers'
@@ -8,6 +9,7 @@ import { setupWorker } from 'msw/browser'
 export const worker = setupWorker(
   ...loginHandlers,
   ...menuHandlers,
+  ...aformHandlers,
   ...formHandlers,
   ...optionHandlers,
   ...fileHandlers

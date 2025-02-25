@@ -1,4 +1,3 @@
-import { FormPageAction } from './../../types/FormTypes'
 import type { FormClassType, FormPageActionType } from '@/libs/types/FormTypes'
 
 export interface FormApplication {
@@ -14,9 +13,20 @@ export interface FormClass {
 
 export class FormBaseInfoModel {
   formId?: string
+  formClass?: string
   applicationId?: string
   applicationName?: string
   applicationDate?: Date
+  description?: string
+}
+
+export class PendingApprovalModel extends FormBaseInfoModel {
+  approvalId?: string
+  arrivedDate?: Date
+  approverId?: string
+  approverName?: string
+  stepId?: number
+  stepName?: string
 }
 
 export class FormSaveViewModel {

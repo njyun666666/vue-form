@@ -7,6 +7,7 @@ import { useLayoutStore } from '@/stores/layout'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   formPageAction: FormPageActionType
@@ -15,20 +16,22 @@ interface Props {
 const props = defineProps<Props>()
 const layoutStore = useLayoutStore()
 const toast = useToast()
+const { t } = useI18n()
 
 const applicationBtn = ref(new FormActionSetting(applicationAction))
 const approveBtn = ref(new FormActionSetting(approveAction))
 const rejectBtn = ref(new FormActionSetting(rejectAction))
+const save = ref<FormSaveViewModel>()
 
 switch (props.formPageAction) {
-  case FormPageAction.add:
+  case FormPageAction.application:
     applicationBtn.value.display = true
     break
 
   case FormPageAction.info:
     break
 
-  case FormPageAction.sign:
+  case FormPageAction.approval:
     approveBtn.value.display = true
     rejectBtn.value.display = true
     break
@@ -38,6 +41,7 @@ switch (props.formPageAction) {
 }
 
 async function handleClick(setting: FormActionSetting) {
+  save.value = undefined
   layoutStore.loading = true
   setting.loading = true
 
@@ -58,24 +62,19 @@ async function handleClick(setting: FormActionSetting) {
       return
     }
 
-    const save = result as FormSaveViewModel
+    save.value = result as FormSaveViewModel
 
-    if (save.result) {
-      //
-      toast.add({ severity: 'success', summary: 'Info', detail: 'Message Content', life: 3000 })
-      router.push({
-        name: 'form/:formPageAction/:formClass/:formId',
-        params: {
-          formPageAction: FormPageAction.info,
-          formClass: save.formClass,
-          formId: save.formId
-        }
+    if (!save.value.result) {
+      toast.add({
+        severity: 'error',
+        summary: t('Message.Application_Fail'),
+        detail: `${save.value.message}`,
+        life: 3000
       })
 
+      setting.loading = false
       layoutStore.loading = false
       return
-    } else {
-      //
     }
   }
 
@@ -102,7 +101,23 @@ async function handleClick(setting: FormActionSetting) {
 }
 
 async function applicationAction() {
-  console.log('application')
+  if (save.value?.result) {
+    toast.add({
+      severity: 'success',
+      summary: t('Message.Application_Success'),
+      detail: `${save.value.formId}`,
+      life: 3000
+    })
+
+    router.push({
+      name: 'form/:formPageAction/:formClass/:formId',
+      params: {
+        formPageAction: FormPageAction.info,
+        formClass: save.value.formClass,
+        formId: save.value.formId
+      }
+    })
+  }
 }
 
 async function approveAction() {
