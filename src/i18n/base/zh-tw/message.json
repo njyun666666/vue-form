@@ -20,6 +20,9 @@
     "Password_dont_match": "與密碼不符",
     "Application_Success": "申請成功",
     "Application_Fail": "申請失敗",
+    "Approval_Completed": "簽核完成",
+    "Approval_Fail": "簽核失敗",
+    "Next_Approver": "下一關",
     "Please_check_the_field": "請檢查欄位"
   }
 }

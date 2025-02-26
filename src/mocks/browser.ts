@@ -1,5 +1,6 @@
 import { aformHandlers } from './aformHandlers'
 import { fileHandlers } from './fileHandlers'
+import { flowHandlers } from './flowHandlers'
 import { formHandlers } from './formHandlers'
 import { loginHandlers } from './loginHandlers'
 import { menuHandlers } from './menuHandlers'
@@ -12,5 +13,6 @@ export const worker = setupWorker(
   ...aformHandlers,
   ...formHandlers,
   ...optionHandlers,
-  ...fileHandlers
+  ...fileHandlers,
+  ...flowHandlers
 )

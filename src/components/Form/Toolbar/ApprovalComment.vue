@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
-import type { ApprovalModel } from '@/libs/models/Form/FormModel'
+import type { FlowApprovalModel } from '@/libs/models/Form/FlowModel'
 import type { ActionDialogProps } from '@/libs/models/Form/Toolbar'
-import { FormApprovalAction, type FormApprovalActionType } from '@/libs/types/FormTypes'
+import { FormAction, type FormActionType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import { type Ref, inject, onMounted, ref } from 'vue'
@@ -14,14 +14,14 @@ const { t } = useI18n()
 const comment = ref<string>()
 const commentError = ref<string>()
 const emit = defineEmits<{
-  submit: [data: ApprovalModel]
+  flowSend: [data: FlowApprovalModel]
 }>()
 
 const closeDialog = () => {
   dialogRef.value.close()
 }
 
-const update = (action: FormApprovalActionType) => {
+const update = (action: FormActionType) => {
   commentError.value = ''
 
   if (action == 'reject' && !comment.value) {
@@ -29,8 +29,7 @@ const update = (action: FormApprovalActionType) => {
     return
   }
 
-  emit('submit', { comment: comment.value })
-  console.log('uuuuuuuuuuuuu', { comment: comment.value })
+  emit('flowSend', { comment: comment.value })
 }
 
 onMounted(() => {
@@ -51,21 +50,21 @@ onMounted(() => {
       <Button
         :label="$t('Action.Cancel')"
         severity="secondary"
-        variant="text"
+        variant="outlined"
         @click="closeDialog"
       />
       <Button
         v-if="props?.action == 'approve'"
         :label="$t('Action.Approve')"
         icon="pi pi-check"
-        @click="update(FormApprovalAction.approve as FormApprovalActionType)"
+        @click="update(FormAction.approve as FormActionType)"
       />
       <Button
         v-if="props?.action == 'reject'"
         :label="$t('Action.Reject')"
         icon="pi pi-times"
         severity="danger"
-        @click="update(FormApprovalAction.reject as FormApprovalActionType)"
+        @click="update(FormAction.reject as FormActionType)"
       />
     </div>
   </div>

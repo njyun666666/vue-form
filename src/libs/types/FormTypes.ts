@@ -11,7 +11,8 @@ export const FormFieldMode = {
   invisibility: 'invisibility'
 }
 
-export const FormApprovalAction = {
+export const FormAction = {
+  application: 'application',
   approve: 'approve',
   reject: 'reject'
 }
@@ -23,5 +24,5 @@ export const FormClass = {
 
 export type FormPageActionType = keyof typeof FormPageAction
 export type FormFieldModeType = keyof typeof FormFieldMode
-export type FormApprovalActionType = keyof typeof FormApprovalAction
+export type FormActionType = keyof typeof FormAction
 export type FormClassType = keyof typeof FormClass

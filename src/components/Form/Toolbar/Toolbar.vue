@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import ActionDialog from './ActionDialog.vue'
-import type { ApprovalModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
+import ActionDialog from './ApprovalComment.vue'
+import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Form/FlowModel'
+import type { FormPageInfoModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
-import { FormApprovalAction, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
+import { flowService } from '@/libs/services/flowService'
+import { FormAction, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
+import { createConfirm } from '@/libs/utils/confirm'
 import router from '@/router'
 import { useLayoutStore } from '@/stores/layout'
+import type { AxiosError } from 'axios'
 import Button from 'primevue/button'
+import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
+import { useConfirm } from 'primevue/useconfirm'
 import { useDialog } from 'primevue/usedialog'
 import { useToast } from 'primevue/usetoast'
-import { ref } from 'vue'
+import { type Ref, inject, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { RouteLocationRaw } from 'vue-router'
 
 interface Props {
   formPageAction: FormPageActionType
@@ -20,11 +27,16 @@ const { t } = useI18n()
 const layoutStore = useLayoutStore()
 const toast = useToast()
 const dialog = useDialog()
+const commentDialog = ref<DynamicDialogInstance>()
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 
-const applicationBtn = ref(new FormActionSetting(applicationAction))
-const approveBtn = ref(new FormActionSetting(approveAction))
-const rejectBtn = ref(new FormActionSetting(rejectAction))
-const save = ref<FormSaveViewModel>()
+const applicationBtn = ref(new FormActionSetting('application', applicationAction))
+const approveBtn = ref(new FormActionSetting('approve', approveAction))
+const rejectBtn = ref(new FormActionSetting('reject', rejectAction))
+const save = ref<FormSaveViewModel>({})
+const approval = ref<FlowApprovalModel>({ formId: pageInfo.value.flowId, approvalId: 'aaa' })
+const approvalRes = ref<FlowApprovalViewModel>({})
+const routeTo = ref<RouteLocationRaw>()
 
 switch (props.formPageAction) {
   case FormPageAction.application:
@@ -44,23 +56,25 @@ switch (props.formPageAction) {
 }
 
 async function handleClick(setting: FormActionSetting) {
-  save.value = undefined
+  save.value.result = undefined
+  save.value.message = undefined
+  approval.value.action = setting.actionType
+  routeTo.value = undefined
+
   layoutStore.loading = true
-  setting.loading = true
 
   if (setting.beforeAction) {
     const result = await setting.beforeAction()
     if (result === false) {
-      setting.loading = false
       layoutStore.loading = false
       return
     }
   }
 
+  // form
   if (setting.saveAction) {
     const result = await setting.saveAction()
     if (result === false) {
-      setting.loading = false
       layoutStore.loading = false
       return
     }
@@ -75,8 +89,32 @@ async function handleClick(setting: FormActionSetting) {
         life: 3000
       })
 
-      setting.loading = false
       layoutStore.loading = false
+
+      return
+    }
+  }
+
+  // flow
+  if ([FormAction.approve, FormAction.reject].includes(setting.actionType)) {
+    approvalRes.value = await flowService
+      .approval(approval.value)
+      .then(({ data }) => data)
+      .catch((error: AxiosError) => {
+        console.error(error)
+        return { result: false, message: `${error.message}` }
+      })
+
+    if (!approvalRes.value.result) {
+      toast.add({
+        severity: 'error',
+        summary: t('Message.Approval_Fail'),
+        detail: `${approvalRes.value.message}`,
+        life: 5000
+      })
+
+      layoutStore.loading = false
+
       return
     }
   }
@@ -84,7 +122,6 @@ async function handleClick(setting: FormActionSetting) {
   if (setting.action) {
     const result = await setting.action()
     if (result === false) {
-      setting.loading = false
       layoutStore.loading = false
       return
     }
@@ -93,38 +130,64 @@ async function handleClick(setting: FormActionSetting) {
   if (setting.afterAction) {
     const result = await setting.afterAction()
     if (result === false) {
-      setting.loading = false
       layoutStore.loading = false
       return
     }
   }
 
-  setting.loading = false
   layoutStore.loading = false
+
+  if (routeTo.value) {
+    router.push(routeTo.value)
+  }
 }
 
 async function applicationAction() {
-  if (save.value?.result) {
-    toast.add({
-      severity: 'success',
-      summary: t('Message.Application_Success'),
-      detail: `${save.value.formId}`,
-      life: 3000
-    })
+  toast.add({
+    severity: 'success',
+    summary: t('Message.Application_Success'),
+    detail: `${save.value.formId}`,
+    life: 3000
+  })
 
-    router.push({
-      name: 'form/:formPageAction/:formClass/:formId',
-      params: {
-        formPageAction: FormPageAction.info,
-        formClass: save.value.formClass,
-        formId: save.value.formId
-      }
-    })
+  routeTo.value = {
+    name: 'form/:formPageAction/:formClass/:formId',
+    params: {
+      formPageAction: FormPageAction.info,
+      formClass: save.value.formClass,
+      formId: save.value.formId
+    }
   }
 }
 
 async function approveAction() {
-  dialog.open(ActionDialog, {
+  commentDialog.value?.close()
+
+  toast.add({
+    severity: 'success',
+    summary: t('Message.Approval_Completed'),
+    detail: `${t('Message.Next_Approver')}: ${approvalRes.value.nextStepName}, ${approvalRes.value.nextApproverName}`,
+    life: 5000
+  })
+
+  routeTo.value = {
+    name: 'form/:formPageAction/:formClass/:formId',
+    params: {
+      formPageAction: FormPageAction.info,
+      formClass: pageInfo.value.formClass,
+      formId: pageInfo.value.formId
+    }
+  }
+}
+
+async function rejectAction() {
+  approveAction()
+}
+
+async function commentAction(setting: FormActionSetting) {
+  approval.value.comment = ''
+
+  commentDialog.value = dialog.open(ActionDialog, {
     props: {
       header: t('Form.Approval.comment'),
       modal: true,
@@ -137,23 +200,19 @@ async function approveAction() {
       }
     },
     data: {
-      action: FormApprovalAction.approve
+      action: setting.actionType
     },
-    onSubmit: (e: ApprovalModel) => {
-      console.log(e)
+    onClose: (e) => {
+      // console.log(e)
+    },
+    emits: {
+      onFlowSend: (e: FlowApprovalModel) => {
+        console.log('onFlowSend', e)
+        approval.value.comment = e.comment
+        handleClick(setting)
+      }
     }
-    // emit: {
-    //   onSubmit: (e: ApprovalModel) => {
-    //     console.log('eeeee', e)
-    //   }
-    // }
   })
-
-  return false
-}
-
-async function rejectAction() {
-  console.log('reject')
 }
 
 defineExpose({
@@ -179,7 +238,7 @@ defineExpose({
       icon="pi pi-check"
       variant="text"
       :loading="approveBtn.loading"
-      @click="handleClick(approveBtn)"
+      @click="commentAction(approveBtn)"
     />
 
     <Button
@@ -189,7 +248,7 @@ defineExpose({
       severity="danger"
       variant="text"
       :loading="rejectBtn.loading"
-      @click="handleClick(rejectBtn)"
+      @click="commentAction(rejectBtn)"
     />
   </div>
 </template>

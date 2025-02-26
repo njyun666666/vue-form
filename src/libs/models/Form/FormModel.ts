@@ -1,8 +1,4 @@
-import type {
-  FormApprovalActionType,
-  FormClassType,
-  FormPageActionType
-} from '@/libs/types/FormTypes'
+import type { FormActionType, FormClassType, FormPageActionType } from '@/libs/types/FormTypes'
 
 export interface FormApplication {
   groupId: string
@@ -52,11 +48,4 @@ export class FormPageInfoModel {
   formId?: string
   flowId?: string
   step!: number
-}
-
-export class ApprovalModel {
-  formId?: string
-  approvalId?: string
-  action?: FormApprovalActionType
-  comment?: string
 }

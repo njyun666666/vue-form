@@ -20,6 +20,9 @@
     "Password_dont_match": "Password don't match",
     "Application_Success": "Application success",
     "Application_Fail": "Application fail",
+    "Approval_Completed": "Approval completed",
+    "Approval_Fail": "Approval fail",
+    "Next_Approver": "Next approver",
     "Please_check_the_field": "Please check the field"
   }
 }
