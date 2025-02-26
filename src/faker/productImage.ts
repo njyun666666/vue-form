@@ -7,7 +7,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'Asus 5090',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 32154,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -17,7 +17,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'Asus 5090',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 32154,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -27,7 +27,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'Asus 5080',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 20234,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -37,7 +37,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'Asus 5070ti',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 28978,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -47,7 +47,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'MSI 5090',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 48468,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -57,7 +57,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'MSI 5080',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 45710,
     updatedAt: new Date(),
     uploadedBy: 'admin'
@@ -67,7 +67,7 @@ const list: FileModel[] = [
     groupId: '',
     name: 'MSI 5070ti',
     ext: 'webp',
-    path: '/src/assets/images',
+    path: '/images',
     size: 47978,
     updatedAt: new Date(),
     uploadedBy: 'admin'
