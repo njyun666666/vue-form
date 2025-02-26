@@ -1,8 +1,8 @@
-import type { FileModel } from '@/libs/models/File/File'
+import { FileModel } from '@/libs/models/File/File'
 import { uuid } from '@/libs/utils/uuid'
 
 const list: FileModel[] = [
-  {
+  new FileModel({
     id: 'asus-5090',
     groupId: '',
     name: 'Asus 5090',
@@ -11,8 +11,18 @@ const list: FileModel[] = [
     size: 32154,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  },
-  {
+  }),
+  new FileModel({
+    id: 'asus-5090',
+    groupId: '',
+    name: 'Asus 5090',
+    ext: 'webp',
+    path: '/src/assets/images',
+    size: 32154,
+    updatedAt: new Date(),
+    uploadedBy: 'admin'
+  }),
+  new FileModel({
     id: 'asus-5080',
     groupId: '',
     name: 'Asus 5080',
@@ -21,8 +31,8 @@ const list: FileModel[] = [
     size: 20234,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  },
-  {
+  }),
+  new FileModel({
     id: 'asus-5070ti',
     groupId: '',
     name: 'Asus 5070ti',
@@ -31,8 +41,8 @@ const list: FileModel[] = [
     size: 28978,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  },
-  {
+  }),
+  new FileModel({
     id: 'msi-5090',
     groupId: '',
     name: 'MSI 5090',
@@ -41,8 +51,8 @@ const list: FileModel[] = [
     size: 48468,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  },
-  {
+  }),
+  new FileModel({
     id: 'msi-5080',
     groupId: '',
     name: 'MSI 5080',
@@ -51,8 +61,8 @@ const list: FileModel[] = [
     size: 45710,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  },
-  {
+  }),
+  new FileModel({
     id: 'msi-5070ti',
     groupId: '',
     name: 'MSI 5070ti',
@@ -61,7 +71,7 @@ const list: FileModel[] = [
     size: 47978,
     updatedAt: new Date(),
     uploadedBy: 'admin'
-  }
+  })
 ]
 
 export const productImageFaker = (groupId?: string): FileModel => {

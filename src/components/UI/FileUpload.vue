@@ -29,5 +29,6 @@ const onFileSelect = async (e: FileUploadSelectEvent) => {
     auto
     :multiple="multiple"
     :chooseLabel="$t('Action.UploadFile')"
+    :groupId="groupId"
   ></FileUpload>
 </template>

@@ -9,7 +9,7 @@ export class FileModel {
   uploadedBy?: string
   isDeleted?: boolean
 
-  constructor(input: FileModel) {
+  constructor(input: Partial<FileModel>) {
     this.id = input.id
     this.groupId = input.groupId
     this.name = input.name

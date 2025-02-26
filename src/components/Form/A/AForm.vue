@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseInfoForm from '../BaseInfoForm.vue'
-import { productDetailSchema } from '../ProductDetail/productDetail'
+import { productDetailSchema } from '../ProductDetail/productDetailSchema'
 import type Toolbar from '../Toolbar/Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'

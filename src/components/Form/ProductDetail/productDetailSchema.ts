@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 export const productDetailSchema = z
   .object({
-    // guid: z.string(),
     id: z.string(),
     name: z.string(),
     price: z.number().nullish(),
@@ -12,3 +11,5 @@ export const productDetailSchema = z
     isDeleted: z.boolean()
   })
   .partial()
+
+// guid: z.string(),
