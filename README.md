@@ -1,39 +1,45 @@
-# vue-form
+# Vue-Form
 
-This template should help get you started developing with Vue 3 in Vite.
+[Demo](https://vue-form-jyun.vercel.app)
 
-## Recommended IDE Setup
+這是一個基於 Vue 3 和 PrimeVue V4 的表單流程應用，支援表單生成、驗證與簽核流程。
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 實作項目
 
-## Type Support for `.vue` Imports in TS
+- RWD Layout
+- 淺色/深色主題
+- 多國語系
+- 串接 API
+- 表單申請
+- 表單簽核
+- 表單欄位/明細
+- 表單驗證
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 前端
 
-## Customize configuration
+[GitHub](https://github.com/njyun666666/vue-form)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### 部署
 
-## Project Setup
+使用[Vercel](https://vercel.com)連接GitHub自動部署
 
-```sh
-npm install
-```
+### 使用技術/套件
 
-### Compile and Hot-Reload for Development
+- Vue 3 (Composition API)
+- Vite
+- Pinia
+- Vue-i18n
+- Vue Router
+- VueUse
+- VeeValidate
+- Zod
+- TypeScript
+- Axios
+- TanStack Query
+- Day.js
+- Tailwind CSS
+- PrimeVue V4
 
-```sh
-npm run dev
-```
+## 後端 API
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+使用Mock Service Worker模擬API
