@@ -40,7 +40,7 @@ const { isFetching, data } = useQuery({
               :to="{
                 name: 'form/:formPageAction/:formClass',
                 params: {
-                  formPageAction: FormPageAction.add,
+                  formPageAction: FormPageAction.application,
                   formClass: formClass.formClass
                 }
               }"

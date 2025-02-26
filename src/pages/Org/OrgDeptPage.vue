@@ -68,6 +68,7 @@ const onSubmit = handleSubmit(async (values) => {
       <DataTable
         class="w-full"
         v-bind="datatable.props.value"
+        selectionMode="single"
         @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >

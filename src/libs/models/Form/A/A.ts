@@ -1,8 +1,10 @@
 import { FormBaseInfoModel } from '../FormModel'
+import type { ProductDetailModel } from '../ProductDetail/ProductDetail'
 
 export class AModel {
   baseInfo?: FormBaseInfoModel
   info?: AInfoModel
+  productDetail?: ProductDetailModel[]
 }
 
 export class AInfoModel {
@@ -10,7 +12,7 @@ export class AInfoModel {
   content?: string
   amount?: number
   datetime?: Date
-  radio?: string
+  radio?: number
   checkbox?: string[]
   select?: string
 }

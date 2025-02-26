@@ -1,3 +1,4 @@
+import type { FormFieldModeType } from '../types/FormTypes'
 import { i18n } from '@/i18n/config'
 import { z } from 'zod'
 
@@ -9,4 +10,28 @@ export const zodErrorMap: z.ZodErrorMap = (issue, ctx) => {
   }
 
   return { message: ctx.defaultError }
+}
+
+export const requiredFieldsValidator = (
+  val: Record<string, unknown>,
+  fieldMode: Record<string, FormFieldModeType> = {}
+) => {
+  const failedFields: string[] = []
+
+  Object.entries(val).forEach(([key, value]) => {
+    if (fieldMode[key] === 'required') {
+      if (
+        (typeof value === 'string' && value.trim() === '') ||
+        (typeof value === 'number' && isNaN(value)) ||
+        value === null ||
+        value === undefined ||
+        (Array.isArray(value) && value.length === 0) ||
+        (value instanceof Date && isNaN(value.getTime()))
+      ) {
+        failedFields.push(key)
+      }
+    }
+  })
+
+  return failedFields
 }

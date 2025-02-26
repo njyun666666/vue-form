@@ -1,0 +1,11 @@
+{
+  "productDetail": {
+    "title": "Product Detail",
+    "id": "Id",
+    "name": "Name",
+    "price": "Price",
+    "description": "Description",
+    "image": "Image",
+    "category": "Category"
+  }
+}

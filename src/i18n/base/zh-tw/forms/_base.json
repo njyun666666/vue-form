@@ -1,8 +1,11 @@
 {
   "PageType": {
-    "add": "申請表單",
+    "application": "申請表單",
     "info": "表單資訊",
-    "sign": "簽核表單"
+    "approval": "簽核表單"
+  },
+  "Approval": {
+    "comment": "簽核意見"
   },
   "Group": {
     "HR": "人事類",
@@ -13,9 +16,17 @@
     "B": "B申請單"
   },
   "BaseInfo": {
-    "formId": "表單單號",
+    "formId": "單號",
+    "formClass": "表單",
     "applicationId": "申請人代號",
     "applicationName": "申請人姓名",
-    "applicationDate": "申請日期"
+    "applicationDate": "申請日期",
+    "description": "說明"
+  },
+  "PendingApproval": {
+    "title": "待簽核",
+    "arrivedDate": "送達時間",
+    "approverName": "簽核人",
+    "stepName": "目前步驟"
   }
 }

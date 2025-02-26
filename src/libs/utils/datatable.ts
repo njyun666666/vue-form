@@ -25,7 +25,7 @@ export const useDatatable = <TQuery, TView>(
     rows: query.value.pageSize,
     rowsPerPageOptions: [5, 10, 20, 50],
     multiSortMeta: query.value.sort,
-    selectionMode: 'single',
+    // selectionMode: 'single',
     value: queryView.value.data,
     totalRecords: queryView.value.count
   }))

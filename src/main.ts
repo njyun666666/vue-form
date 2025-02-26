@@ -15,6 +15,10 @@ import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
+import ConfirmationService from 'primevue/confirmationservice'
+import DialogService from 'primevue/dialogservice'
+import ToastService from 'primevue/toastservice'
+import Tooltip from 'primevue/tooltip'
 import { createApp } from 'vue'
 import { z } from 'zod'
 
@@ -31,6 +35,10 @@ app.use(i18n)
 app.use(router)
 app.use(PrimeVue, primeVueConfig)
 app.use(VueQueryPlugin)
+app.use(DialogService)
+app.use(ConfirmationService)
+app.use(ToastService)
+app.directive('tooltip', Tooltip)
 
 z.setErrorMap(zodErrorMap)
 

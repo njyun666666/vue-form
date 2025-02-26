@@ -115,4 +115,8 @@
   p {
     @apply my-4;
   }
+
+  .a {
+    @apply text-primary hover:underline;
+  }
 }

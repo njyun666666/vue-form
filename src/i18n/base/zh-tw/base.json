@@ -40,20 +40,19 @@
     "Cancel": "取消",
     "TryAgain": "重試",
     "LoadMore": "載入更多",
+    "Reload": "重新載入",
     "Back": "返回",
     "EditProfile": "編輯個人資料",
     "Application": "申請",
     "Approve": "核准",
-    "Reject": "駁回"
+    "Reject": "駁回",
+    "UploadFile": "上傳檔案"
   },
   "Title": {
     "Add": "新增{title}",
     "Edit": "編輯{title}",
     "Confirm": "確認{title}",
     "ConfirmText": "確認要{action}{title}?",
-    "Article": "文章",
-    "Comment": "留言",
-    "PopularTags": "熱門標籤",
-    "Profile": "個人資料"
+    "Alert": "提醒"
   }
 }

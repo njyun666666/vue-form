@@ -1,8 +1,11 @@
 {
   "PageType": {
-    "add": "申請表單",
+    "application": "申請表單",
     "info": "表單資訊",
-    "sign": "簽核表單"
+    "approval": "簽核表單"
+  },
+  "Approval": {
+    "comment": "Comment"
   },
   "Group": {
     "HR": "HR",
@@ -13,9 +16,17 @@
     "B": "B form"
   },
   "BaseInfo": {
-    "formId": "Form Id",
+    "formId": "No.",
+    "formClass": "Form",
     "applicationId": "Application Id",
     "applicationName": "Application Name",
-    "applicationDate": "Application Date"
+    "applicationDate": "Application Date",
+    "description": "Description"
+  },
+  "PendingApproval": {
+    "title": "Pending Approval",
+    "arrivedDate": "Arrived",
+    "approverName": "Approver",
+    "stepName": "Step"
   }
 }

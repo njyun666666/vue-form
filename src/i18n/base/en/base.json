@@ -40,20 +40,19 @@
     "Cancel": "Cancel",
     "TryAgain": "Try again",
     "LoadMore": "Load more",
+    "Reload": "Reload",
     "Back": "Back",
     "EditProfile": "Edit profile",
     "Application": "Application",
     "Approve": "Approve",
-    "Reject": "Reject"
+    "Reject": "Reject",
+    "UploadFile": "Upload file"
   },
   "Title": {
     "Add": "Add {title}",
     "Edit": "Edit {title}",
     "Confirm": "Confirm {title}",
     "ConfirmText": "Do you want to {action} {title}?",
-    "Article": "Article",
-    "Comment": "Comment",
-    "PopularTags": "Popular Tags",
-    "Profile": "Profile"
+    "Alert": "Alert"
   }
 }

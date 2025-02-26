@@ -1,48 +1,111 @@
 <script setup lang="ts">
 import BaseInfoForm from '../BaseInfoForm.vue'
-import type Toolbar from '../Toolbar.vue'
+import { productDetailSchema } from '../ProductDetail/productDetailSchema'
+import type Toolbar from '../Toolbar/Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
 import { baseInfoSchema } from '@/components/Form/form'
-import { AInfoModel, type AModel } from '@/libs/models/Form/A/A'
+import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
+import { FormPageAction } from '@/libs/types/FormTypes'
+import { createConfirm } from '@/libs/utils/confirm'
+import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
+import Skeleton from 'primevue/skeleton'
+import { useConfirm } from 'primevue/useconfirm'
 import { useForm } from 'vee-validate'
-import { type Ref, inject, onMounted } from 'vue'
+import { type Ref, inject, onMounted, provide, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
+const { t } = useI18n()
+const confirm = createConfirm(useConfirm())
+
+const loading = ref(true)
 // import type { ComponentExposed } from 'vue-component-type-helpers'
-const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')
+const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
 // const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
+const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
 
-const { defineField, handleSubmit, errors, validate, values } = useForm({
+const initialValues: AModel = {
+  baseInfo: new FormBaseInfoModel(),
+  info: new AInfoModel(),
+  productDetail: []
+}
+
+const form = useForm<AModel>({
   validationSchema: toTypedSchema(
-    z.object({
-      baseInfo: baseInfoSchema,
-      info: aFormInfoSchema
-    })
+    z
+      .object({
+        baseInfo: baseInfoSchema,
+        info: aFormInfoSchema,
+        productDetail: z.array(productDetailSchema)
+      })
+      .superRefine((val, ctx) => {
+        requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('Message.Required'),
+            path: [`info.${field}`]
+          })
+        })
+      })
+      .superRefine((val, ctx) => {
+        if (
+          AFormInfoRef.value?.fieldMode.productDetail == 'required' &&
+          val.productDetail.length == 0
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: t('Message.At_least_number_entry_is_required', { number: 1 }),
+            path: ['productDetail']
+          })
+        }
+
+        val.productDetail?.forEach((item, index) => {
+          requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
+            (field) => {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: t('Message.Required'),
+                path: [`productDetail.${index}.${field}`]
+              })
+            }
+          )
+        })
+      })
   ),
-  initialValues: {
-    baseInfo: new FormBaseInfoModel(),
-    info: new AInfoModel()
-  }
+  initialValues: initialValues
 })
 
-async function onSubmit() {
-  const isValid = await validate()
-  console.log(isValid.values)
-  console.log(values)
+if (pageInfo?.value.formPageAction == FormPageAction.application) {
+  loading.value = false
+} else {
+  aService.data(`${pageInfo.value.formId}`).then((data) => {
+    form.setValues(data.data)
+    loading.value = false
+  })
+}
 
-  if (!isValid.valid) {
-    console.warn(isValid.errors)
+async function onSubmit() {
+  const isValid = await form.validate()
+  // console.log('values', isValid.values)
+  // console.log(values)
+
+  const aFormInfoValid = await AFormInfoRef.value?.validate()
+
+  if (!isValid.valid || !aFormInfoValid) {
+    console.error(isValid.errors)
+    confirm.alert({ message: t('Message.Please_check_the_field') })
     return false
   }
 
+  form.setFieldValue('baseInfo.description', form.values?.info?.title)
+
   return aService
-    .save(values)
+    .save(form.values || {})
     .then(({ data }) => data)
     .catch((error) => {
       console.error(error)
@@ -58,23 +121,36 @@ onMounted(() => {
   // }
 
   toolbar!.value.applicationBtn.saveAction = onSubmit
+  toolbar!.value.approveBtn.saveAction = onSubmit
+  toolbar!.value.rejectBtn.saveAction = onSubmit
 
   // toolbar!.value.applicationBtn.afterAction = async () => {
   //   console.log('afterAction')
   // }
 })
+
+provide('form', form)
 </script>
 <template>
-  <form novalidate @submit="onSubmit">
+  <div v-if="loading" class="p-4 flex gap-5 flex-col">
+    <Skeleton width="50%" height="2rem"></Skeleton>
+    <div class="flex gap-5">
+      <div class="flex flex-col gap-5 w-1/4" v-for="n in 4" :key="n">
+        <Skeleton width="50%" height="1.5rem"></Skeleton>
+        <Skeleton width="100%" height="1.5rem"></Skeleton>
+      </div>
+    </div>
+  </div>
+  <form v-else novalidate @submit="onSubmit">
     <h1>{{ $t('Form.Class.A') }}</h1>
     <div>
       <BaseInfoForm />
     </div>
 
     <div>
-      <AFormInfo />
+      <AFormInfo ref="AFormInfoRef" />
     </div>
 
-    <pre>{{ JSON.stringify(values, null, 2) }}</pre>
+    <pre>{{ JSON.stringify(form.values, null, 2) }}</pre>
   </form>
 </template>
