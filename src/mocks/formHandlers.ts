@@ -80,7 +80,7 @@ export const formHandlers = [
     await delay()
     const { formClass } = params
     const json = (await request.json()) as { baseInfo: FormBaseInfoModel }
-    const formId = json?.baseInfo?.formId || `${formClass}001`
+    const formId = json?.baseInfo?.formId || `${formClass}002`
 
     return HttpResponse.json({
       result: true,
