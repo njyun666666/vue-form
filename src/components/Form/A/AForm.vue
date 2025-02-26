@@ -89,7 +89,7 @@ if (pageInfo?.value.formPageAction == FormPageAction.application) {
   })
 }
 
-async function onSubmit() {
+async function onValidate() {
   const isValid = await form.validate()
   // console.log('values', isValid.values)
   // console.log(values)
@@ -101,6 +101,12 @@ async function onSubmit() {
     confirm.alert({ message: t('Message.Please_check_the_field') })
     return false
   }
+
+  return true
+}
+
+async function onSubmit() {
+  if (!(await onValidate())) return false
 
   form.setFieldValue('baseInfo.description', form.values?.info?.title)
 
@@ -119,6 +125,10 @@ onMounted(() => {
   // toolbar!.value.applicationBtn.beforeAction = async () => {
   //   console.log('beforeAction')
   // }
+
+  toolbar!.value.applicationBtn.validate = onValidate
+  toolbar!.value.approveBtn.validate = onValidate
+  toolbar!.value.rejectBtn.validate = onValidate
 
   toolbar!.value.applicationBtn.saveAction = onSubmit
   toolbar!.value.approveBtn.saveAction = onSubmit

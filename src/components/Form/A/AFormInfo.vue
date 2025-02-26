@@ -32,6 +32,10 @@ const field = {
   select: useField<string>('info.select')
 }
 
+if (field.datetime.value.value) {
+  field.datetime.value.value = new Date(field.datetime.value.value)
+}
+
 const fieldMode = computed(() => {
   const mode: Record<string, FormFieldModeType> = {
     title: 'readonly',
@@ -58,6 +62,8 @@ const fieldMode = computed(() => {
   }
 
   if (pageInfo?.value.step == 3) {
+    mode.radio = 'required'
+
     switch (field.radio.value.value) {
       case 1:
         mode.checkbox = 'required'
@@ -108,16 +114,6 @@ const productDetailFieldMode = computed(() => {
   }
 
   return mode
-})
-
-const dateTimeModel = computed({
-  get: () => {
-    const value = field.datetime.value
-    return typeof value === 'string' ? new Date(value) : value.value
-  },
-  set: (newValue) => {
-    field.datetime.value.value = newValue
-  }
 })
 
 const { data: cityList, isFetching: cityIsFetching } = useQuery({
@@ -212,7 +208,7 @@ defineExpose({
       >
         <DatePicker
           id="datetime"
-          v-model="dateTimeModel"
+          v-model="field.datetime.value.value"
           showTime
           hourFormat="24"
           showButtonBar

@@ -8,6 +8,7 @@ export class FormActionSetting {
   saveAction?: () => Promise<boolean | FormSaveViewModel>
   action!: () => Promise<boolean | void>
   afterAction?: () => Promise<boolean | void>
+  validate?: () => Promise<boolean | void>
   loading!: boolean
 
   constructor(actionType: FormActionType, action: () => Promise<boolean | void>) {

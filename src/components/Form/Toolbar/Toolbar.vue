@@ -185,6 +185,10 @@ async function rejectAction() {
 }
 
 async function commentAction(setting: FormActionSetting) {
+  if (setting.validate && !(await setting.validate())) {
+    return false
+  }
+
   approval.value.comment = ''
 
   commentDialog.value = dialog.open(ActionDialog, {
@@ -207,7 +211,7 @@ async function commentAction(setting: FormActionSetting) {
     },
     emits: {
       onFlowSend: (e: FlowApprovalModel) => {
-        console.log('onFlowSend', e)
+        // console.log('onFlowSend', e)
         approval.value.comment = e.comment
         handleClick(setting)
       }
