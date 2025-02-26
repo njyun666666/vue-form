@@ -9,17 +9,19 @@ import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
 import { FormPageAction } from '@/libs/types/FormTypes'
+import { createConfirm } from '@/libs/utils/confirm'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import Skeleton from 'primevue/skeleton'
 import { useConfirm } from 'primevue/useconfirm'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import { type Ref, inject, onMounted, provide, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
 const { t } = useI18n()
-const confirm = useConfirm()
+const confirm = createConfirm(useConfirm())
+
 const loading = ref(true)
 // import type { ComponentExposed } from 'vue-component-type-helpers'
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
@@ -96,18 +98,7 @@ async function onSubmit() {
 
   if (!isValid.valid || !aFormInfoValid) {
     console.error(isValid.errors)
-    confirm.require({
-      message: 'Are you sure you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      rejectProps: {
-        class: 'hidden'
-      },
-      acceptProps: {
-        label: t('Message')
-      }
-    })
-
+    confirm.alert({ message: t('Message.Please_check_the_field') })
     return false
   }
 

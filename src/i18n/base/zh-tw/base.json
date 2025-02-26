@@ -53,9 +53,6 @@
     "Edit": "編輯{title}",
     "Confirm": "確認{title}",
     "ConfirmText": "確認要{action}{title}?",
-    "Article": "文章",
-    "Comment": "留言",
-    "PopularTags": "熱門標籤",
-    "Profile": "個人資料"
+    "Alert": "提醒"
   }
 }

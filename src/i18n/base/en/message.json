@@ -19,6 +19,7 @@
     "NoMore": "no more",
     "Password_dont_match": "Password don't match",
     "Application_Success": "Application success",
-    "Application_Fail": "Application fail"
+    "Application_Fail": "Application fail",
+    "Please_check_the_field": "Please check the field"
   }
 }

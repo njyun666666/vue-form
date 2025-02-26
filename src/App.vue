@@ -20,7 +20,7 @@ useDark()
 <template>
   <RouterView />
   <DynamicDialog />
-  <ConfirmDialog />
+  <ConfirmDialog class="w-[50vw]" :breakpoints="{ '960px': '75vw', '640px': '90vw' }" />
   <Toast />
 
   <div

@@ -19,6 +19,7 @@
     "NoMore": "沒了",
     "Password_dont_match": "與密碼不符",
     "Application_Success": "申請成功",
-    "Application_Fail": "申請失敗"
+    "Application_Fail": "申請失敗",
+    "Please_check_the_field": "請檢查欄位"
   }
 }
