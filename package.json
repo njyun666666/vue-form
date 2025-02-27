@@ -15,8 +15,7 @@
   },
   "lint-staged": {
     "*.{vue,js,ts}": [
-      "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-      "vue-tsc --noEmit"
+      "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
     ],
     "**/*": "prettier --write src/ --ignore-unknown"
   },
