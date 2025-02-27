@@ -181,7 +181,7 @@ defineExpose({
     />
 
     <h2>Step 2</h2>
-    <div class="grid grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
       <InputField
         class="col-span-6"
         for="content"
@@ -219,7 +219,7 @@ defineExpose({
     </div>
 
     <h2>Step 3</h2>
-    <div class="grid grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
       <InputField
         class="col-span-4"
         for="content"
