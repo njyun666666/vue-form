@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FileModel } from '@/libs/models/File/File'
 import { fileService } from '@/libs/services/fileService'
-import FileUpload, { type FileUploadSelectEvent } from 'primevue/fileupload'
+import FileUpload, { type FileUploadUploaderEvent } from 'primevue/fileupload'
+import { ref } from 'vue'
 
 interface Props {
   accept?: string
@@ -13,9 +14,13 @@ const emit = defineEmits<{
   upload: [files: FileModel[]]
 }>()
 
-const onFileSelect = async (e: FileUploadSelectEvent) => {
+const uploading = ref(false)
+
+const onUploader = async (e: FileUploadUploaderEvent) => {
+  uploading.value = true
   const response = await fileService.upload(e.files, props.groupId)
   emit('upload', response)
+  uploading.value = false
 }
 </script>
 <template>
@@ -24,11 +29,13 @@ const onFileSelect = async (e: FileUploadSelectEvent) => {
     name="files[]"
     :accept="accept"
     :maxFileSize="1000000"
-    @select="onFileSelect"
+    @uploader="onUploader"
     customUpload
     auto
     :multiple="multiple"
+    :chooseIcon="uploading ? 'pi pi-spin pi-spinner' : 'pi pi-plus'"
     :chooseLabel="$t('Action.UploadFile')"
     :groupId="groupId"
+    :pt="{ root: 'justify-start' }"
   ></FileUpload>
 </template>
