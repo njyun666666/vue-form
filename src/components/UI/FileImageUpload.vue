@@ -4,11 +4,13 @@ import type { FileModel } from '@/libs/models/File/File'
 import { fileService } from '@/libs/services/fileService'
 import type { FormFieldModeType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
+import Image from 'primevue/image'
 import { ref } from 'vue'
 
 interface Props {
   groupId: string
   mode?: FormFieldModeType
+  multiple?: boolean
 }
 
 const props = defineProps<Props>()
@@ -21,6 +23,16 @@ fileService.list(props.groupId).then((response) => {
 const remove = (file: FileModel) => {
   file.isDeleted = true
 }
+
+const upload = (files: FileModel[]) => {
+  if (!props.multiple) {
+    list.value.forEach((file) => {
+      remove(file)
+    })
+  }
+
+  list.value.push(...files)
+}
 </script>
 <template>
   <div class="flex flex-col gap-2">
@@ -28,22 +40,24 @@ const remove = (file: FileModel) => {
       v-if="mode == 'required' || mode == 'optional'"
       accept="image/*"
       :groupId="groupId"
-      @upload="(files) => list.push(...files)"
+      :multiple="multiple"
+      @upload="upload"
     />
     <div class="flex flex-col gap-1">
-      <div v-for="file in list" :key="file.id" class="flex gap-1">
-        <template v-if="!file.isDeleted">
-          <img :src="file.url" class="w-[100px] h-[100px]" />
+      <template v-for="file in list" :key="file.id">
+        <div v-if="!file.isDeleted" class="flex gap-1">
+          <Image :src="file.url" class="w-[100px] h-[100px]" preview />
           <Button
             v-if="mode == 'required' || mode == 'optional'"
+            class="shrink-0"
             icon="pi pi-trash"
             rounded
             severity="secondary"
             @click="remove(file)"
             v-tooltip="$t('Action.Remove')"
           />
-        </template>
-      </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
