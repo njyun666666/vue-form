@@ -44,7 +44,11 @@ datatable.handleFetchData()
           />
         </div>
       </template>
-      <Column field="formClass" :header="$t('Form.BaseInfo.formClass')"> </Column>
+      <Column field="formClass" :header="$t('Form.BaseInfo.formClass')">
+        <template #body="{ data }">
+          {{ $t(`Form.Class.${data.formClass}`) }}
+        </template>
+      </Column>
       <Column field="formId" :header="$t('Form.BaseInfo.formId')">
         <template #body="{ data }">
           <RouterLink
