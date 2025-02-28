@@ -128,11 +128,11 @@ onMounted(() => {
 
   toolbar!.value.applicationBtn.validate = onValidate
   toolbar!.value.approveBtn.validate = onValidate
-  toolbar!.value.rejectBtn.validate = onValidate
+  // toolbar!.value.rejectBtn.validate = onValidate
 
   toolbar!.value.applicationBtn.saveAction = onSubmit
   toolbar!.value.approveBtn.saveAction = onSubmit
-  toolbar!.value.rejectBtn.saveAction = onSubmit
+  // toolbar!.value.rejectBtn.saveAction = onSubmit
 
   // toolbar!.value.applicationBtn.afterAction = async () => {
   //   console.log('afterAction')
@@ -161,6 +161,6 @@ provide('form', form)
       <AFormInfo ref="AFormInfoRef" />
     </div>
 
-    <pre>{{ JSON.stringify(form.values, null, 2) }}</pre>
+    <!-- <pre>{{ JSON.stringify(form.values, null, 2) }}</pre> -->
   </form>
 </template>
