@@ -1,9 +1,9 @@
-import type { FormActionType } from '@/libs/types/FormTypes'
+import type { FormActionEnum } from '@/libs/enums/FormTypes'
 
 export class FlowApprovalModel {
   formId?: string
   approvalId?: string
-  action?: FormActionType
+  action?: FormActionEnum
   comment?: string
 }
 

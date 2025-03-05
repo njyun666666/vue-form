@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { formService } from '@/libs/services/formService'
-import { FormPageAction } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
 import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
@@ -40,7 +40,7 @@ const { isFetching, data } = useQuery({
               :to="{
                 name: 'form/:formPageAction/:formClass',
                 params: {
-                  formPageAction: FormPageAction.application,
+                  formPageAction: FormPageActionEnum.application,
                   formClass: formClass.formClass
                 }
               }"

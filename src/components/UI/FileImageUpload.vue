@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import FileUpload from './FileUpload.vue'
+import { FormFieldModeEnum } from '@/libs/enums/FormTypes'
 import type { FileModel } from '@/libs/models/File/File'
 import { fileService } from '@/libs/services/fileService'
-import type { FormFieldModeType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
 import Image from 'primevue/image'
 import { ref } from 'vue'
 
 interface Props {
   groupId: string
-  mode?: FormFieldModeType
+  mode?: FormFieldModeEnum
   multiple?: boolean
 }
 
@@ -37,7 +37,7 @@ const upload = (files: FileModel[]) => {
 <template>
   <div class="flex flex-col gap-2">
     <FileUpload
-      v-if="mode == 'required' || mode == 'optional'"
+      v-if="mode == FormFieldModeEnum.required || mode == FormFieldModeEnum.optional"
       accept="image/*"
       :groupId="groupId"
       :multiple="multiple"
@@ -48,7 +48,7 @@ const upload = (files: FileModel[]) => {
         <div v-if="!file.isDeleted" class="flex gap-1">
           <Image :src="file.url" class="w-[100px] h-[100px]" preview />
           <Button
-            v-if="mode == 'required' || mode == 'optional'"
+            v-if="mode == FormFieldModeEnum.required || mode == FormFieldModeEnum.optional"
             class="shrink-0"
             icon="pi pi-trash"
             rounded

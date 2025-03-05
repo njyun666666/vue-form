@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import { FormActionEnum } from '@/libs/enums/FormTypes'
 import type { FlowApprovalModel } from '@/libs/models/Form/FlowModel'
 import type { ActionDialogProps } from '@/libs/models/Form/Toolbar'
-import { FormAction, type FormActionType } from '@/libs/types/FormTypes'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import { type Ref, inject, onMounted, ref } from 'vue'
@@ -21,7 +21,7 @@ const closeDialog = () => {
   dialogRef.value.close()
 }
 
-const update = (action: FormActionType) => {
+const update = (action: FormActionEnum) => {
   commentError.value = ''
 
   if (action == 'reject' && !comment.value) {
@@ -57,14 +57,14 @@ onMounted(() => {
         v-if="props?.action == 'approve'"
         :label="$t('Action.Approve')"
         icon="pi pi-check"
-        @click="update(FormAction.approve as FormActionType)"
+        @click="update(FormActionEnum.approve as FormActionEnum)"
       />
       <Button
         v-if="props?.action == 'reject'"
         :label="$t('Action.Reject')"
         icon="pi pi-times"
         severity="danger"
-        @click="update(FormAction.reject as FormActionType)"
+        @click="update(FormActionEnum.reject as FormActionEnum)"
       />
     </div>
   </div>

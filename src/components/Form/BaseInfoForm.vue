@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
-import { FormPageAction } from '@/libs/types/FormTypes'
 import { useLoginStore } from '@/stores/login'
 import dayjs from 'dayjs'
 // import DatePicker from 'primevue/datepicker'
@@ -20,7 +20,7 @@ const field = {
   applicationDate: useField<Date>('baseInfo.applicationDate')
 }
 
-if (pageInfo?.value.formPageAction == FormPageAction.application) {
+if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
   field.formClass.value.value = pageInfo?.value.formClass
   field.applicationId.value.value = String(login.tokenPayload?.uid)
   field.applicationName.value.value = String(login.tokenPayload?.sub)

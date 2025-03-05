@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ActionDialog from './ApprovalComment.vue'
+import { FormActionEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Form/FlowModel'
 import type { FormPageInfoModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
 import { flowService } from '@/libs/services/flowService'
-import { FormAction, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import { createConfirm } from '@/libs/utils/confirm'
 import router from '@/router'
 import { useLayoutStore } from '@/stores/layout'
@@ -19,7 +19,7 @@ import { useI18n } from 'vue-i18n'
 import type { RouteLocationRaw } from 'vue-router'
 
 interface Props {
-  formPageAction: FormPageActionType
+  formPageAction: FormPageActionEnum
 }
 
 const props = defineProps<Props>()
@@ -30,23 +30,23 @@ const dialog = useDialog()
 const commentDialog = ref<DynamicDialogInstance>()
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 
-const applicationBtn = ref(new FormActionSetting('application', applicationAction))
-const approveBtn = ref(new FormActionSetting('approve', approveAction))
-const rejectBtn = ref(new FormActionSetting('reject', rejectAction))
+const applicationBtn = ref(new FormActionSetting(FormActionEnum.application, applicationAction))
+const approveBtn = ref(new FormActionSetting(FormActionEnum.approve, approveAction))
+const rejectBtn = ref(new FormActionSetting(FormActionEnum.reject, rejectAction))
 const save = ref<FormSaveViewModel>({})
 const approval = ref<FlowApprovalModel>({ formId: pageInfo.value.flowId, approvalId: 'aaa' })
 const approvalRes = ref<FlowApprovalViewModel>({})
 const routeTo = ref<RouteLocationRaw>()
 
 switch (props.formPageAction) {
-  case FormPageAction.application:
+  case FormPageActionEnum.application:
     applicationBtn.value.display = true
     break
 
-  case FormPageAction.info:
+  case FormPageActionEnum.info:
     break
 
-  case FormPageAction.approval:
+  case FormPageActionEnum.approval:
     approveBtn.value.display = true
     rejectBtn.value.display = true
     break
@@ -96,7 +96,7 @@ async function handleClick(setting: FormActionSetting) {
   }
 
   // flow
-  if ([FormAction.approve, FormAction.reject].includes(setting.actionType)) {
+  if ([FormActionEnum.approve, FormActionEnum.reject].includes(setting.actionType)) {
     approvalRes.value = await flowService
       .approval(approval.value)
       .then(({ data }) => data)
@@ -153,7 +153,7 @@ async function applicationAction() {
   routeTo.value = {
     name: 'form/:formPageAction/:formClass/:formId',
     params: {
-      formPageAction: FormPageAction.info,
+      formPageAction: FormPageActionEnum.info,
       formClass: save.value.formClass,
       formId: save.value.formId
     }
@@ -173,7 +173,7 @@ async function approveAction() {
   routeTo.value = {
     name: 'form/:formPageAction/:formClass/:formId',
     params: {
-      formPageAction: FormPageAction.info,
+      formPageAction: FormPageActionEnum.info,
       formClass: pageInfo.value.formClass,
       formId: pageInfo.value.formId
     }

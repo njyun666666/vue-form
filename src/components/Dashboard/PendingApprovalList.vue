@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { PendingApprovalModel } from '@/libs/models/Form/FormModel'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { formService } from '@/libs/services/formService'
-import { FormPageAction } from '@/libs/types/FormTypes'
 import { useDatatable } from '@/libs/utils/datatable'
 import dayjs from 'dayjs'
 import Button from 'primevue/button'
@@ -55,7 +55,7 @@ datatable.handleFetchData()
             :to="{
               name: 'form/:formPageAction/:formClass/:formId',
               params: {
-                formPageAction: FormPageAction.approval,
+                formPageAction: FormPageActionEnum.approval,
                 formClass: data.formClass,
                 formId: data.formId
               }
