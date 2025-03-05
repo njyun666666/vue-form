@@ -1,6 +1,7 @@
 import { PendingApprovalModel } from './../libs/models/Form/FormModel'
 import appConfig from '@/appConfig'
 import { formFaker } from '@/faker/form'
+import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type {
   FormApplication,
   FormBaseInfoModel,
@@ -9,7 +10,6 @@ import type {
 } from '@/libs/models/Form/FormModel'
 import type { QueryViewModel } from '@/libs/models/Query/QueryModel'
 import { formService } from '@/libs/services/formService'
-import { FormPageAction } from '@/libs/types/FormTypes'
 import { HttpResponse, delay, http } from 'msw'
 
 export const formHandlers = [
@@ -58,7 +58,11 @@ export const formHandlers = [
       }
 
       return HttpResponse.json({
-        formPageAction: [FormPageAction.application, FormPageAction.info, FormPageAction.approval],
+        formPageAction: [
+          FormPageActionEnum.application,
+          FormPageActionEnum.info,
+          FormPageActionEnum.approval
+        ],
         flowId: `${formClass}-flow-1`,
         step: form.step
       } as FormCheckAuthViewModel)
@@ -70,7 +74,11 @@ export const formHandlers = [
       await delay()
       const { formClass } = params
       return HttpResponse.json({
-        formPageAction: [FormPageAction.application, FormPageAction.info, FormPageAction.approval],
+        formPageAction: [
+          FormPageActionEnum.application,
+          FormPageActionEnum.info,
+          FormPageActionEnum.approval
+        ],
         flowId: `${formClass}-flow-1`,
         step: 1
       } as FormCheckAuthViewModel)

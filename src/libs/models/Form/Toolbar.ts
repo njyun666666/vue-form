@@ -1,8 +1,8 @@
 import type { FormSaveViewModel } from './FormModel'
-import type { FormActionType } from '@/libs/types/FormTypes'
+import type { FormActionEnum } from '@/libs/enums/FormTypes'
 
 export class FormActionSetting {
-  actionType!: FormActionType
+  actionType!: FormActionEnum
   display!: boolean
   beforeAction?: () => Promise<boolean | void>
   saveAction?: () => Promise<boolean | FormSaveViewModel>
@@ -11,7 +11,7 @@ export class FormActionSetting {
   validate?: () => Promise<boolean | void>
   loading!: boolean
 
-  constructor(actionType: FormActionType, action: () => Promise<boolean | void>) {
+  constructor(actionType: FormActionEnum, action: () => Promise<boolean | void>) {
     this.actionType = actionType
     this.display = false
     this.action = action
@@ -19,5 +19,5 @@ export class FormActionSetting {
 }
 
 export class ActionDialogProps {
-  action?: FormActionType
+  action?: FormActionEnum
 }

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import ProductDetail from '../ProductDetail/ProductDetail.vue'
 import InputField from '@/components/UI/InputField.vue'
+import { FormFieldModeEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import type { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 import { optionService } from '@/libs/services/optionService'
-import { type FormFieldModeType, FormPageAction } from '@/libs/types/FormTypes'
 import { useQuery } from '@tanstack/vue-query'
 import Checkbox from 'primevue/checkbox'
 import DatePicker from 'primevue/datepicker'
@@ -37,47 +37,47 @@ if (field.datetime.value.value) {
 }
 
 const fieldMode = computed(() => {
-  const mode: Record<string, FormFieldModeType> = {
-    title: 'readonly',
-    content: 'readonly',
-    amount: 'readonly',
-    datetime: 'readonly',
-    radio: 'readonly',
-    checkbox: 'readonly',
-    select: 'readonly',
-    productDetail: 'readonly'
+  const mode: Record<string, FormFieldModeEnum> = {
+    title: FormFieldModeEnum.readonly,
+    content: FormFieldModeEnum.readonly,
+    amount: FormFieldModeEnum.readonly,
+    datetime: FormFieldModeEnum.readonly,
+    radio: FormFieldModeEnum.readonly,
+    checkbox: FormFieldModeEnum.readonly,
+    select: FormFieldModeEnum.readonly,
+    productDetail: FormFieldModeEnum.readonly
   }
 
-  if (pageInfo.value.formPageAction == FormPageAction.info) return mode
+  if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
 
   if (pageInfo?.value.step == 1) {
-    mode.title = 'required'
-    mode.content = 'required'
-    mode.productDetail = 'required'
+    mode.title = FormFieldModeEnum.required
+    mode.content = FormFieldModeEnum.required
+    mode.productDetail = FormFieldModeEnum.required
   }
 
   if (pageInfo?.value.step == 2) {
-    mode.amount = 'required'
-    mode.datetime = 'required'
+    mode.amount = FormFieldModeEnum.required
+    mode.datetime = FormFieldModeEnum.required
   }
 
   if (pageInfo?.value.step == 3) {
-    mode.radio = 'required'
+    mode.radio = FormFieldModeEnum.required
 
     switch (field.radio.value.value) {
       case 1:
-        mode.checkbox = 'required'
-        mode.select = 'readonly'
+        mode.checkbox = FormFieldModeEnum.required
+        mode.select = FormFieldModeEnum.readonly
         break
 
       case 2:
-        mode.checkbox = 'readonly'
-        mode.select = 'required'
+        mode.checkbox = FormFieldModeEnum.readonly
+        mode.select = FormFieldModeEnum.required
         break
 
       case 3:
-        mode.checkbox = 'required'
-        mode.select = 'required'
+        mode.checkbox = FormFieldModeEnum.required
+        mode.select = FormFieldModeEnum.required
         break
 
       default:
@@ -89,28 +89,28 @@ const fieldMode = computed(() => {
 })
 
 const productDetailFieldMode = computed(() => {
-  const mode: Partial<Record<keyof ProductDetailModel, FormFieldModeType>> = {
-    id: 'readonly',
-    name: 'readonly',
-    price: 'readonly',
-    description: 'readonly',
-    image: 'readonly',
-    category: 'readonly'
+  const mode: Partial<Record<keyof ProductDetailModel, FormFieldModeEnum>> = {
+    id: FormFieldModeEnum.readonly,
+    name: FormFieldModeEnum.readonly,
+    price: FormFieldModeEnum.readonly,
+    description: FormFieldModeEnum.readonly,
+    image: FormFieldModeEnum.readonly,
+    category: FormFieldModeEnum.readonly
   }
 
-  if (pageInfo.value.formPageAction == FormPageAction.info) return mode
+  if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
 
   if (pageInfo?.value.step == 1) {
-    mode.id = 'required'
-    mode.name = 'required'
-    mode.price = 'required'
-    mode.description = 'required'
-    mode.image = 'required'
-    mode.category = 'required'
+    mode.id = FormFieldModeEnum.required
+    mode.name = FormFieldModeEnum.required
+    mode.price = FormFieldModeEnum.required
+    mode.description = FormFieldModeEnum.required
+    mode.image = FormFieldModeEnum.required
+    mode.category = FormFieldModeEnum.required
   }
 
   if (pageInfo?.value.step == 2) {
-    mode.price = 'required'
+    mode.price = FormFieldModeEnum.required
   }
 
   return mode
@@ -144,14 +144,14 @@ defineExpose({
         for="title"
         :label="$t('Form.A.title')"
         :error="field.title.errorMessage.value"
-        :isRequired="fieldMode.title == 'required'"
+        :isRequired="fieldMode.title == FormFieldModeEnum.required"
       >
         <InputText
           id="title"
           type="text"
           v-model.trim="field.title.value.value"
           :invalid="!!field.title.errorMessage.value"
-          :disabled="fieldMode.title == 'readonly'"
+          :disabled="fieldMode.title == FormFieldModeEnum.readonly"
         />
       </InputField>
 
@@ -160,7 +160,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.content')"
         :error="field.content.errorMessage.value"
-        :isRequired="fieldMode.content == 'required'"
+        :isRequired="fieldMode.content == FormFieldModeEnum.required"
       >
         <Textarea
           v-model.trim="field.content.value.value"
@@ -168,7 +168,7 @@ defineExpose({
           class="w-full"
           autoResize
           :invalid="!!field.content.errorMessage.value"
-          :disabled="fieldMode.content == 'readonly'"
+          :disabled="fieldMode.content == FormFieldModeEnum.readonly"
         />
       </InputField>
     </div>
@@ -187,7 +187,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.amount')"
         :error="field.amount.errorMessage.value"
-        :isRequired="fieldMode.amount == 'required'"
+        :isRequired="fieldMode.amount == FormFieldModeEnum.required"
       >
         <InputNumber
           v-model="field.amount.value.value"
@@ -195,7 +195,7 @@ defineExpose({
           :maxFractionDigits="2"
           :max="9999999.99"
           :invalid="!!field.amount.errorMessage.value"
-          :disabled="fieldMode.amount == 'readonly'"
+          :disabled="fieldMode.amount == FormFieldModeEnum.readonly"
         />
       </InputField>
 
@@ -204,7 +204,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.datetime')"
         :error="field.datetime.errorMessage.value"
-        :isRequired="fieldMode.datetime == 'required'"
+        :isRequired="fieldMode.datetime == FormFieldModeEnum.required"
       >
         <DatePicker
           id="datetime"
@@ -213,7 +213,7 @@ defineExpose({
           hourFormat="24"
           showButtonBar
           :invalid="!!field.datetime.errorMessage.value"
-          :disabled="fieldMode.datetime == 'readonly'"
+          :disabled="fieldMode.datetime == FormFieldModeEnum.readonly"
         />
       </InputField>
     </div>
@@ -225,7 +225,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.radio')"
         :error="field.radio.errorMessage.value"
-        :isRequired="fieldMode.radio == 'required'"
+        :isRequired="fieldMode.radio == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
           <div v-for="n in 3" :key="n" class="flex gap-2 shrink-0">
@@ -235,7 +235,7 @@ defineExpose({
               name="info.radio"
               :value="n"
               :invalid="!!field.radio.errorMessage.value"
-              :disabled="fieldMode.radio == 'readonly'"
+              :disabled="fieldMode.radio == FormFieldModeEnum.readonly"
             />
             <label :for="`info.radio.${n}`">{{ n }}</label>
           </div>
@@ -247,7 +247,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.checkbox')"
         :error="field.checkbox.errorMessage.value"
-        :isRequired="fieldMode.checkbox == 'required'"
+        :isRequired="fieldMode.checkbox == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
           <div v-for="item of cityList" :key="item.value" class="flex gap-2 shrink-0">
@@ -257,7 +257,7 @@ defineExpose({
               name="info.checkbox"
               :value="item.value"
               :invalid="!!field.checkbox.errorMessage.value"
-              :disabled="fieldMode.checkbox == 'readonly'"
+              :disabled="fieldMode.checkbox == FormFieldModeEnum.readonly"
             />
             <label :for="`info.checkbox.${item.value}`">{{ item.label }}</label>
           </div>
@@ -269,7 +269,7 @@ defineExpose({
         for="content"
         :label="$t('Form.A.select')"
         :error="field.select.errorMessage.value"
-        :isRequired="fieldMode.select == 'required'"
+        :isRequired="fieldMode.select == FormFieldModeEnum.required"
       >
         <Select
           v-model="field.select.value.value"
@@ -279,7 +279,7 @@ defineExpose({
           class="w-full"
           :invalid="!!field.select.errorMessage.value"
           :loading="cityIsFetching"
-          :disabled="fieldMode.select == 'readonly'"
+          :disabled="fieldMode.select == FormFieldModeEnum.readonly"
         />
       </InputField>
     </div>

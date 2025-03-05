@@ -1,4 +1,4 @@
-import type { FormFieldModeType } from '../types/FormTypes'
+import { FormFieldModeEnum } from '../enums/FormTypes'
 import { i18n } from '@/i18n/config'
 import { z } from 'zod'
 
@@ -14,12 +14,12 @@ export const zodErrorMap: z.ZodErrorMap = (issue, ctx) => {
 
 export const requiredFieldsValidator = (
   val: Record<string, unknown>,
-  fieldMode: Record<string, FormFieldModeType> = {}
+  fieldMode: Record<string, FormFieldModeEnum> = {}
 ) => {
   const failedFields: string[] = []
 
   Object.entries(val).forEach(([key, value]) => {
-    if (fieldMode[key] === 'required') {
+    if (fieldMode[key] === FormFieldModeEnum.required) {
       if (
         (typeof value === 'string' && value.trim() === '') ||
         (typeof value === 'number' && isNaN(value)) ||

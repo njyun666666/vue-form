@@ -2,9 +2,9 @@
 import A from '@/components/Form/A/AForm.vue'
 import B from '@/components/Form/B/BForm.vue'
 import Toolbar from '@/components/Form/Toolbar/Toolbar.vue'
+import { FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { formService } from '@/libs/services/formService'
-import { type FormClassType, FormPageAction, type FormPageActionType } from '@/libs/types/FormTypes'
 import BasePage from '@/pages/BasePage.vue'
 import { useLayoutStore } from '@/stores/layout'
 import Skeleton from 'primevue/skeleton'
@@ -24,15 +24,15 @@ const pageInfo = ref(new FormPageInfoModel())
 
 pageInfo.value.formPageAction = (
   route.params['formPageAction'] as string
-)?.toLowerCase() as FormPageActionType
-pageInfo.value.formClass = (route.params['formClass'] as string)?.toUpperCase() as FormClassType
+)?.toLowerCase() as FormPageActionEnum
+pageInfo.value.formClass = (route.params['formClass'] as string)?.toUpperCase() as FormClassEnum
 pageInfo.value.formId = (route.params['formId'] as string)?.toUpperCase()
 
 const toolbar = useTemplateRef<InstanceType<typeof Toolbar>>('toolbar')
 // const toolbar2 = useTemplateRef<ComponentExposed<typeof Toolbar>>('toolbar2')
 
 const mapping: {
-  [key in FormClassType]: any
+  [key in FormClassEnum]: any
 } = {
   A: A,
   B: B
@@ -70,7 +70,7 @@ formService
   .then(({ data }) => {
     if (!data.formPageAction.includes(pageInfo.value.formPageAction)) {
       router.replace(
-        `/form/${FormPageAction.info}/${pageInfo.value.formClass}/${pageInfo.value.formId}`
+        `/form/${FormPageActionEnum.info}/${pageInfo.value.formClass}/${pageInfo.value.formId}`
       )
       return
     }

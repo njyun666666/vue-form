@@ -1,4 +1,4 @@
-import type { FormActionType, FormClassType, FormPageActionType } from '@/libs/types/FormTypes'
+import type { FormActionEnum, FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 
 export interface FormApplication {
   groupId: string
@@ -37,14 +37,14 @@ export class FormSaveViewModel {
 }
 
 export interface FormCheckAuthViewModel {
-  formPageAction: FormPageActionType[]
+  formPageAction: FormPageActionEnum[]
   flowId?: string
   step: number
 }
 
 export class FormPageInfoModel {
-  formPageAction!: FormPageActionType
-  formClass!: FormClassType
+  formPageAction!: FormPageActionEnum
+  formClass!: FormClassEnum
   formId?: string
   flowId?: string
   step!: number

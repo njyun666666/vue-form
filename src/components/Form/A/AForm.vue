@@ -5,10 +5,10 @@ import type Toolbar from '../Toolbar/Toolbar.vue'
 import AFormInfo from './AFormInfo.vue'
 import { aFormInfoSchema } from './a'
 import { baseInfoSchema } from '@/components/Form/form'
+import { FormFieldModeEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
-import { FormPageAction } from '@/libs/types/FormTypes'
 import { createConfirm } from '@/libs/utils/confirm'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -54,7 +54,7 @@ const form = useForm<AModel>({
       })
       .superRefine((val, ctx) => {
         if (
-          AFormInfoRef.value?.fieldMode.productDetail == 'required' &&
+          AFormInfoRef.value?.fieldMode.productDetail == FormFieldModeEnum.required &&
           val.productDetail.length == 0
         ) {
           ctx.addIssue({
@@ -80,7 +80,7 @@ const form = useForm<AModel>({
   initialValues: initialValues
 })
 
-if (pageInfo?.value.formPageAction == FormPageAction.application) {
+if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
   loading.value = false
 } else {
   aService.data(`${pageInfo.value.formId}`).then((data) => {
