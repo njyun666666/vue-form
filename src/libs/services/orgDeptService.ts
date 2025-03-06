@@ -4,8 +4,8 @@ import type { OrgDeptQuery, OrgDeptQueryView } from '../models/OrgDept/OrgDeptQu
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
 class OrgDeptService {
-  readonly queryUrl = '/api/OrgDepts/Query'
-  readonly getOrgDeptUrl = '/api/OrgDepts'
+  readonly queryUrl = '/OrgDepts/Query'
+  readonly getOrgDeptUrl = '/OrgDepts'
 
   query(data: QueryModel<OrgDeptQuery>) {
     return formAPI.post<QueryViewModel<OrgDeptQueryView>>(this.queryUrl, data)

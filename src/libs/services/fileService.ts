@@ -2,8 +2,8 @@ import formAPI from '../api/formAPI'
 import { FileModel } from '../models/File/File'
 
 class FileService {
-  readonly uploadUrl = '/api/File/Upload'
-  readonly listUrl = '/api/File/List'
+  readonly uploadUrl = '/File/Upload'
+  readonly listUrl = '/File/List'
 
   upload(files: File | File[], groupId: string) {
     const formData = new FormData()

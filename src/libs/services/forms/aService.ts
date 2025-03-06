@@ -4,8 +4,8 @@ import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 
 class AService {
-  readonly saveUrl = '/api/A/Save'
-  readonly dataUrl = '/api/A/Data'
+  readonly saveUrl = '/A/Save'
+  readonly dataUrl = '/A/Data'
 
   save(data: AModel) {
     return formAPI.post<FormSaveViewModel>(this.saveUrl, data)

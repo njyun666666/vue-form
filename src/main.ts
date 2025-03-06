@@ -47,9 +47,10 @@ enableMocking().then(() => {
 })
 
 async function enableMocking() {
-  // if (process.env.NODE_ENV !== 'development') {
-  //   return
-  // }
+  const mockMode = import.meta.env.VITE_MOCK_MODE ?? 0
+  if (mockMode == 0) {
+    return
+  }
 
   const { worker } = await import('./mocks/browser')
 
