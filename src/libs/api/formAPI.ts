@@ -11,9 +11,12 @@ import axios, {
 } from 'axios'
 
 export interface ResponseErrors {
-  errors: {
-    [key: string]: string | string[]
-  }
+  message:
+    | string
+    | string[]
+    | {
+        [key: string]: string | string[]
+      }
 }
 
 const baseURL = appConfig.FORM_API

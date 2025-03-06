@@ -1,6 +1,7 @@
 {
   "Message": {
     "Required": "必填",
+    "isNotEmpty": "必填",
     "Login_Failed": "登入失敗",
     "Forbidden": "拒絕存取",
     "EditSuccess": "編輯成功",
@@ -10,6 +11,7 @@
     "AddFail": "新增失敗",
     "DeleteFail": "刪除失敗",
     "InvalidEmail": "無效Email",
+    "isEmail": "無效Email",
     "NoFound": "沒有找到",
     "Select_at_least_number_items_is_required": "至少選擇 {number} 項",
     "At_least_number_entry_is_required": "至少輸入 {number} 筆",

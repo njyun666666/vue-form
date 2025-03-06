@@ -1,6 +1,6 @@
 {
   "Login": {
-    "Email": "Email",
-    "Password": "密碼"
+    "email": "Email",
+    "password": "密碼"
   }
 }

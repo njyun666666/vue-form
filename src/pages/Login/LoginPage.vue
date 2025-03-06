@@ -77,7 +77,7 @@ const onSubmit = handleSubmit(async (values) => {
         <div class="flex flex-col gap-5 text-left">
           <ErrorMessage keypath="Login" :errors="errorMessage"> </ErrorMessage>
 
-          <InputField for="email" :label="$t('Login.Email')" :error="errors.email">
+          <InputField for="email" :label="$t('Login.email')" :error="errors.email">
             <InputText
               id="email"
               type="email"
@@ -87,7 +87,7 @@ const onSubmit = handleSubmit(async (values) => {
             />
           </InputField>
 
-          <InputField for="password" :label="$t('Login.Password')" :error="errors.password">
+          <InputField for="password" :label="$t('Login.password')" :error="errors.password">
             <InputText
               id="password"
               type="password"
