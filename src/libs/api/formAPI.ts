@@ -35,7 +35,7 @@ const AuthInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosReque
   const accessToken = loginStore.user?.access_token
 
   if (accessToken) {
-    config.headers.Authorization = `bearer ${accessToken}`
+    config.headers.Authorization = `Bearer ${accessToken}`
   }
 
   config.cancelToken = source.token
@@ -49,12 +49,13 @@ const OnResponseSuccess = (response: AxiosResponse): AxiosResponse => response
 const OnResponseFailure = async (error: AxiosError<ResponseErrors>): Promise<ResponseErrors> => {
   const loginStore = useLoginStore()
   const httpStatus = error.response?.status
+  const errorUrl = error.config?.url?.toLowerCase().replace(/\/api/, '')
 
   switch (httpStatus) {
     case HttpStatusCodes.UNAUTHORIZED:
-      if (error.config?.url?.toLowerCase() === loginService.loginUrl.toLowerCase()) {
+      if (errorUrl === loginService.loginUrl.toLowerCase()) {
         //
-      } else if (error.config?.url?.toLowerCase() === loginService.refreshTokenUrl.toLowerCase()) {
+      } else if (errorUrl === loginService.refreshTokenUrl.toLowerCase()) {
         console.log('Refresh token failed')
         source.cancel()
         loginStore.logout()

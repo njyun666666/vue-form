@@ -2,7 +2,7 @@ import formAPI from '../api/formAPI'
 import type { MenuViewModel } from '../models/Menu/Menu'
 
 class MenuService {
-  readonly menusUrl = '/Menus'
+  readonly menusUrl = '/menus'
 
   menus() {
     return formAPI.get<MenuViewModel[]>(`${this.menusUrl}`)
