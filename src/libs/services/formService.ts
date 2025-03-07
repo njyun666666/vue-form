@@ -9,9 +9,9 @@ import type {
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
 class FormService {
-  readonly applicationListUrl = '/Form/ApplicationList'
-  readonly checkAuthUrl = '/Form/CheckAuth'
-  readonly pandingApprovalListUrl = '/Form/PandingApprovalList'
+  readonly applicationListUrl = '/form/application-list'
+  readonly checkAuthUrl = '/form/check-auth'
+  readonly pandingApprovalListUrl = '/form/panding-approval-list'
 
   applicationList() {
     return formAPI.get<FormApplication[]>(this.applicationListUrl)
@@ -23,7 +23,7 @@ class FormService {
 
   checkAuth(pageInfo: FormPageInfoModel) {
     return formAPI.get<FormCheckAuthViewModel>(
-      `/api/Form/checkAuth/${pageInfo.formPageAction}/${pageInfo.formClass}/${pageInfo.formId ?? ''}`
+      `${this.checkAuthUrl}/${pageInfo.formPageAction}/${pageInfo.formClass}/${pageInfo.formId ?? ''}`
     )
   }
 }

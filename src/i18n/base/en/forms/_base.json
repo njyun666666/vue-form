@@ -13,7 +13,9 @@
   },
   "Class": {
     "A": "A form",
-    "B": "B form"
+    "B": "B form",
+    "C": "C form",
+    "D": "D form"
   },
   "BaseInfo": {
     "formId": "No.",

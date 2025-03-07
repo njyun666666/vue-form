@@ -17,30 +17,24 @@ export const formHandlers = [
     await delay()
     return HttpResponse.json([
       {
-        groupId: 'hr',
-        groupName: 'Form.Group.HR',
+        groupId: 'HR',
         list: [
           {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
+            formClass: 'A'
           },
           {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
+            formClass: 'B'
           }
         ]
       },
       {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
+        groupId: 'IT',
         list: [
           {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
+            formClass: 'A'
           },
           {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
+            formClass: 'B'
           }
         ]
       }
