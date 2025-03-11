@@ -58,7 +58,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId: `${formClass}-flow-1`,
-        step: form.step
+        stepId: form.step
       } as FormCheckAuthViewModel)
     }
   ),
@@ -74,7 +74,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId: `${formClass}-flow-1`,
-        step: 1
+        stepId: 1
       } as FormCheckAuthViewModel)
     }
   ),

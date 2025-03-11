@@ -76,7 +76,7 @@ formService
     }
 
     pageInfo.value.flowId = data.flowId
-    pageInfo.value.step = data.step
+    pageInfo.value.stepId = data.stepId
     auth.value = true
     loading.value = false
   })

@@ -50,18 +50,18 @@ const fieldMode = computed(() => {
 
   if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
 
-  if (pageInfo?.value.step == 1) {
+  if (pageInfo?.value.stepId == 1) {
     mode.title = FormFieldModeEnum.required
     mode.content = FormFieldModeEnum.required
     mode.productDetail = FormFieldModeEnum.required
   }
 
-  if (pageInfo?.value.step == 2) {
+  if (pageInfo?.value.stepId == 2) {
     mode.amount = FormFieldModeEnum.required
     mode.datetime = FormFieldModeEnum.required
   }
 
-  if (pageInfo?.value.step == 3) {
+  if (pageInfo?.value.stepId == 3) {
     mode.radio = FormFieldModeEnum.required
 
     switch (field.radio.value.value) {
@@ -100,7 +100,7 @@ const productDetailFieldMode = computed(() => {
 
   if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
 
-  if (pageInfo?.value.step == 1) {
+  if (pageInfo?.value.stepId == 1) {
     mode.id = FormFieldModeEnum.required
     mode.name = FormFieldModeEnum.required
     mode.price = FormFieldModeEnum.required
@@ -109,7 +109,7 @@ const productDetailFieldMode = computed(() => {
     mode.category = FormFieldModeEnum.required
   }
 
-  if (pageInfo?.value.step == 2) {
+  if (pageInfo?.value.stepId == 2) {
     mode.price = FormFieldModeEnum.required
   }
 

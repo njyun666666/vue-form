@@ -16,6 +16,7 @@ export class FormBaseInfoModel {
   applicationName?: string
   applicationDate?: Date
   description?: string
+  flowId?: string
 }
 
 export class PendingApprovalModel extends FormBaseInfoModel {
@@ -37,7 +38,7 @@ export class FormSaveViewModel {
 export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionEnum[]
   flowId?: string
-  step: number
+  stepId: number
 }
 
 export class FormPageInfoModel {
@@ -45,5 +46,5 @@ export class FormPageInfoModel {
   formClass!: FormClassEnum
   formId?: string
   flowId?: string
-  step!: number
+  stepId!: number
 }
