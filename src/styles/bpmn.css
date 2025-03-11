@@ -1,0 +1,12 @@
+@import 'bpmn-js/dist/assets/bpmn-js.css';
+@import 'bpmn-js/dist/assets/diagram-js.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+@import '@bpmn-io/properties-panel/assets/properties-panel.css';
+
+@layer base {
+  .bpmn-container {
+    @apply text-surface-900;
+  }
+}

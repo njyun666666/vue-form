@@ -20,6 +20,7 @@
     "**/*": "prettier --write src/ --ignore-unknown"
   },
   "dependencies": {
+    "@bpmn-io/properties-panel": "^3.26.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
@@ -30,6 +31,8 @@
     "@vee-validate/zod": "^4.15.0",
     "@vueuse/core": "^12.5.0",
     "axios": "^1.7.2",
+    "bpmn-js": "^18.3.1",
+    "bpmn-js-properties-panel": "^5.33.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "jwt-decode": "^4.0.0",
