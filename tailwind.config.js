@@ -38,5 +38,11 @@ export default {
       }
     }
   },
-  plugins: [primeui]
+  plugins: [primeui],
+  safelist: [
+    {
+      pattern: /vue-flow.+/,
+      variants: ['hover', 'focus']
+    }
+  ]
 }

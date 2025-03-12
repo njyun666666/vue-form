@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ActionDialog from './ApprovalComment.vue'
+import ToolbarBase from '@/components/UI/ToolbarBase.vue'
 import { FormActionEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Form/FlowModel'
 import type { FormPageInfoModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
@@ -226,7 +227,7 @@ defineExpose({
 })
 </script>
 <template>
-  <div class="flex w-full bg-surface-0 dark:bg-surface-900 gap-1 p-1">
+  <ToolbarBase>
     <Button
       v-if="applicationBtn.display"
       :label="$t('Action.Application')"
@@ -254,5 +255,5 @@ defineExpose({
       :loading="rejectBtn.loading"
       @click="commentAction(rejectBtn)"
     />
-  </div>
+  </ToolbarBase>
 </template>

@@ -76,6 +76,11 @@ const router = createRouter({
               component: () => import('@/pages/Form/FormPage.vue')
             }
           ]
+        },
+        {
+          path: 'flow',
+          name: 'flow',
+          component: () => import('@/pages/Flow/FlowPage.vue')
         }
       ]
     },

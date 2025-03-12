@@ -5,8 +5,12 @@
 @import 'tailwindcss/components';
 @import './primevue/tailwind.css';
 @import './components.css';
+@import '@vue-flow/core/dist/style.css';
+@import '@vue-flow/core/dist/theme-default.css';
+@import '@vue-flow/node-resizer/dist/style.css';
 @import 'tailwindcss/utilities';
 @import 'primeicons/primeicons.css';
+@import './flowchart.css';
 
 @layer base {
   /* Primary and Surface Palettes */

@@ -1,0 +1,13 @@
+@layer utilities {
+  .vue-flow__handle {
+    @apply h-2 w-2;
+  }
+
+  .vue-flow__resize-control.handle {
+    @apply h-2 w-2;
+  }
+
+  .vue-flow__node-start {
+    @apply aspect-square border border-surface-600 !bg-surface-50 p-2 text-center text-black;
+  }
+}
