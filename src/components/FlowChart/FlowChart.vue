@@ -36,7 +36,8 @@ const onSave = () => {
           @dragover="onDragOver"
           @dragleave="onDragLeave"
           :default-edge-options="{
-            type: 'smoothstep'
+            type: 'smoothstep',
+            markerEnd: 'arrow'
           }"
         >
           <template #node-start="startNodeProps">
