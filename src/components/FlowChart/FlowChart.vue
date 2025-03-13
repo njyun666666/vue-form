@@ -5,6 +5,7 @@ import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
 import useDragAndDrop from './useDnd'
 import type { FlowNode } from '@/libs/models/FlowChart/FlowChart'
+import { Background } from '@vue-flow/background'
 import type { Edge, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
@@ -46,6 +47,8 @@ const onSave = () => {
             markerEnd: 'arrowclosed'
           }"
         >
+          <Background />
+
           <template #node-start="startNodeProps">
             <StartNode v-bind="startNodeProps" />
           </template>

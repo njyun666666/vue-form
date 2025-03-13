@@ -1,4 +1,22 @@
 @layer utilities {
+  :root {
+    --vf-node-color: var(--p-surface-900);
+    --vf-box-shadow: var(--p-surface-900);
+    --vf-node-bg: hsl(var(--background));
+    --vf-node-text: var(--p-surface-900);
+    --vf-handle: var(--p-surface-500);
+    --vf-connection-path: var(--p-surface-900);
+  }
+
+  :root.dark {
+    --vf-node-color: var(--p-surface-400);
+    --vf-box-shadow: var(--p-surface-400);
+    --vf-node-bg: hsl(var(--background));
+    --vf-node-text: var(--p-surface-50);
+    --vf-handle: var(--p-surface-700);
+    --vf-connection-path: var(--p-surface-400);
+  }
+
   .vue-flow__handle {
     @apply h-2 w-2;
   }
@@ -7,8 +25,12 @@
     @apply h-2 w-2;
   }
 
-  .vue-flow__edge path {
-    @apply stroke-2;
+  .vue-flow__edges path {
+    @apply stroke-[var(--vf-connection-path)] stroke-2;
+  }
+
+  .vue-flow__marker #arrowclosed polyline {
+    @apply !fill-[var(--vf-connection-path)] !stroke-[var(--vf-connection-path)];
   }
 
   .vue-flow__pane.connecting.draggable path {
@@ -16,10 +38,15 @@
   }
 
   .vue-flow__connection-circle {
-    @apply fill-error stroke-surface;
+    @apply fill-error stroke-[var(--vf-connection-path)];
+  }
+
+  .vue-flow__node-base-color {
+    @apply border-[var(--vf-node-color)] bg-[var(--vf-node-bg)];
   }
 
   .vue-flow__node-start {
-    @apply flex aspect-square items-center justify-center border border-surface-600 !bg-surface-50 p-2 text-center text-black;
+    @apply vue-flow__node-base-color;
+    @apply flex aspect-square items-center justify-center rounded-full border-2 p-2;
   }
 }
