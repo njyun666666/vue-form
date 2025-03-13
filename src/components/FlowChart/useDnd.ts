@@ -50,8 +50,9 @@ export default function useDragAndDrop() {
    *
    * @param {DragEvent} event
    */
-  function onDragOver(event: DragEvent) {
+  function onDragOver(event: DragEvent | any) {
     event.preventDefault()
+    console.log('event', event)
 
     if (draggedType.value) {
       isDragOver.value = true
