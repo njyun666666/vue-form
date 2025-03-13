@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import ToolbarBase from '../UI/ToolbarBase.vue'
-import SpecialEdge from './Edges/SpecialEdge.vue'
+import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
 import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
 import useDragAndDrop from './useDnd'
 import type { FlowNode } from '@/libs/models/FlowChart/FlowChart'
-import type { Edge, Node } from '@vue-flow/core'
+import type { Edge, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
 import { ref } from 'vue'
@@ -20,6 +20,10 @@ onConnect(addEdges)
 const onSave = () => {
   console.log('json', toObject())
 }
+
+// const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
+//   console.log(event, node)
+// }
 </script>
 
 <template>
@@ -33,6 +37,8 @@ const onSave = () => {
         <VueFlow
           v-model:nodes="nodes"
           v-model:edges="edges"
+          :connection-radius="40"
+          delete-key-code="Delete"
           @dragover="onDragOver"
           @dragleave="onDragLeave"
           :default-edge-options="{
@@ -42,6 +48,26 @@ const onSave = () => {
         >
           <template #node-start="startNodeProps">
             <StartNode v-bind="startNodeProps" />
+          </template>
+
+          <template
+            #connection-line="{
+              sourceX,
+              sourceY,
+              targetX,
+              targetY,
+              sourcePosition,
+              targetPosition
+            }"
+          >
+            <SnappableConnectionLine
+              :source-x="sourceX"
+              :source-y="sourceY"
+              :target-x="targetX"
+              :target-y="targetY"
+              :source-position="sourcePosition"
+              :target-position="targetPosition"
+            />
           </template>
         </VueFlow>
       </div>

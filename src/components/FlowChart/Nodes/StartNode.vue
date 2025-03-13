@@ -11,7 +11,10 @@ console.log(props)
 <template>
   <div>
     <NodeResizer :min-width="50" :min-height="50" :isVisible="selected" />
-    <div>{{ data.label }}, {{ selected }}</div>
+    <div>
+      {{ data.label }}<br />
+      {{ selected }}
+    </div>
     <Handle
       id="source-t"
       type="source"

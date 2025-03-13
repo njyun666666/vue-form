@@ -90,7 +90,8 @@ export default function useDragAndDrop() {
       id: `${draggedType.value}-${uuid()}`,
       type: draggedType.value as string,
       position,
-      data: { label: `${draggedType.value}_${nodeId}` }
+      data: { label: `${draggedType.value}_${nodeId}` },
+      style: { width: '80px', height: '80px' }
     }
 
     /**

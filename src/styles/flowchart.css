@@ -7,7 +7,19 @@
     @apply h-2 w-2;
   }
 
+  .vue-flow__edge path {
+    @apply stroke-2;
+  }
+
+  .vue-flow__pane.connecting.draggable path {
+    @apply stroke-2;
+  }
+
+  .vue-flow__connection-circle {
+    @apply fill-error stroke-surface;
+  }
+
   .vue-flow__node-start {
-    @apply aspect-square border border-surface-600 !bg-surface-50 p-2 text-center text-black;
+    @apply flex aspect-square items-center justify-center border border-surface-600 !bg-surface-50 p-2 text-center text-black;
   }
 }
