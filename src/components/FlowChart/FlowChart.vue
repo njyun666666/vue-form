@@ -5,13 +5,14 @@ import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
 import useDragAndDrop from './useDnd'
 import type { FlowNode } from '@/libs/models/FlowChart/FlowChart'
+import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
 import type { Edge, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
 import { ref } from 'vue'
 
-const { onConnect, addEdges, toObject, fromObject } = useVueFlow()
+const { onConnect, addEdges, toObject, fromObject, setNodes } = useVueFlow()
 const { onDragOver, onDrop, onDragLeave } = useDragAndDrop()
 const nodes = ref<FlowNode[]>([])
 const edges = ref<Edge[]>([])
@@ -25,6 +26,14 @@ const onSave = () => {
 // const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
 //   console.log(event, node)
 // }
+
+const flowDivClick = (e: MouseEvent) => {
+  const dom = e.target as HTMLDivElement
+  if (!dom.classList.contains('vue-flow__pane')) return
+  setNodes((currentNodes) => currentNodes.map((node) => ({ ...node, selected: false })))
+}
+
+const nodeClick = () => {}
 </script>
 
 <template>
@@ -34,12 +43,13 @@ const onSave = () => {
     </ToolbarBase>
     <div class="dnd-flow flex w-full h-full" @drop="onDrop">
       <NodeBar class="h-full w-[100px] border"></NodeBar>
-      <div class="grow">
+      <div class="grow" @click="flowDivClick">
         <VueFlow
           v-model:nodes="nodes"
           v-model:edges="edges"
           :connection-radius="40"
           delete-key-code="Delete"
+          :zoomOnDoubleClick="false"
           @dragover="onDragOver"
           @dragleave="onDragLeave"
           :default-edge-options="{
@@ -47,8 +57,6 @@ const onSave = () => {
             markerEnd: 'arrowclosed'
           }"
         >
-          <Background />
-
           <template #node-start="startNodeProps">
             <StartNode v-bind="startNodeProps" />
           </template>
@@ -72,6 +80,8 @@ const onSave = () => {
               :target-position="targetPosition"
             />
           </template>
+
+          <Background />
         </VueFlow>
       </div>
     </div>
