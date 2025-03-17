@@ -6,7 +6,7 @@ import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/For
 import type { FormPageInfoModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
 import { flowService } from '@/libs/services/flowService'
-import { createConfirm } from '@/libs/utils/confirm'
+import { useCreateConfirm } from '@/libs/utils/confirm'
 import router from '@/router'
 import { useLayoutStore } from '@/stores/layout'
 import type { AxiosError } from 'axios'

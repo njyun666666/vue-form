@@ -1,5 +1,8 @@
+import { type FlowNodeData, FlowNodeEnum } from '../../libs/models/FlowChart/FlowChart'
+import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { type Node, useVueFlow } from '@vue-flow/core'
+import type { useConfirm } from 'primevue/useconfirm'
 import { ref, watch } from 'vue'
 
 let id = 0
@@ -24,10 +27,12 @@ const state = {
   isDragging: ref<boolean>(false)
 }
 
-export default function useDragAndDrop() {
+export default function useFlowNodeDnd(confirmService: ReturnType<typeof useConfirm>) {
+  const comfrim = useCreateConfirm(confirmService)
   const { draggedType, isDragOver, isDragging } = state
 
-  const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } = useVueFlow()
+  const { getNodes, addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } =
+    useVueFlow()
 
   watch(isDragging, (dragging) => {
     document.body.style.userSelect = dragging ? 'none' : ''
@@ -79,6 +84,14 @@ export default function useDragAndDrop() {
    * @param {DragEvent} event
    */
   function onDrop(event: DragEvent) {
+    if (
+      draggedType.value == FlowNodeEnum.start &&
+      getNodes.value.find((x) => x.type == FlowNodeEnum.start)
+    ) {
+      comfrim.alert({ message: 'only 1 start' })
+      return
+    }
+
     const position = screenToFlowCoordinate({
       x: event.clientX,
       y: event.clientY
@@ -86,7 +99,7 @@ export default function useDragAndDrop() {
 
     const nodeId = getId()
 
-    const newNode: Node = {
+    const newNode: Node<FlowNodeData> = {
       id: `${draggedType.value}-${uuid()}`,
       type: draggedType.value as string,
       position,

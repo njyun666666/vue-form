@@ -9,7 +9,7 @@ import { FormFieldModeEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { AInfoModel, AModel } from '@/libs/models/Form/A/A'
 import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { aService } from '@/libs/services/forms/aService'
-import { createConfirm } from '@/libs/utils/confirm'
+import { useCreateConfirm } from '@/libs/utils/confirm'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import Skeleton from 'primevue/skeleton'
@@ -20,7 +20,7 @@ import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
 const { t } = useI18n()
-const confirm = createConfirm(useConfirm())
+const confirm = useCreateConfirm(useConfirm())
 
 const loading = ref(true)
 // import type { ComponentExposed } from 'vue-component-type-helpers'

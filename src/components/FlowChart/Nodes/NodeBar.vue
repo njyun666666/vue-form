@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import useDragAndDrop from '../useDnd'
+import useFlowNodeDnd from '../useFlowNodeDnd'
+import { useConfirm } from 'primevue/useconfirm'
 
-const { onDragStart } = useDragAndDrop()
+const { onDragStart } = useFlowNodeDnd(useConfirm())
 </script>
 <template>
   <div class="nodes flex flex-col gap-4 p-2">

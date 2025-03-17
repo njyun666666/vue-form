@@ -3,19 +3,26 @@ import ToolbarBase from '../UI/ToolbarBase.vue'
 import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
 import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
-import useDragAndDrop from './useDnd'
+import useFlowNodeDnd from './useFlowNodeDnd'
 import type { FlowNode } from '@/libs/models/FlowChart/FlowChart'
+import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
 import type { Edge, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
-import { ref } from 'vue'
+import { useConfirm } from 'primevue/useconfirm'
+import { markRaw, ref } from 'vue'
 
+const comfrim = useConfirm()
+const createComfrim = useCreateConfirm(comfrim)
 const { onConnect, addEdges, toObject, fromObject, setNodes } = useVueFlow()
-const { onDragOver, onDrop, onDragLeave } = useDragAndDrop()
+const { onDragOver, onDrop, onDragLeave } = useFlowNodeDnd(comfrim)
 const nodes = ref<FlowNode[]>([])
 const edges = ref<Edge[]>([])
+const nodeTypes = {
+  start: markRaw(StartNode)
+}
 
 onConnect(addEdges)
 
@@ -49,18 +56,15 @@ const nodeClick = () => {}
           v-model:edges="edges"
           :connection-radius="40"
           delete-key-code="Delete"
-          :zoomOnDoubleClick="false"
-          @dragover="onDragOver"
-          @dragleave="onDragLeave"
           :default-edge-options="{
             type: 'smoothstep',
             markerEnd: 'arrowclosed'
           }"
+          :node-types="nodeTypes"
+          :zoomOnDoubleClick="false"
+          @dragover="onDragOver"
+          @dragleave="onDragLeave"
         >
-          <template #node-start="startNodeProps">
-            <StartNode v-bind="startNodeProps" />
-          </template>
-
           <template
             #connection-line="{
               sourceX,

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowChart'
 import { cn } from '@/libs/utils/style'
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
-import type { NodeProps } from '@vue-flow/core'
 import { NodeResizer } from '@vue-flow/node-resizer'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 
-const props = defineProps<NodeProps>()
+const props = defineProps<FlowNodeProps>()
 console.log(props)
 const actions = ['👎', '✋', '👍']
 
@@ -27,9 +27,7 @@ const { updateNodeData } = useVueFlow()
       </button>
     </NodeToolbar>
 
-    <div>
-      {{ data.label }}
-    </div>
+    <div>{{ data.label }} {{ data.action }}</div>
 
     <Handle
       id="source-t"

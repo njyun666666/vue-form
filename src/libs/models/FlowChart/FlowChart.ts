@@ -1,13 +1,23 @@
-import type { Node } from '@vue-flow/core'
+import type { Node, NodeProps } from '@vue-flow/core'
 
-export interface FlowData {
-  hello: string
+export interface FlowNodeData {
+  label?: string
+  toolbarVisible?: boolean
+  action?: string
 }
 
-export interface FlowEvents {
+export interface FlowNodeEvents {
   [key: string]: (event: MouseEvent) => void
   onFlowEvent: (event: MouseEvent) => void
 }
 
-export type FlowNodeTypes = 'start' | 'end' | 'task' | 'getway'
-export type FlowNode = Node<FlowData, FlowEvents, FlowNodeTypes>
+export enum FlowNodeEnum {
+  start = 'start',
+  end = 'end',
+  task = 'task',
+  getway = 'getway'
+}
+
+export type FlowNodeTypes = keyof typeof FlowNodeEnum
+export type FlowNode = Node<FlowNodeData, FlowNodeEvents, FlowNodeTypes>
+export type FlowNodeProps = NodeProps<FlowNodeData, FlowNodeEvents, FlowNodeTypes>
