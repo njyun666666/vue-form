@@ -5,3 +5,7 @@
 .p-button-text.p-button-secondary {
   @apply enabled:hover:bg-surface-200 enabled:active:bg-surface-300 dark:enabled:hover:bg-surface-800 dark:enabled:active:bg-surface-700;
 }
+
+.p-dialog-footer .p-button-label {
+  @apply font-bold;
+}

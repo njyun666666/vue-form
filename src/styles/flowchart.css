@@ -17,6 +17,7 @@
     --vf-connection-path: var(--p-surface-400);
   }
 
+  /* handle */
   .vue-flow__handle {
     @apply h-2 w-2;
   }
@@ -25,6 +26,7 @@
     @apply h-2 w-2;
   }
 
+  /* edges */
   .vue-flow__edges path {
     @apply stroke-[var(--vf-connection-path)] stroke-2;
   }
@@ -33,6 +35,7 @@
     @apply !fill-[var(--vf-connection-path)] !stroke-[var(--vf-connection-path)];
   }
 
+  /* connecting */
   .vue-flow__pane.connecting.draggable path {
     @apply stroke-2;
   }
@@ -41,6 +44,12 @@
     @apply fill-error stroke-[var(--vf-connection-path)];
   }
 
+  /* toolbar */
+  .vue-flow__node-toolbar {
+    @apply rounded bg-surface-300 p-1 dark:bg-surface-900;
+  }
+
+  /* node */
   .vue-flow__node-base-color {
     @apply border-[var(--vf-node-color)] bg-[var(--vf-node-bg)];
   }
