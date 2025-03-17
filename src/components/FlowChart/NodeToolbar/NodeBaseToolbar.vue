@@ -6,12 +6,7 @@ const props = defineProps<NodeToolbarProps>()
 const { node } = useNode()
 </script>
 <template>
-  <NodeToolbar
-    v-bind="props"
-    :is-visible="node.data.toolbarVisible"
-    :position="Position.Right"
-    :offset="10"
-  >
+  <NodeToolbar v-bind="props" :is-visible="node.selected" :position="Position.Right" :offset="10">
     <slot />
   </NodeToolbar>
 </template>

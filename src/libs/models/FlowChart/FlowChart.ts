@@ -2,7 +2,6 @@ import type { Node, NodeProps } from '@vue-flow/core'
 
 export interface FlowNodeData {
   label?: string
-  toolbarVisible?: boolean
   action?: string
 }
 
