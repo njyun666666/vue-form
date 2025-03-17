@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { Position } from '@vue-flow/core'
+import { Position, useNode } from '@vue-flow/core'
 import { NodeToolbar, type NodeToolbarProps } from '@vue-flow/node-toolbar'
 
 const props = defineProps<NodeToolbarProps>()
+const { node } = useNode()
 </script>
 <template>
-  <NodeToolbar v-bind="props" :position="Position.Right" :offset="10">
+  <NodeToolbar
+    v-bind="props"
+    :is-visible="node.data.toolbarVisible"
+    :position="Position.Right"
+    :offset="10"
+  >
     <slot />
   </NodeToolbar>
 </template>

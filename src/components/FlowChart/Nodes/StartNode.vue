@@ -16,7 +16,7 @@ const { updateNodeData } = useVueFlow()
 <template>
   <div>
     <NodeResizer :min-width="50" :min-height="50" :isVisible="selected" />
-    <NodeBaseToolbar :is-visible="data.toolbarVisible">
+    <NodeBaseToolbar>
       <NodeDeleteBtn />
       <!-- <button
         v-for="action of actions"
