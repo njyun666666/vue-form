@@ -9,3 +9,25 @@
 .p-dialog-footer .p-button-label {
   @apply font-bold;
 }
+
+.p-tooltip {
+  .p-tooltip-text {
+    @apply bg-surface-700 text-surface-0 dark:bg-surface-300 dark:text-surface-950;
+  }
+
+  &.p-tooltip-right .p-tooltip-arrow {
+    @apply border-e-surface-700 dark:border-e-surface-300;
+  }
+
+  &.p-tooltip-left .p-tooltip-arrow {
+    @apply border-s-surface-700 dark:border-s-surface-300;
+  }
+
+  &.p-tooltip-top .p-tooltip-arrow {
+    @apply border-t-surface-700 dark:border-t-surface-300;
+  }
+
+  &.p-tooltip-bottom .p-tooltip-arrow {
+    @apply border-b-surface-700 dark:border-b-surface-300;
+  }
+}
