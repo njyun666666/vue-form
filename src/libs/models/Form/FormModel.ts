@@ -12,8 +12,8 @@ export interface FormClass {
 export class FormBaseInfoModel {
   formId?: string
   formClass?: string
-  applicationId?: string
-  applicationName?: string
+  applicantId?: string
+  applicantName?: string
   applicationDate?: Date
   description?: string
   flowId?: string

@@ -100,8 +100,8 @@ export const formHandlers = [
         {
           formId: 'A002',
           formClass: 'A',
-          applicationId: 'admin',
-          applicationName: 'Admin',
+          applicantId: 'admin',
+          applicantName: 'Admin',
           applicationDate: '2025-02-25T03:04:05.000Z',
           description: '標題: 測試第2步<br/>內容: <i>A002</i> test',
           approvalId: 'a002001',
@@ -114,8 +114,8 @@ export const formHandlers = [
         {
           formId: 'A003',
           formClass: 'A',
-          applicationId: 'admin',
-          applicationName: 'Admin',
+          applicantId: 'admin',
+          applicantName: 'Admin',
           applicationDate: '2025-02-26T08:15:55.000Z',
           description: '標題: 測試第3步<br/>內容: <i>A003</i> test',
           approvalId: 'a003001',

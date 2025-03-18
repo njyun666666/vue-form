@@ -2,8 +2,8 @@ export const A002 = {
   baseInfo: {
     formId: `A002`,
     formClass: 'A',
-    applicationId: 'e68f5118902be0daaef0fa3300b643b6',
-    applicationName: 'Admin',
+    applicantId: 'e68f5118902be0daaef0fa3300b643b6',
+    applicantName: 'Admin',
     applicationDate: '2025-02-25T03:04:05.000Z',
     description: '測試第2步'
   },
@@ -32,8 +32,8 @@ export const A003 = {
   baseInfo: {
     formId: `A003`,
     formClass: 'A',
-    applicationId: 'e68f5118902be0daaef0fa3300b643b6',
-    applicationName: 'Admin',
+    applicantId: 'e68f5118902be0daaef0fa3300b643b6',
+    applicantName: 'Admin',
     applicationDate: '2025-02-26T08:15:55.000Z',
     description: '測試第3步'
   },
