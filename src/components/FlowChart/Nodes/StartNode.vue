@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import NodeBaseToolbar from '../NodeToolbar/NodeBaseToolbar.vue'
 import NodeDeleteBtn from '../NodeToolbar/NodeDeleteBtn.vue'
-import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowChart'
+import NodeEditBtn from '../NodeToolbar/NodeEditBtn.vue'
+import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowNode'
 import { cn } from '@/libs/utils/style'
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
 import { NodeResizer } from '@vue-flow/node-resizer'
@@ -17,6 +18,7 @@ const { updateNodeData } = useVueFlow()
   <div>
     <NodeResizer :min-width="50" :min-height="50" :isVisible="selected" />
     <NodeBaseToolbar>
+      <NodeEditBtn />
       <NodeDeleteBtn />
       <!-- <button
         v-for="action of actions"
@@ -29,7 +31,7 @@ const { updateNodeData } = useVueFlow()
       </button> -->
     </NodeBaseToolbar>
 
-    <div>{{ data.label }} {{ data.action }}</div>
+    <div>{{ data.label }}</div>
 
     <Handle
       id="source-t"

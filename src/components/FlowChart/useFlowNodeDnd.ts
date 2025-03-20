@@ -1,4 +1,4 @@
-import { type FlowNodeData, FlowNodeEnum } from '../../libs/models/FlowChart/FlowChart'
+import { type FlowNodeData, FlowNodeEnum } from '../../libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { type Node, useVueFlow } from '@vue-flow/core'

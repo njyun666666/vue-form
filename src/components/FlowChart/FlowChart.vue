@@ -4,7 +4,7 @@ import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vu
 import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
 import useFlowNodeDnd from './useFlowNodeDnd'
-import type { FlowNode } from '@/libs/models/FlowChart/FlowChart'
+import type { FlowNode } from '@/libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'

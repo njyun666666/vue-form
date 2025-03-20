@@ -1,8 +1,22 @@
 import type { Node, NodeProps } from '@vue-flow/core'
 
+export enum FlowTaskEnum {
+  applicant = 'applicant',
+  applicantDeptManager = 'applicantDeptManager',
+  user = 'user',
+  dept = 'dept',
+  role = 'role'
+}
+
 export interface FlowNodeData {
   label?: string
-  action?: string
+  task?: {
+    type?: FlowTaskEnum
+    owner?: string[]
+  }
+  gateway?: {
+    funcName?: string
+  }
 }
 
 export interface FlowNodeEvents {
@@ -14,7 +28,7 @@ export enum FlowNodeEnum {
   start = 'start',
   end = 'end',
   task = 'task',
-  getway = 'getway'
+  gateway = 'gateway'
 }
 
 export type FlowNodeTypes = keyof typeof FlowNodeEnum
