@@ -20,6 +20,7 @@ const schema = z
     label: z.string().min(1, { message: t('Message.Required') }),
     task: z.object({
       type: z.string(),
+      ownerSetting: z.string(),
       owner: z.array(z.string())
     }),
     gateway: z.object({

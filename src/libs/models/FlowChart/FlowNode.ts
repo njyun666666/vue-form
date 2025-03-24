@@ -8,11 +8,18 @@ export enum FlowTaskEnum {
   role = 'role'
 }
 
+export enum OwnerSettingEnum {
+  hr = 'hr',
+  func = 'func'
+}
+
 export interface FlowNodeData {
   label?: string
   task?: {
     type?: FlowTaskEnum
+    ownerSetting?: OwnerSettingEnum
     owner?: string[]
+    funcName?: string
   }
   gateway?: {
     funcName?: string

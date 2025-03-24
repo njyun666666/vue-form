@@ -1,4 +1,5 @@
 import base from './base.json'
+import flow from './flow.json'
 import formBase from './forms/form'
 import layout from './layout.json'
 import login from './login.json'
@@ -11,7 +12,8 @@ const en = {
   ...login,
   ...message,
   ...org,
-  ...formBase
+  ...formBase,
+  ...flow
 }
 
 export default en

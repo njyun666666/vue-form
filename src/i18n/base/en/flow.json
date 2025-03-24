@@ -1,0 +1,24 @@
+{
+  "Flow": {
+    "Node": {
+      "label": "Step name",
+      "task": {
+        "type": "Task type",
+        "options": {
+          "applicant": "Applicant",
+          "applicantDeptManager": "Applicant's department manager",
+          "user": "User",
+          "dept": "Department",
+          "role": "Role"
+        },
+        "ownerSetting": "Owner setting",
+        "ownerSettingOptions": {
+          "hr": "HR",
+          "func": "Function"
+        },
+        "owner": "Owner",
+        "funcName": "Function name"
+      }
+    }
+  }
+}
