@@ -17,7 +17,7 @@ const { node } = useNode<FlowNodeData, FlowNodeEvents>()
 
 const onClick = async () => {
   dialog.open(NodeEditForm, {
-    data: node.data,
+    data: node,
     props: {
       header: node.data.label,
       style: {
