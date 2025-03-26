@@ -57,14 +57,14 @@ onMounted(() => {
         v-if="props?.action == 'approve'"
         :label="$t('Action.Approve')"
         icon="pi pi-check"
-        @click="update(FormActionEnum.approve as FormActionEnum)"
+        @click="update(FormActionEnum.approve)"
       />
       <Button
         v-if="props?.action == 'reject'"
         :label="$t('Action.Reject')"
         icon="pi pi-times"
         severity="danger"
-        @click="update(FormActionEnum.reject as FormActionEnum)"
+        @click="update(FormActionEnum.reject)"
       />
     </div>
   </div>

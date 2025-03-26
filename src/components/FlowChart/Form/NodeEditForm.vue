@@ -9,6 +9,7 @@ import {
 } from '@/libs/models/FlowChart/FlowNode'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
+import Button from 'primevue/button'
 import type Dialog from 'primevue/dialog'
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 import InputNumber from 'primevue/inputnumber'
@@ -18,6 +19,10 @@ import { type Ref, inject, onMounted, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
+const emit = defineEmits<{
+  save: [action: (e?: Event) => Promise<Promise<void> | undefined>]
+  dataSend: [data: FlowNodeData]
+}>()
 const { t } = useI18n()
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const taskFormRef = useTemplateRef<InstanceType<typeof NodeTaskForm>>('taskFormRef')
@@ -35,7 +40,7 @@ const schema = z
       })
       .partial()
       .superRefine((val, ctx) => {
-        // if (node.value?.type != FlowNodeEnum.task) return
+        if (node.value?.type != FlowNodeEnum.task) return
 
         requiredFieldsValidator(val, taskFormRef.value?.fieldMode).forEach((field) => {
           ctx.addIssue({
@@ -61,12 +66,18 @@ const [label] = defineField('label')
 
 const onSubmit = handleSubmit(async (values) => {
   console.log(values)
+  emit('dataSend', values as FlowNodeData)
 })
 
 onMounted(() => {
   const params = dialogRef.value.data
   node.value = params
   setValues(params.data)
+  emit('save', onSubmit)
+})
+
+defineExpose({
+  onSubmit
 })
 </script>
 <template>

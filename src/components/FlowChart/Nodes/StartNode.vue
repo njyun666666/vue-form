@@ -4,14 +4,11 @@ import NodeDeleteBtn from '../NodeToolbar/NodeDeleteBtn.vue'
 import NodeEditBtn from '../NodeToolbar/NodeEditBtn.vue'
 import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowNode'
 import { cn } from '@/libs/utils/style'
-import { Handle, Position, useVueFlow } from '@vue-flow/core'
+import { Handle, Position } from '@vue-flow/core'
 import { NodeResizer } from '@vue-flow/node-resizer'
 
 const props = defineProps<FlowNodeProps>()
-console.log(props)
-const actions = ['👎', '✋', '👍']
-
-const { updateNodeData } = useVueFlow()
+// console.log(props)
 </script>
 
 <template>
@@ -20,15 +17,6 @@ const { updateNodeData } = useVueFlow()
     <NodeBaseToolbar>
       <NodeEditBtn />
       <NodeDeleteBtn />
-      <!-- <button
-        v-for="action of actions"
-        :key="action"
-        type="button"
-        :class="{ selected: action === data.action }"
-        @click="updateNodeData(props.id, { action })"
-      >
-        {{ action }}
-      </button> -->
     </NodeBaseToolbar>
 
     <div>{{ data.label }}</div>
