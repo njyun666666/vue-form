@@ -15,7 +15,7 @@ import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
-import { type Ref, inject, onMounted, ref, useTemplateRef } from 'vue'
+import { type Ref, computed, inject, onMounted, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
@@ -27,6 +27,7 @@ const { t } = useI18n()
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const taskFormRef = useTemplateRef<InstanceType<typeof NodeTaskForm>>('taskFormRef')
 const node = ref<FlowNode>()
+const isTask = computed(() => node.value?.type == FlowNodeEnum.task)
 
 const schema = z
   .object({
@@ -40,7 +41,7 @@ const schema = z
       })
       .partial()
       .superRefine((val, ctx) => {
-        if (node.value?.type != FlowNodeEnum.task) return
+        if (!isTask.value) return
 
         requiredFieldsValidator(val, taskFormRef.value?.fieldMode).forEach((field) => {
           ctx.addIssue({
@@ -95,7 +96,7 @@ defineExpose({
         </InputField>
       </div>
 
-      <div>
+      <div v-if="isTask">
         <NodeTaskForm ref="taskFormRef" />
       </div>
     </div>

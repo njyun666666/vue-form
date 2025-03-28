@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import ToolbarBase from '../UI/ToolbarBase.vue'
 import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
+import EndNode from './Nodes/EndNode.vue'
+import GatewayNode from './Nodes/GatewayNode.vue'
 import NodeBar from './Nodes/NodeBar.vue'
 import StartNode from './Nodes/StartNode.vue'
+import TaskNode from './Nodes/TaskNode.vue'
 import useFlowNodeDnd from './useFlowNodeDnd'
+import { SeverityEnum } from '@/libs/enums/layout'
 import type { FlowNode } from '@/libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
@@ -13,15 +17,31 @@ import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
 import { useConfirm } from 'primevue/useconfirm'
 import { markRaw, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const comfrim = useConfirm()
 const createComfrim = useCreateConfirm(comfrim)
-const { onConnect, addEdges, toObject, fromObject, setNodes } = useVueFlow()
+const {
+  onConnect,
+  onNodesChange,
+  applyNodeChanges,
+  onEdgesChange,
+  applyEdgeChanges,
+  addEdges,
+  toObject,
+  fromObject,
+  setNodes,
+  findNode
+} = useVueFlow()
 const { onDragOver, onDrop, onDragLeave } = useFlowNodeDnd(comfrim)
 const nodes = ref<FlowNode[]>([])
 const edges = ref<Edge[]>([])
 const nodeTypes = {
-  start: markRaw(StartNode)
+  start: markRaw(StartNode),
+  end: markRaw(EndNode),
+  task: markRaw(TaskNode),
+  gateway: markRaw(GatewayNode)
 }
 
 onConnect(addEdges)
@@ -39,6 +59,69 @@ const flowDivClick = (e: MouseEvent) => {
   if (!dom.classList.contains('vue-flow__pane')) return
   setNodes((currentNodes) => currentNodes.map((node) => ({ ...node, selected: false })))
 }
+
+onNodesChange(async (changes) => {
+  const nextChanges = []
+
+  for (const change of changes) {
+    if (change.type === 'remove') {
+      const node = findNode<FlowNode>(change.id)
+      console.log('node change', node)
+
+      const isConfirmed = await createComfrim.open({
+        message: t('Title.ConfirmText', {
+          action: t('Action.Remove'),
+          title: node?.data.data?.label as string
+        }),
+        acceptProps: {
+          label: t('Action.Remove'),
+          severity: SeverityEnum.danger
+        }
+      })
+
+      if (isConfirmed) {
+        nextChanges.push(change)
+      }
+    } else {
+      nextChanges.push(change)
+    }
+  }
+
+  applyNodeChanges(nextChanges)
+})
+
+onEdgesChange(async (changes) => {
+  const nextChanges = []
+
+  for (const change of changes) {
+    if (change.type === 'remove') {
+      console.log('edge change', change)
+      // const isConfirmed = await dialog.confirm(dialogMsg(change.id))
+
+      // const node = findNode<FlowNode>(change.id)
+
+      const isConfirmed = await createComfrim.open({
+        message: t('Title.ConfirmText', {
+          action: t('Action.Remove'),
+          title: 'aaaaaa' // +( node?.data.data?.label) as string
+        }),
+        acceptProps: {
+          label: t('Action.Remove'),
+          severity: SeverityEnum.danger
+        }
+      })
+
+      if (isConfirmed) {
+        nextChanges.push(change)
+      }
+      nextChanges.push(change)
+    } else {
+      nextChanges.push(change)
+    }
+  }
+
+  applyEdgeChanges(nextChanges)
+})
 
 const nodeClick = () => {}
 </script>
@@ -64,6 +147,7 @@ const nodeClick = () => {}
           :zoomOnDoubleClick="false"
           @dragover="onDragOver"
           @dragleave="onDragLeave"
+          :apply-default="false"
         >
           <template
             #connection-line="{

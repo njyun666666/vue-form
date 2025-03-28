@@ -13,19 +13,19 @@ const { removeNodes } = useVueFlow()
 const { node } = useNode<FlowNodeData, FlowNodeEvents>()
 
 const onClick = async () => {
-  if (
-    !(await createConfirm.open({
-      message: t('Title.ConfirmText', {
-        action: t('Action.Remove'),
-        title: node.data.label as string
-      }),
-      acceptProps: {
-        label: t('Action.Remove'),
-        severity: SeverityEnum.danger
-      }
-    }))
-  )
-    return
+  // if (
+  //   !(await createConfirm.open({
+  //     message: t('Title.ConfirmText', {
+  //       action: t('Action.Remove'),
+  //       title: node.data.label as string
+  //     }),
+  //     acceptProps: {
+  //       label: t('Action.Remove'),
+  //       severity: SeverityEnum.danger
+  //     }
+  //   }))
+  // )
+  //   return
 
   removeNodes(node.id)
 }
