@@ -1,4 +1,4 @@
-@layer utilities {
+@theme static {
   :root {
     --vf-node-color: var(--p-surface-900);
     --vf-box-shadow: var(--p-surface-900);
@@ -46,7 +46,7 @@
 
   /* toolbar */
   .vue-flow__node-toolbar {
-    @apply rounded bg-surface-300 p-1 dark:bg-surface-900;
+    @apply bg-surface-300 dark:bg-surface-900 rounded p-1;
   }
 
   /* node */
