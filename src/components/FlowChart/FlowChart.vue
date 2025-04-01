@@ -12,7 +12,7 @@ import type { FlowNode } from '@/libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
-import type { Edge, Node, NodeMouseEvent } from '@vue-flow/core'
+import type { Edge, EdgeChange, EdgeRemoveChange, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import Button from 'primevue/button'
 import { useConfirm } from 'primevue/useconfirm'
@@ -29,10 +29,12 @@ const {
   onEdgesChange,
   applyEdgeChanges,
   addEdges,
+  removeEdges,
   toObject,
   fromObject,
   setNodes,
-  findNode
+  findNode,
+  getEdges
 } = useVueFlow()
 const { onDragOver, onDrop, onDragLeave } = useFlowNodeDnd(comfrim)
 const nodes = ref<FlowNode[]>([])
@@ -62,16 +64,17 @@ const flowDivClick = (e: MouseEvent) => {
 
 onNodesChange(async (changes) => {
   const nextChanges = []
+  const edgeNextChanges: EdgeChange[] = []
 
   for (const change of changes) {
     if (change.type === 'remove') {
       const node = findNode<FlowNode>(change.id)
-      console.log('node change', node)
+      // console.log('node change', node)
 
       const isConfirmed = await createComfrim.open({
         message: t('Title.ConfirmText', {
           action: t('Action.Remove'),
-          title: node?.data.data?.label as string
+          title: node?.data.label as string
         }),
         acceptProps: {
           label: t('Action.Remove'),
@@ -81,6 +84,21 @@ onNodesChange(async (changes) => {
 
       if (isConfirmed) {
         nextChanges.push(change)
+
+        getEdges.value
+          .filter((edge) => edge.source === change.id || edge.target === change.id)
+          .forEach((edge) => {
+            // console.log('edge', edge)
+            const e: EdgeRemoveChange = {
+              id: edge.id,
+              type: 'remove',
+              source: edge.source,
+              target: edge.target,
+              sourceHandle: edge.sourceHandle ?? null,
+              targetHandle: edge.targetHandle ?? null
+            }
+            edgeNextChanges.push(e)
+          })
       }
     } else {
       nextChanges.push(change)
@@ -88,6 +106,7 @@ onNodesChange(async (changes) => {
   }
 
   applyNodeChanges(nextChanges)
+  applyEdgeChanges(edgeNextChanges)
 })
 
 onEdgesChange(async (changes) => {
@@ -95,15 +114,12 @@ onEdgesChange(async (changes) => {
 
   for (const change of changes) {
     if (change.type === 'remove') {
-      console.log('edge change', change)
-      // const isConfirmed = await dialog.confirm(dialogMsg(change.id))
-
-      // const node = findNode<FlowNode>(change.id)
+      // console.log('edge change', change)
 
       const isConfirmed = await createComfrim.open({
         message: t('Title.ConfirmText', {
           action: t('Action.Remove'),
-          title: 'aaaaaa' // +( node?.data.data?.label) as string
+          title: 'Connection'
         }),
         acceptProps: {
           label: t('Action.Remove'),
@@ -114,7 +130,6 @@ onEdgesChange(async (changes) => {
       if (isConfirmed) {
         nextChanges.push(change)
       }
-      nextChanges.push(change)
     } else {
       nextChanges.push(change)
     }
