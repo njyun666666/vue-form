@@ -1,6 +1,7 @@
 {
   "Flow": {
     "Node": {
+      "stepId": "StepId",
       "label": "Step name",
       "task": {
         "type": "Task type",

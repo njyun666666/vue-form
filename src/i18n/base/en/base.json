@@ -46,7 +46,9 @@
     "Application": "Application",
     "Approve": "Approve",
     "Reject": "Reject",
-    "UploadFile": "Upload file"
+    "UploadFile": "Upload file",
+    "Copy": "Copy",
+    "Copied": "Copied"
   },
   "Title": {
     "Add": "Add {title}",

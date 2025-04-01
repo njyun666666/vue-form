@@ -9,9 +9,12 @@ import {
 } from '@/libs/models/FlowChart/FlowNode'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
+import { useClipboard } from '@vueuse/core'
 import Button from 'primevue/button'
 import type Dialog from 'primevue/dialog'
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
@@ -24,6 +27,7 @@ const emit = defineEmits<{
   dataSend: [data: FlowNodeData]
 }>()
 const { t } = useI18n()
+const { copy, copied } = useClipboard()
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const taskFormRef = useTemplateRef<InstanceType<typeof NodeTaskForm>>('taskFormRef')
 const node = ref<FlowNode>()
@@ -84,6 +88,23 @@ defineExpose({
 <template>
   <form novalidate @submit="onSubmit">
     <div class="space-y-5">
+      <div class="grid grid-cols-12 gap-5">
+        <InputField class="col-span-full" for="nodeId" :label="$t('Flow.Node.stepId')">
+          <InputGroup>
+            <InputText id="nodeId" type="text" :value="node?.id" :disabled="true" />
+            <InputGroupAddon class="p-0">
+              <Button
+                :icon="copied ? 'pi pi-check' : 'pi pi-copy'"
+                severity="secondary"
+                variant="text"
+                v-tooltip="$t('Action.Copy')"
+                @click="copy(node?.id ?? '')"
+              />
+            </InputGroupAddon>
+          </InputGroup>
+        </InputField>
+      </div>
+
       <div class="grid grid-cols-12 gap-5">
         <InputField
           class="col-span-full"

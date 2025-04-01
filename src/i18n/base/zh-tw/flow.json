@@ -1,6 +1,7 @@
 {
   "Flow": {
     "Node": {
+      "stepId": "StepId",
       "label": "步驟名稱",
       "task": {
         "type": "任務類型",
