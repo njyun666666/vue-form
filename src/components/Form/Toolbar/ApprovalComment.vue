@@ -46,7 +46,7 @@ onMounted(() => {
     >
       <Textarea v-model="comment" autoResize rows="5" class="w-full" :invalid="!!commentError" />
     </InputField>
-    <div class="flex gap-5 justify-end">
+    <div class="flex justify-end gap-5">
       <Button
         :label="$t('Action.Cancel')"
         severity="secondary"

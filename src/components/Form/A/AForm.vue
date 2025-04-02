@@ -142,10 +142,10 @@ onMounted(() => {
 provide('form', form)
 </script>
 <template>
-  <div v-if="loading" class="p-4 flex gap-5 flex-col">
+  <div v-if="loading" class="flex flex-col gap-5 p-4">
     <Skeleton width="50%" height="2rem"></Skeleton>
     <div class="flex gap-5">
-      <div class="flex flex-col gap-5 w-1/4" v-for="n in 4" :key="n">
+      <div class="flex w-1/4 flex-col gap-5" v-for="n in 4" :key="n">
         <Skeleton width="50%" height="1.5rem"></Skeleton>
         <Skeleton width="100%" height="1.5rem"></Skeleton>
       </div>

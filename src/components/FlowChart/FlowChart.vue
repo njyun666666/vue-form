@@ -142,11 +142,11 @@ const nodeClick = () => {}
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col">
+  <div class="flex h-full w-full flex-col">
     <ToolbarBase class="shrink-0">
       <Button :label="$t('Action.Save')" icon="pi pi-save" variant="text" @click="onSave" />
     </ToolbarBase>
-    <div class="dnd-flow flex w-full h-full" @drop="onDrop">
+    <div class="dnd-flow flex h-full w-full" @drop="onDrop">
       <NodeBar class="h-full w-[100px] border"></NodeBar>
       <div class="grow" @click="flowDivClick">
         <VueFlow

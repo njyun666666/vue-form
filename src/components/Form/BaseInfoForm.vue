@@ -33,7 +33,7 @@ if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
 </script>
 <template>
   <div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
       <InputField for="formId" :label="$t('Form.BaseInfo.formId')">
         <InputText id="formId" type="text" v-model="field.formId.value.value" disabled />
       </InputField>

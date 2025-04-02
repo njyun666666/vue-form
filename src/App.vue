@@ -25,7 +25,7 @@ useDark()
 
   <div
     v-if="layoutStore.loading"
-    class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-[2000] flex items-center justify-center"
+    class="fixed top-0 left-0 z-[2000] flex h-screen w-screen items-center justify-center bg-black/50"
   >
     <i class="pi pi-spin pi-spinner text-4xl"></i>
   </div>
