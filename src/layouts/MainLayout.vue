@@ -76,7 +76,7 @@ watch(route, () => {
     <header
       :class="
         cn(
-          'flex h-12 w-full items-center gap-2 overflow-hidden border-b bg-surface-0 p-2 text-primary border-surface',
+          'flex h-12 w-full items-center gap-2 overflow-hidden border-b border-surface bg-surface-0 p-2 text-primary',
           'dark:bg-surface-900'
         )
       "
@@ -86,7 +86,7 @@ watch(route, () => {
           type="button"
           severity="secondary"
           text
-          :class="cn('sm:hidden')"
+          :class="cn('sm:!hidden')"
           @click="layoutStore.navExpandedState = true"
         >
           <font-awesome-icon icon="fa-solid fa-bars" />
@@ -102,7 +102,7 @@ watch(route, () => {
     <nav
       :class="
         cn(
-          'group/nav absolute left-0 top-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-surface-0 duration-200',
+          'group/nav absolute top-0 left-0 z-10 flex h-full w-0 flex-col overflow-hidden bg-surface-0 duration-200',
           'dark:bg-surface-900',
           'sm:top-12 sm:h-[calc(100%-theme(height.12))] sm:w-13 sm:border-0',
           {
@@ -115,12 +115,12 @@ watch(route, () => {
       @mouseenter="navMouseEnter"
       @mouseleave="navMouseLeave"
     >
-      <div class="grow shrink w-64 overflow-hidden p-1">
+      <div class="w-64 shrink grow overflow-hidden p-1">
         <ScrollPanel class="h-full w-full">
           <MenuNav />
         </ScrollPanel>
       </div>
-      <div class="px-1 pb-1 shrink-0 hidden xl:block">
+      <div class="hidden shrink-0 px-1 pb-1 xl:block">
         <Button
           type="button"
           :class="cn('w-full')"
@@ -144,7 +144,7 @@ watch(route, () => {
     <div
       :class="
         cn(
-          'absolute left-0 top-0 z-[9] h-full w-full bg-mask duration-200',
+          'absolute top-0 left-0 z-[9] h-full w-full bg-mask duration-200',
           'sm:top-12 sm:h-[calc(100%-theme(height.12))]',
           {
             hidden: !layoutStore.navExpandedState && maskHidden,
@@ -159,7 +159,7 @@ watch(route, () => {
     <main
       :class="
         cn(
-          'absolute left-0 top-12 z-[8] h-[calc(100%-theme(height.12))] w-full pl-0 duration-200',
+          'absolute top-12 left-0 z-[8] h-[calc(100%-theme(height.12))] w-full pl-0 duration-200',
           'sm:pl-13',
           {
             'xl:pl-64': layoutStore.navDefaultExpanded
