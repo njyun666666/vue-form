@@ -181,7 +181,7 @@ defineExpose({
     />
 
     <h2>Step 2</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-12">
       <InputField
         class="col-span-6"
         for="content"
@@ -219,7 +219,7 @@ defineExpose({
     </div>
 
     <h2>Step 3</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-12">
       <InputField
         class="col-span-4"
         for="content"
@@ -228,7 +228,7 @@ defineExpose({
         :isRequired="fieldMode.radio == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
-          <div v-for="n in 3" :key="n" class="flex gap-2 shrink-0">
+          <div v-for="n in 3" :key="n" class="flex shrink-0 gap-2">
             <RadioButton
               v-model="field.radio.value.value"
               :inputId="`info.radio.${n}`"
@@ -250,7 +250,7 @@ defineExpose({
         :isRequired="fieldMode.checkbox == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
-          <div v-for="item of cityList" :key="item.value" class="flex gap-2 shrink-0">
+          <div v-for="item of cityList" :key="item.value" class="flex shrink-0 gap-2">
             <Checkbox
               v-model="field.checkbox.value.value"
               :inputId="`info.checkbox.${item.value}`"

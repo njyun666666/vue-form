@@ -27,7 +27,7 @@ datatable.handleFetchData()
 <template>
   <div>
     <DataTable
-      class="w-full p-datatable-hoverable"
+      class="p-datatable-hoverable w-full"
       v-bind="datatable.props.value"
       @page="datatable.onPage"
       @update:multiSortMeta="datatable.onUpdateMultiSortMeta"

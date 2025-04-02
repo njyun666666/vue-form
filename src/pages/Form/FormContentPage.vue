@@ -94,17 +94,17 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div v-if="loading" class="p-4 flex gap-5 flex-col">
+  <div v-if="loading" class="flex flex-col gap-5 p-4">
     <Skeleton width="50%" height="2rem"></Skeleton>
     <div class="flex gap-5">
-      <div class="flex flex-col gap-5 w-1/4" v-for="n in 4" :key="n">
+      <div class="flex w-1/4 flex-col gap-5" v-for="n in 4" :key="n">
         <Skeleton width="50%" height="1.5rem"></Skeleton>
         <Skeleton width="100%" height="1.5rem"></Skeleton>
       </div>
     </div>
   </div>
   <div v-if="!loading && !auth">no auth</div>
-  <div v-if="auth" class="flex flex-col w-full h-full">
+  <div v-if="auth" class="flex h-full w-full flex-col">
     <Toolbar ref="toolbar" class="shrink-0" :formPageAction="pageInfo.formPageAction" />
     <!-- <Toolbar ref="toolbar2" class="shrink-0"></Toolbar> -->
     <div class="grow overflow-hidden">

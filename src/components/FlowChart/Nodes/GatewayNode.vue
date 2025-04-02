@@ -22,7 +22,7 @@ const props = defineProps<FlowNodeProps>()
       <NodeDeleteBtn />
     </NodeBaseToolbar>
 
-    <div class="z-[1] relative">{{ data.label }}</div>
+    <div class="relative z-[1]">{{ data.label }}</div>
 
     <Handle
       id="source-t"

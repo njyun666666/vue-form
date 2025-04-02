@@ -9,7 +9,7 @@ interface Props {
 const props = defineProps<Props>()
 </script>
 <template>
-  <div :class="cn('w-full h-[50px] flex bg-surface-0 dark:bg-surface-900 gap-1 p-1', props.class)">
+  <div :class="cn('flex h-[50px] w-full gap-1 bg-surface-0 p-1 dark:bg-surface-900', props.class)">
     <slot />
   </div>
 </template>

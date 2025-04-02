@@ -41,7 +41,7 @@ export const useCreateConfirm = (confirmService: ReturnType<typeof useConfirm>) 
         message: '',
         header: t('Title.Alert'),
         rejectProps: {
-          class: 'hidden'
+          class: '!hidden'
         }
       },
       option

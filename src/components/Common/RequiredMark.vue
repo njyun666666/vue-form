@@ -1,4 +1,4 @@
 <script setup lang="ts"></script>
 <template>
-  <span class="text-error font-bold">*</span>
+  <span class="font-bold text-error">*</span>
 </template>

@@ -89,8 +89,8 @@ watch(
       class="w-full"
       :pt="{
         root: 'gap-0',
-        panel: 'overflow-hidden p-0 border-0',
-        rootlist: 'pl-0',
+        panel: '!overflow-hidden !p-0 !border-0',
+        rootlist: '!pl-0',
         content: ''
       }"
     >
@@ -101,52 +101,53 @@ watch(
           exactActiveClass="group is-exact-active"
         >
           <Button
-            :class="
-              cn(
-                'flex !justify-start w-full pl-0 py-2 pr-2 duration-200 transition-all group-[.is-exact-active]:!text-primary',
-                {
-                  'pl-3': !root && layoutStore.navExpandedState
-                }
-              )
-            "
+            :class="cn('w-full !p-0 group-[.is-exact-active]:!text-primary')"
             severity="secondary"
             text
           >
+            <div
+              :class="
+                cn(
+                  'flex w-full items-center justify-start py-2 pr-2 pl-0 transition-all duration-200',
+                  {
+                    'pl-3': !root && layoutStore.navExpandedState
+                  }
+                )
+              "
+            >
+              <font-awesome-icon
+                v-if="item.icon"
+                :icon="item.icon"
+                :class="cn('h-4 w-4 shrink-0 px-3.5')"
+              />
+              <span :class="cn('duration-200', { 'opacity-0': !layoutStore.navExpandedState })">
+                {{ $t(item.label as string) }}
+              </span>
+            </div>
+          </Button>
+        </RouterLink>
+
+        <Button v-else :class="cn('w-full !p-0')" severity="secondary" text>
+          <div class="flex w-full items-center justify-start py-2 pr-2 pl-0">
             <font-awesome-icon
               v-if="item.icon"
               :icon="item.icon"
-              :class="cn('w-4 h-4 px-3.5 shrink-0')"
+              :class="cn('h-4 w-4 shrink-0 px-3.5')"
             />
             <span :class="cn('duration-200', { 'opacity-0': !layoutStore.navExpandedState })">
               {{ $t(item.label as string) }}
             </span>
-          </Button>
-        </RouterLink>
-
-        <Button
-          v-else
-          :class="cn('flex !justify-start w-full pl-0 py-2 pr-2 duration-200 transition-all')"
-          severity="secondary"
-          text
-        >
-          <font-awesome-icon
-            v-if="item.icon"
-            :icon="item.icon"
-            :class="cn('w-4 h-4 px-3.5 shrink-0')"
-          />
-          <span :class="cn('duration-200', { 'opacity-0': !layoutStore.navExpandedState })">
-            {{ $t(item.label as string) }}
-          </span>
-          <font-awesome-icon
-            v-if="item.items"
-            icon="fa-solid fa-angle-right"
-            :class="
-              cn('ml-auto duration-200 w-3 h-3', {
-                'rotate-90': active,
-                'opacity-0': !layoutStore.navExpandedState
-              })
-            "
-          />
+            <font-awesome-icon
+              v-if="item.items"
+              icon="fa-solid fa-angle-right"
+              :class="
+                cn('ml-auto h-3 w-3 duration-200', {
+                  'rotate-90': active,
+                  'opacity-0': !layoutStore.navExpandedState
+                })
+              "
+            />
+          </div>
         </Button>
       </template>
     </PanelMenu>

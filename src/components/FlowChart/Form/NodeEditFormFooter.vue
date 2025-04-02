@@ -10,7 +10,7 @@ const save = () => {
 }
 </script>
 <template>
-  <div class="flex gap-5 justify-end">
+  <div class="flex justify-end gap-5">
     <Button :label="$t('Action.Save')" icon="pi pi-save" @click="save" />
   </div>
 </template>

@@ -2,7 +2,7 @@
 import FlowChart from '@/components/FlowChart/FlowChart.vue'
 </script>
 <template>
-  <div class="w-full h-full">
+  <div class="h-full w-full">
     <FlowChart />
   </div>
 </template>

@@ -46,7 +46,7 @@ const upload = (files: FileModel[]) => {
     <div class="flex flex-col gap-1">
       <template v-for="file in list" :key="file.id">
         <div v-if="!file.isDeleted" class="flex gap-1">
-          <Image :src="file.url" class="w-[100px] h-[100px]" preview />
+          <Image :src="file.url" class="h-[100px] w-[100px]" preview />
           <Button
             v-if="mode == FormFieldModeEnum.required || mode == FormFieldModeEnum.optional"
             class="shrink-0"

@@ -32,12 +32,12 @@ const { onDragStart } = useFlowNodeDnd(useConfirm())
     </div>
 
     <div
-      class="vue-flow__node-gateway w-full relative aspect-square"
+      class="vue-flow__node-gateway relative aspect-square w-full"
       :draggable="true"
       @dragstart="onDragStart($event, 'gateway')"
     >
       <GetewaySvg class="absolute top-0 left-0 z-0" />
-      <div class="z-[1] relative">Gateway</div>
+      <div class="relative z-[1]">Gateway</div>
     </div>
   </div>
 </template>
