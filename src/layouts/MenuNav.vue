@@ -88,7 +88,7 @@ watch(
       multiple
       class="w-full"
       :pt="{
-        root: 'gap-0',
+        root: '!gap-0',
         panel: '!overflow-hidden !p-0 !border-0',
         rootlist: '!pl-0',
         content: ''
@@ -109,9 +109,7 @@ watch(
               :class="
                 cn(
                   'flex w-full items-center justify-start py-2 pr-2 pl-0 transition-all duration-200',
-                  {
-                    'pl-3': !root && layoutStore.navExpandedState
-                  }
+                  { 'pl-3': !root && layoutStore.navExpandedState }
                 )
               "
             >
