@@ -62,7 +62,7 @@
 @theme inline {
   --color-primary: var(--primary);
   --color-background: var(--background);
-  --color-mask: hsl(var(--mask));
+  --color-mask: var(--mask);
   --color-surface: var(--surface);
   --color-color: var(--color);
   --color-error: var(--error);
@@ -72,7 +72,7 @@
   :root {
     --primary: var(--color-primary-500);
     --background: var(--color-surface-100);
-    --mask: 0 0% 0% / 0.4;
+    --mask: rgba(0, 0, 0, 0.4);
     --error: var(--color-error-500);
     --surface: var(--color-surface-200);
     --color: var(--color-surface-700);
@@ -82,7 +82,7 @@
     color-scheme: dark;
     --primary: var(--color-primary-500);
     --background: var(--color-black);
-    --mask: 0 0% 0% / 0.4;
+    --mask: rgba(0, 0, 0, 0.4);
     --error: var(--color-error-500);
     --surface: var(--color-surface-700);
     --color: var(--color-surface-50);

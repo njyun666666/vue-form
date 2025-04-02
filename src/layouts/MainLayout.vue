@@ -120,10 +120,10 @@ watch(route, () => {
           <MenuNav />
         </ScrollPanel>
       </div>
-      <div class="px-1 pb-1 shrink-0">
+      <div class="px-1 pb-1 shrink-0 hidden xl:block">
         <Button
           type="button"
-          :class="cn('hidden xl:block w-full')"
+          :class="cn('w-full')"
           severity="secondary"
           text
           @click="

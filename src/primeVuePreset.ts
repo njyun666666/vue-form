@@ -1,3 +1,5 @@
+import button from './styles/primevue/button'
+import tooltip from './styles/primevue/tooltip'
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 
@@ -50,6 +52,10 @@ const primeVuePreset = definePreset(Aura, {
         }
       }
     }
+  },
+  components: {
+    button,
+    tooltip
   }
 })
 
