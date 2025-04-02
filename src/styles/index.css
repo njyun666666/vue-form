@@ -1,9 +1,9 @@
 @import 'tailwindcss';
-@import '@vue-flow/core/dist/style.css';
-@import '@vue-flow/core/dist/theme-default.css';
-@import '@vue-flow/node-resizer/dist/style.css';
+@import '@vue-flow/core/dist/style.css' layer(base);
+@import '@vue-flow/core/dist/theme-default.css' layer(base);
+@import '@vue-flow/node-resizer/dist/style.css' layer(base);
 @import 'primeicons/primeicons.css';
-/* @import './flowchart.css'; */
+@import './flowchart.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {

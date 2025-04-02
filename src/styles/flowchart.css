@@ -1,20 +1,25 @@
-@theme static {
+@utility vue-flow__node-base-color {
+  border-color: var(--vf-node-color);
+  background-color: var(--vf-node-bg);
+}
+
+@layer components {
   :root {
-    --vf-node-color: var(--p-surface-900);
-    --vf-box-shadow: var(--p-surface-900);
-    --vf-node-bg: hsl(var(--background));
-    --vf-node-text: var(--p-surface-900);
-    --vf-handle: var(--p-surface-500);
-    --vf-connection-path: var(--p-surface-900);
+    --vf-node-color: var(--color-surface-900);
+    --vf-box-shadow: var(--color-surface-900);
+    --vf-node-bg: var(--background);
+    --vf-node-text: var(--color-surface-900);
+    --vf-handle: var(--color-surface-500);
+    --vf-connection-path: var(--color-surface-900);
   }
 
   :root.dark {
-    --vf-node-color: var(--p-surface-400);
-    --vf-box-shadow: var(--p-surface-400);
-    --vf-node-bg: hsl(var(--background));
-    --vf-node-text: var(--p-surface-50);
-    --vf-handle: var(--p-surface-700);
-    --vf-connection-path: var(--p-surface-400);
+    --vf-node-color: var(--color-surface-400);
+    --vf-box-shadow: var(--color-surface-400);
+    --vf-node-bg: var(--background);
+    --vf-node-text: var(--color-surface-50);
+    --vf-handle: var(--color-surface-700);
+    --vf-connection-path: var(--color-surface-400);
   }
 
   /* handle */
