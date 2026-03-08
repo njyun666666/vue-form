@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import A from '@/components/Form/A/AForm.vue'
-import B from '@/components/Form/B/BForm.vue'
 import Toolbar from '@/components/Form/Toolbar/Toolbar.vue'
 import { FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { formService } from '@/libs/services/formService'
 import BasePage from '@/pages/BasePage.vue'
+import { formComponentMap } from '@/pages/Form/formComponentMap'
 import { useLayoutStore } from '@/stores/layout'
 import Skeleton from 'primevue/skeleton'
 import { computed, onMounted, provide, ref, useTemplateRef } from 'vue'
@@ -31,13 +30,6 @@ pageInfo.value.formId = (route.params['formId'] as string)?.toUpperCase()
 const toolbar = useTemplateRef<InstanceType<typeof Toolbar>>('toolbar')
 // const toolbar2 = useTemplateRef<ComponentExposed<typeof Toolbar>>('toolbar2')
 
-const mapping: {
-  [key in FormClassEnum]: any
-} = {
-  A: A,
-  B: B
-}
-
 if (!pageInfo.value.formPageAction) {
   console.error(`formPageAction is undefined`)
   router.replace('/')
@@ -48,7 +40,7 @@ if (!pageInfo.value.formClass) {
   router.replace('/')
 }
 
-if (!mapping[pageInfo.value.formClass]) {
+if (!formComponentMap[pageInfo.value.formClass]) {
   console.error(`formClass component is not mapped`)
   router.replace('/')
 }
@@ -109,7 +101,7 @@ onMounted(() => {
     <!-- <Toolbar ref="toolbar2" class="shrink-0"></Toolbar> -->
     <div class="grow overflow-hidden">
       <BasePage>
-        <component :is="mapping[pageInfo.formClass]"></component>
+        <component :is="formComponentMap[pageInfo.formClass]"></component>
       </BasePage>
     </div>
   </div>

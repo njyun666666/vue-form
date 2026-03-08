@@ -27,6 +27,7 @@ alwaysApply: true
 
 - **架構**: 各表單有對應的 `models` / `services` / `components` / i18n 等，新增表單時依此結構同步建立。
 - **表單類別 Enum**: 新增表單時，同步在 `FormClassEnum`（`src/libs/enums/FormTypes.ts`）新增對應 enum（例：新增 C 表單 → 加入 `C = 'C'`）。
+- **表單主元件 Mapping**: `FormClassEnum -> 表單主元件` mapping 統一維護在 `src/pages/Form/formComponentMap.ts`；新增表單時務必同步加入（例：新增 C 表單 → 在 `formComponentMap` 加入 `[FormClassEnum.C]: CForm`）。
 - **API 與 Mock**: 每次新增 API 時，同步新增 MSW mock handler，並用 faker 產生模擬資料。
 - **文案**: 前端顯示文字一律使用 vue-i18n；分模組維護，新增功能時同步新增中、英文 JSON 語系檔。
 
