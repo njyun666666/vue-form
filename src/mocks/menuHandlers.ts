@@ -19,8 +19,8 @@ export const menuHandlers = [
         url: '/form'
       },
       {
-        menuId: 'org-flow',
-        menuName: 'Org.Flow',
+        menuId: 'flow-list',
+        menuName: 'Page.FlowList',
         icon: 'fa-solid fa-diagram-project',
         url: '/flow/list'
       }
