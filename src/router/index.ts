@@ -79,8 +79,36 @@ const router = createRouter({
         },
         {
           path: 'flow',
-          name: 'flow',
-          component: () => import('@/pages/Flow/FlowPage.vue')
+          children: [
+            {
+              path: '',
+              redirect: { name: 'flow/list' }
+            },
+            {
+              path: 'list',
+              name: 'flow/list',
+              meta: {
+                title: 'Page.FlowList'
+              },
+              component: () => import('@/pages/Flow/FlowListPage.vue')
+            },
+            {
+              path: 'new',
+              name: 'flow/new',
+              meta: {
+                title: 'Page.FlowNew'
+              },
+              component: () => import('@/pages/Flow/FlowPage.vue')
+            },
+            {
+              path: 'edit/:flowId',
+              name: 'flow/edit/:flowId',
+              meta: {
+                title: 'Page.FlowNew'
+              },
+              component: () => import('@/pages/Flow/FlowPage.vue')
+            }
+          ]
         }
       ]
     },

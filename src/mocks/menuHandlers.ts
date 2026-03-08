@@ -17,6 +17,12 @@ export const menuHandlers = [
         menuName: 'Page.ApplicationForm',
         icon: 'fa-solid fa-file-circle-plus',
         url: '/form'
+      },
+      {
+        menuId: 'org-flow',
+        menuName: 'Org.Flow',
+        icon: 'fa-solid fa-diagram-project',
+        url: '/flow/list'
       }
       // {
       //   menuId: 'b607cd761d59e53ac20df9a8d416e6f7',

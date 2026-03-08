@@ -13,7 +13,9 @@
     "Settings": "設定",
     "Search": "查詢",
     "Profile": "個人資料",
-    "ApplicationForm": "申請表單"
+    "ApplicationForm": "申請表單",
+    "FlowList": "流程清單",
+    "FlowNew": "新增流程"
   },
   "Datatable": {
     "RowsPerPage": "每頁筆數",

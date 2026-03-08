@@ -16,3 +16,10 @@ export class FlowApprovalViewModel {
   nextStep?: number
   nextStepName?: string
 }
+
+export class FlowListItem {
+  flowId?: string
+  flowName?: string
+  modifiedAt?: string
+  modifiedBy?: string
+}

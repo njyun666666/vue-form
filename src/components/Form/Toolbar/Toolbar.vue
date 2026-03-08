@@ -2,7 +2,7 @@
 import ActionDialog from './ApprovalComment.vue'
 import ToolbarBase from '@/components/UI/ToolbarBase.vue'
 import { FormActionEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
-import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Form/FlowModel'
+import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Flow/FlowModel'
 import type { FormPageInfoModel, FormSaveViewModel } from '@/libs/models/Form/FormModel'
 import { FormActionSetting } from '@/libs/models/Form/Toolbar'
 import { flowService } from '@/libs/services/flowService'

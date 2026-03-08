@@ -1,5 +1,9 @@
 {
   "Flow": {
+    "FlowId": "Flow Id",
+    "FlowName": "Flow name",
+    "ModifiedAt": "Last modified",
+    "ModifiedBy": "Modified by",
     "Node": {
       "stepId": "StepId",
       "label": "Step name",
