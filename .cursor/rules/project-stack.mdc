@@ -1,0 +1,50 @@
+---
+description: 本專案技術棧與慣例（依 package.json）
+alwaysApply: true
+---
+
+# vue-form 專案規則
+
+## 技術棧
+
+- **框架**: Vue 3、TypeScript、ESM (`"type": "module"`)
+- **建置**: Vite 7、@vitejs/plugin-vue 6
+- **UI**: PrimeVue 4、Tailwind CSS 4、PrimeIcons、Font Awesome 7、VueUse
+- **狀態與路由**: Pinia 3、Vue Router 5、@tanstack/vue-query
+- **表單**: VeeValidate 4、@vee-validate/zod、Zod 3
+- **流程圖**: @vue-flow（core、background、controls、minimap、node-resizer、node-toolbar）
+- **其他**: vue-i18n 11、axios、dayjs、lodash、clsx、tailwind-merge、uuid、jwt-decode、qs
+
+## 開發慣例
+
+- **Vue**: 一律使用 Composition API（`<script setup>` 或 `setup()`）。
+- **圖示**: 優先使用 `<font-awesome-icon />`（Font Awesome 7）。
+- **型別**: 撰寫與修改程式時維持 TypeScript 型別正確；建置前會執行 `vue-tsc --build --force`。
+- **程式風格**: 使用 ESLint（Vue + TypeScript）+ Prettier；commit 前由 lint-staged 對 `*.{vue,js,ts}` 跑 eslint --fix，並對 `src/` 跑 prettier。
+- **Mock**: 使用 MSW，worker 目錄為 `public`（見 package.json `msw.workerDirectory`）。
+
+## 表單流程系統慣例
+
+- **架構**: 各表單有對應的 `models` / `services` / `components` / i18n 等，新增表單時依此結構同步建立。
+- **表單類別 Enum**: 新增表單時，同步在 `FormClassEnum`（`src/libs/enums/FormTypes.ts`）新增對應 enum（例：新增 C 表單 → 加入 `C = 'C'`）。
+- **API 與 Mock**: 每次新增 API 時，同步新增 MSW mock handler，並用 faker 產生模擬資料。
+- **文案**: 前端顯示文字一律使用 vue-i18n；分模組維護，新增功能時同步新增中、英文 JSON 語系檔。
+
+## 表單元件實作慣例（參考 AForm / AFormInfo）
+
+- **主表單 (XForm.vue)**: 使用 `useForm` + `toTypedSchema(z.object(...).superRefine(...))`；`initialValues` 來自 models；`inject` 取得 `pageInfo`、`toolbar`；`useTemplateRef` 取得子表單 ref；`superRefine` 內用 `requiredFieldsValidator(val, fieldMode)` 依 `FormFieldModeEnum` 動態必填；`provide('form', form)` 傳給子元件；`onMounted` 將 `toolbar.validate`、`toolbar.saveAction` 指向 `onValidate`、`onSubmit`；載入中顯示 `Skeleton`。
+- **表單區塊 (XFormInfo.vue)**: `inject` 取得 `pageInfo`、`form`；各欄位用 `useField('info.xxx')`；`fieldMode`、`productDetailFieldMode` 以 `computed` 依 `stepId`、`formPageAction` 回傳 `FormFieldModeEnum`；`defineExpose({ fieldMode, productDetailFieldMode, validate })`；欄位一律包在 `InputField`（label、error、isRequired）；PrimeVue 元件加上 `:invalid`、`:disabled`；選項用 `useQuery` 取得。
+- **Schema**: 表單 info 用 `z.object({...}).partial()`；主表單 schema 合併 `baseInfoSchema`、`aFormInfoSchema`、`productDetailSchema` 等。
+- **Service**: 定義 `saveUrl`、`dataUrl`；`save(data)`、`data(formId)`；`data` 回傳時將陣列項轉成對應 Model 實例。
+
+## 指令
+
+- `npm run dev` — 開發伺服器
+- `npm run build` — 先 type-check 再 build
+- `npm run lint` — ESLint 檢查並自動修正（含 `--ignore-path .gitignore`）
+- `npm run format` — Prettier 格式化 `src/`
+
+## 注意
+
+- 新增或修改依賴後請用 `npm install --legacy-peer-deps`（專案使用 legacy-peer-deps 解決 peer 依賴）。
+- 表單驗證請用 VeeValidate + Zod schema，勿混用其他驗證庫。
