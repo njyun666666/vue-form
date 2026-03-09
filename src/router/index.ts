@@ -27,6 +27,7 @@ const router = createRouter({
             title: 'Org.Org',
             roles: [appConst.Role.Org]
           },
+          redirect: { name: 'org/dept' },
           children: [
             {
               path: 'dept',
