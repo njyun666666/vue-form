@@ -1,4 +1,3 @@
-import { appConst } from '@/appConst'
 import { i18n } from '@/i18n/config'
 import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
@@ -24,8 +23,7 @@ const router = createRouter({
           path: 'org',
           name: 'org',
           meta: {
-            title: 'Org.Org',
-            roles: [appConst.Role.Org]
+            title: 'Org.Org'
           },
           redirect: { name: 'org/dept' },
           children: [
@@ -135,9 +133,9 @@ router.beforeEach((to) => {
     return { name: 'login', query: { url: to.fullPath } }
   }
 
-  if (to.meta.roles && !loginStore.checkRole(to.meta.roles)) {
-    return { name: 'message', params: { message: 'Forbidden' } }
-  }
+  // if (to.meta.roles && !loginStore.checkRole(to.meta.roles)) {
+  //   return { name: 'message', params: { message: 'Forbidden' } }
+  // }
 })
 
 router.afterEach((to, from, failure) => {
