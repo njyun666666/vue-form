@@ -10,4 +10,4 @@ export const breakpoints = useBreakpoints({
   '2xl': 1536
 })
 
-export const isMobile = computed(() => breakpoints.active().value == 'default')
+export const isMobile = computed(() => breakpoints.active().value === 'default')

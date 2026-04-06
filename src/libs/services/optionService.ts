@@ -3,9 +3,9 @@ import type { OptionModel, OptionQueryModel } from '../models/Query/OptionModel'
 import qs from 'qs'
 
 class OptionService {
-  readonly deptUrl = '/api/Option/Dept'
-  readonly cityUrl = '/api/Option/City'
-  readonly productCategoryUrl = '/api/Option/ProductCategory'
+  readonly deptUrl = '/Option/Dept'
+  readonly cityUrl = '/Option/City'
+  readonly productCategoryUrl = '/Option/ProductCategory'
 
   dept(data: OptionQueryModel<string>) {
     return formAPI.get<OptionModel<string>[]>(this.deptUrl, {

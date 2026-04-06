@@ -3,7 +3,7 @@ import _ from 'lodash'
 import type { ConfirmationOptions } from 'primevue/confirmationoptions'
 import { useConfirm } from 'primevue/useconfirm'
 
-export const createConfirm = (confirmService: ReturnType<typeof useConfirm>) => {
+export const useCreateConfirm = (confirmService: ReturnType<typeof useConfirm>) => {
   const { t } = i18n.global
 
   const open = async (option: ConfirmationOptions) => {
@@ -41,7 +41,7 @@ export const createConfirm = (confirmService: ReturnType<typeof useConfirm>) => 
         message: '',
         header: t('Title.Alert'),
         rejectProps: {
-          class: 'hidden'
+          class: '!hidden'
         }
       },
       option

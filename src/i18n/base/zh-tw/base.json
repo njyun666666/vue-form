@@ -13,7 +13,10 @@
     "Settings": "設定",
     "Search": "查詢",
     "Profile": "個人資料",
-    "ApplicationForm": "申請表單"
+    "ApplicationForm": "申請表單",
+    "FlowList": "流程清單",
+    "FlowNew": "新增流程",
+    "Message": "訊息"
   },
   "Datatable": {
     "RowsPerPage": "每頁筆數",
@@ -46,13 +49,15 @@
     "Application": "申請",
     "Approve": "核准",
     "Reject": "駁回",
-    "UploadFile": "上傳檔案"
+    "UploadFile": "上傳檔案",
+    "Copy": "複製",
+    "Copied": "已複製"
   },
   "Title": {
     "Add": "新增{title}",
     "Edit": "編輯{title}",
-    "Confirm": "確認{title}",
-    "ConfirmText": "確認要{action}{title}?",
+    "Confirm": "請確認{title}",
+    "ConfirmText": "請確認要{action}{title}?",
     "Alert": "提醒"
   }
 }

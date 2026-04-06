@@ -32,7 +32,6 @@ const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(i18n)
-app.use(router)
 app.use(PrimeVue, primeVueConfig)
 app.use(VueQueryPlugin)
 app.use(DialogService)
@@ -40,16 +39,18 @@ app.use(ConfirmationService)
 app.use(ToastService)
 app.directive('tooltip', Tooltip)
 
-z.setErrorMap(zodErrorMap)
+z.config({ customError: zodErrorMap })
 
 enableMocking().then(() => {
+  app.use(router)
   app.mount('#app')
 })
 
 async function enableMocking() {
-  // if (process.env.NODE_ENV !== 'development') {
-  //   return
-  // }
+  const mockMode = import.meta.env.VITE_MOCK_MODE ?? 0
+  if (mockMode == 0) {
+    return
+  }
 
   const { worker } = await import('./mocks/browser')
 

@@ -31,14 +31,14 @@ const { isFetching, data } = useQuery({
       </template>
 
       <Card v-for="item in data" :key="item.groupId">
-        <template #title>{{ $t(item.groupName) }}</template>
+        <template #title>{{ $t(`Form.Group.${item.groupId}`) }}</template>
         <template #content>
           <div class="grid grid-cols-1 gap-2">
             <RouterLink
               v-for="formClass in item.list"
               :key="formClass.formClass"
               :to="{
-                name: 'form/:formPageAction/:formClass',
+                name: 'form-detail',
                 params: {
                   formPageAction: FormPageActionEnum.application,
                   formClass: formClass.formClass
@@ -46,7 +46,7 @@ const { isFetching, data } = useQuery({
               }"
             >
               <Button label="Secondary" severity="secondary" variant="text">
-                {{ $t(formClass.formClassName) }}
+                {{ $t(`Form.Class.${formClass.formClass}`) }}
               </Button>
             </RouterLink>
           </div>

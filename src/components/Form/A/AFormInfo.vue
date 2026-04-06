@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ProductDetail from '../ProductDetail/ProductDetail.vue'
+import { useAFieldMode } from './useAFieldMode'
 import InputField from '@/components/UI/InputField.vue'
-import { FormFieldModeEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
+import { FormFieldModeEnum } from '@/libs/enums/FormTypes'
 import type { AModel } from '@/libs/models/Form/A/A'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
-import type { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 import { optionService } from '@/libs/services/optionService'
 import { useQuery } from '@tanstack/vue-query'
 import Checkbox from 'primevue/checkbox'
@@ -15,12 +15,10 @@ import RadioButton from 'primevue/radiobutton'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import { type FormContext, useField } from 'vee-validate'
-import { type Ref, computed, inject } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { type Ref, inject } from 'vue'
 
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 const form = inject<FormContext<AModel>>('form')!
-const { t } = useI18n()
 
 const field = {
   title: useField<string>('info.title'),
@@ -36,85 +34,7 @@ if (field.datetime.value.value) {
   field.datetime.value.value = new Date(field.datetime.value.value)
 }
 
-const fieldMode = computed(() => {
-  const mode: Record<string, FormFieldModeEnum> = {
-    title: FormFieldModeEnum.readonly,
-    content: FormFieldModeEnum.readonly,
-    amount: FormFieldModeEnum.readonly,
-    datetime: FormFieldModeEnum.readonly,
-    radio: FormFieldModeEnum.readonly,
-    checkbox: FormFieldModeEnum.readonly,
-    select: FormFieldModeEnum.readonly,
-    productDetail: FormFieldModeEnum.readonly
-  }
-
-  if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
-
-  if (pageInfo?.value.step == 1) {
-    mode.title = FormFieldModeEnum.required
-    mode.content = FormFieldModeEnum.required
-    mode.productDetail = FormFieldModeEnum.required
-  }
-
-  if (pageInfo?.value.step == 2) {
-    mode.amount = FormFieldModeEnum.required
-    mode.datetime = FormFieldModeEnum.required
-  }
-
-  if (pageInfo?.value.step == 3) {
-    mode.radio = FormFieldModeEnum.required
-
-    switch (field.radio.value.value) {
-      case 1:
-        mode.checkbox = FormFieldModeEnum.required
-        mode.select = FormFieldModeEnum.readonly
-        break
-
-      case 2:
-        mode.checkbox = FormFieldModeEnum.readonly
-        mode.select = FormFieldModeEnum.required
-        break
-
-      case 3:
-        mode.checkbox = FormFieldModeEnum.required
-        mode.select = FormFieldModeEnum.required
-        break
-
-      default:
-        break
-    }
-  }
-
-  return mode
-})
-
-const productDetailFieldMode = computed(() => {
-  const mode: Partial<Record<keyof ProductDetailModel, FormFieldModeEnum>> = {
-    id: FormFieldModeEnum.readonly,
-    name: FormFieldModeEnum.readonly,
-    price: FormFieldModeEnum.readonly,
-    description: FormFieldModeEnum.readonly,
-    image: FormFieldModeEnum.readonly,
-    category: FormFieldModeEnum.readonly
-  }
-
-  if (pageInfo.value.formPageAction == FormPageActionEnum.info) return mode
-
-  if (pageInfo?.value.step == 1) {
-    mode.id = FormFieldModeEnum.required
-    mode.name = FormFieldModeEnum.required
-    mode.price = FormFieldModeEnum.required
-    mode.description = FormFieldModeEnum.required
-    mode.image = FormFieldModeEnum.required
-    mode.category = FormFieldModeEnum.required
-  }
-
-  if (pageInfo?.value.step == 2) {
-    mode.price = FormFieldModeEnum.required
-  }
-
-  return mode
-})
+const { fieldMode, productDetailFieldMode } = useAFieldMode(pageInfo, form)
 
 const { data: cityList, isFetching: cityIsFetching } = useQuery({
   queryKey: [optionService.cityUrl],
@@ -122,17 +42,7 @@ const { data: cityList, isFetching: cityIsFetching } = useQuery({
   staleTime: 24 * 60 * 60 * 1000
 })
 
-async function validate() {
-  let isValid = true
-
-  return isValid
-}
-
-defineExpose({
-  fieldMode,
-  productDetailFieldMode,
-  validate
-})
+defineExpose({ fieldMode, productDetailFieldMode })
 </script>
 
 <template>
@@ -181,7 +91,7 @@ defineExpose({
     />
 
     <h2>Step 2</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-12">
       <InputField
         class="col-span-6"
         for="content"
@@ -219,7 +129,7 @@ defineExpose({
     </div>
 
     <h2>Step 3</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-12">
       <InputField
         class="col-span-4"
         for="content"
@@ -228,7 +138,7 @@ defineExpose({
         :isRequired="fieldMode.radio == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
-          <div v-for="n in 3" :key="n" class="flex gap-2 shrink-0">
+          <div v-for="n in 3" :key="n" class="flex shrink-0 gap-2">
             <RadioButton
               v-model="field.radio.value.value"
               :inputId="`info.radio.${n}`"
@@ -250,7 +160,7 @@ defineExpose({
         :isRequired="fieldMode.checkbox == FormFieldModeEnum.required"
       >
         <div class="flex flex-wrap gap-2">
-          <div v-for="item of cityList" :key="item.value" class="flex gap-2 shrink-0">
+          <div v-for="item of cityList" :key="item.value" class="flex shrink-0 gap-2">
             <Checkbox
               v-model="field.checkbox.value.value"
               :inputId="`info.checkbox.${item.value}`"

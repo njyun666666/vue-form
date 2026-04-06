@@ -18,7 +18,7 @@ const query = ref<QueryModel<PendingApprovalModel>>({
 })
 
 const fetchData = async (data: QueryModel<PendingApprovalModel>) => {
-  return await formService.pandingApprovalList(data).then(async ({ data }) => data)
+  return await formService.pendingApprovalList(data).then(async ({ data }) => data)
 }
 
 const datatable = useDatatable(query, fetchData)
@@ -27,7 +27,7 @@ datatable.handleFetchData()
 <template>
   <div>
     <DataTable
-      class="w-full p-datatable-hoverable"
+      class="p-datatable-hoverable w-full"
       v-bind="datatable.props.value"
       @page="datatable.onPage"
       @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
@@ -53,7 +53,7 @@ datatable.handleFetchData()
         <template #body="{ data }">
           <RouterLink
             :to="{
-              name: 'form/:formPageAction/:formClass/:formId',
+              name: 'form-detail-id',
               params: {
                 formPageAction: FormPageActionEnum.approval,
                 formClass: data.formClass,

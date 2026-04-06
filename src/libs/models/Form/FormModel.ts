@@ -2,22 +2,21 @@ import type { FormActionEnum, FormClassEnum, FormPageActionEnum } from '@/libs/e
 
 export interface FormApplication {
   groupId: string
-  groupName: string
   list: FormClass[]
 }
 
 export interface FormClass {
   formClass: string
-  formClassName: string
 }
 
 export class FormBaseInfoModel {
   formId?: string
   formClass?: string
-  applicationId?: string
-  applicationName?: string
+  applicantId?: string
+  applicantName?: string
   applicationDate?: Date
   description?: string
+  flowId?: string
 }
 
 export class PendingApprovalModel extends FormBaseInfoModel {
@@ -39,7 +38,7 @@ export class FormSaveViewModel {
 export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionEnum[]
   flowId?: string
-  step: number
+  stepId: number
 }
 
 export class FormPageInfoModel {
@@ -47,5 +46,5 @@ export class FormPageInfoModel {
   formClass!: FormClassEnum
   formId?: string
   flowId?: string
-  step!: number
+  stepId!: number
 }

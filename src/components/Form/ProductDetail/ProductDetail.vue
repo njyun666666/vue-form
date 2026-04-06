@@ -5,7 +5,6 @@ import FileUpload from '@/components/UI/FileUpload.vue'
 import InputField from '@/components/UI/InputField.vue'
 import { FormFieldModeEnum } from '@/libs/enums/FormTypes'
 import type { AModel } from '@/libs/models/Form/A/A'
-import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 import { optionService } from '@/libs/services/optionService'
 import { cn } from '@/libs/utils/style'
@@ -19,11 +18,10 @@ import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import { type FormContext, useFieldArray } from 'vee-validate'
-import { type Ref, computed, inject } from 'vue'
+import { computed, inject } from 'vue'
 
 interface Props {
   arrayPath: string
-  // pageInfo: FormPageInfoModel
   mode?: FormFieldModeEnum
   fieldMode?: Partial<Record<keyof ProductDetailModel, FormFieldModeEnum>>
 }
@@ -32,26 +30,22 @@ const props = withDefaults(defineProps<Props>(), {
   mode: FormFieldModeEnum.readonly
 })
 
-const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 const form = inject<FormContext<AModel>>('form')!
-// form.errors.value['productDetail.0.id']
-// form.errors.value.productDetail
-// form.values.productDetail
 const editingRows = computed(() => fieldArray.fields.value.map((x) => x.value.guid))
 const fieldArray = useFieldArray<ProductDetailModel>(props.arrayPath)
 const getError = (index: number, field: string) =>
-  (form.errors.value as any)[`productDetail[${index}].${field}`]
-const add = () => {
-  const item = new ProductDetailModel()
-  item.id = uuid().substring(0, 8)
-  item.name = 'Asus 5090'
-  item.price = 100000
-  item.description = 'Asus 5090'
-  item.image = uuid()
-  item.category = 'gpu'
-
-  fieldArray.push(item)
-}
+  (form.errors.value as Record<string, string>)[`productDetail[${index}].${field}`]
+const add = () =>
+  fieldArray.push(
+    new ProductDetailModel({
+      id: uuid().substring(0, 8),
+      name: 'Asus 5090',
+      price: 100000,
+      description: 'Asus 5090',
+      image: uuid(),
+      category: 'gpu'
+    } as ProductDetailModel)
+  )
 const remove = (index: number, data: ProductDetailModel) => {
   if (data.id) data.isDeleted = true
   else fieldArray.remove(index)
@@ -219,6 +213,5 @@ const { data: productCategoryList, isFetching: productCategoryIsFetching } = use
     <small class="text-error">
       {{ form.errors.value.productDetail }}
     </small>
-    <!-- <pre>{{ JSON.stringify(fieldArray.fields.value, null, 2) }}</pre> -->
   </div>
 </template>

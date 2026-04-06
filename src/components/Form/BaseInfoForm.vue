@@ -15,15 +15,15 @@ const login = useLoginStore()
 const field = {
   formId: useField<string>('baseInfo.formId'),
   formClass: useField<string>('baseInfo.formClass'),
-  applicationId: useField<string>('baseInfo.applicationId'),
-  applicationName: useField<string>('baseInfo.applicationName'),
+  applicantId: useField<string>('baseInfo.applicantId'),
+  applicantName: useField<string>('baseInfo.applicantName'),
   applicationDate: useField<Date>('baseInfo.applicationDate')
 }
 
 if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
   field.formClass.value.value = pageInfo?.value.formClass
-  field.applicationId.value.value = String(login.tokenPayload?.uid)
-  field.applicationName.value.value = String(login.tokenPayload?.sub)
+  field.applicantId.value.value = String(login.tokenPayload?.uid)
+  field.applicantName.value.value = String(login.tokenPayload?.sub)
   field.applicationDate.value.value = new Date()
 } else {
   if (field.applicationDate.value.value) {
@@ -33,16 +33,16 @@ if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
 </script>
 <template>
   <div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
       <InputField for="formId" :label="$t('Form.BaseInfo.formId')">
         <InputText id="formId" type="text" v-model="field.formId.value.value" disabled />
       </InputField>
 
-      <InputField for="applicationName" :label="$t('Form.BaseInfo.applicationName')">
+      <InputField for="applicantName" :label="$t('Form.BaseInfo.applicantName')">
         <InputText
-          id="applicationName"
+          id="applicantName"
           type="text"
-          v-model="field.applicationName.value.value"
+          v-model="field.applicantName.value.value"
           disabled
         />
       </InputField>

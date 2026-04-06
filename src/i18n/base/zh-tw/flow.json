@@ -1,0 +1,29 @@
+{
+  "Flow": {
+    "FlowId": "流程 Id",
+    "FlowName": "流程名稱",
+    "ModifiedAt": "修改日期",
+    "ModifiedBy": "修改人",
+    "Node": {
+      "stepId": "StepId",
+      "label": "步驟名稱",
+      "task": {
+        "type": "任務類型",
+        "options": {
+          "applicant": "申請人",
+          "applicantDeptManager": "申請人部門主管",
+          "user": "使用者",
+          "dept": "部門",
+          "role": "角色"
+        },
+        "ownerSetting": "負責人設定",
+        "ownerSettingOptions": {
+          "hr": "HR",
+          "func": "函式"
+        },
+        "owner": "負責人",
+        "funcName": "函式名稱"
+      }
+    }
+  }
+}

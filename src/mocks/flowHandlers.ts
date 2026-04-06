@@ -1,5 +1,11 @@
 import appConfig from '@/appConfig'
-import type { FlowApprovalModel, FlowApprovalViewModel } from '@/libs/models/Form/FlowModel'
+import { flowListFaker } from '@/faker/flow'
+import type {
+  FlowApprovalModel,
+  FlowApprovalViewModel,
+  FlowListItem
+} from '@/libs/models/Flow/FlowModel'
+import type { QueryViewModel } from '@/libs/models/Query/QueryModel'
 import { flowService } from '@/libs/services/flowService'
 import { HttpResponse, delay, http } from 'msw'
 
@@ -18,5 +24,13 @@ export const flowHandlers = [
       nextStep: 3,
       nextStepName: '處級主管'
     } as FlowApprovalViewModel)
+  }),
+  http.post(`${appConfig.FORM_API}${flowService.listUrl}`, async () => {
+    await delay()
+    return HttpResponse.json({
+      data: flowListFaker,
+      pageCount: 1,
+      count: flowListFaker.length
+    } satisfies QueryViewModel<FlowListItem>)
   })
 ]

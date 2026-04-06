@@ -1,0 +1,84 @@
+@utility vue-flow__node-base-color {
+  border-color: var(--vf-node-color);
+  background-color: var(--vf-node-bg);
+}
+
+@layer components {
+  :root {
+    --vf-node-color: var(--color-surface-900);
+    --vf-box-shadow: var(--color-surface-900);
+    --vf-node-bg: var(--background);
+    --vf-node-text: var(--color-surface-900);
+    --vf-handle: var(--color-surface-500);
+    --vf-connection-path: var(--color-surface-900);
+  }
+
+  :root.dark {
+    --vf-node-color: var(--color-surface-400);
+    --vf-box-shadow: var(--color-surface-400);
+    --vf-node-bg: var(--background);
+    --vf-node-text: var(--color-surface-50);
+    --vf-handle: var(--color-surface-700);
+    --vf-connection-path: var(--color-surface-400);
+  }
+
+  /* handle */
+  .vue-flow__handle {
+    @apply h-2 w-2;
+  }
+
+  .vue-flow__resize-control.handle {
+    @apply h-2 w-2;
+  }
+
+  /* edges */
+  .vue-flow__edges path {
+    @apply stroke-[var(--vf-connection-path)] stroke-2;
+  }
+
+  .vue-flow__marker #arrowclosed polyline {
+    @apply !fill-[var(--vf-connection-path)] !stroke-[var(--vf-connection-path)];
+  }
+
+  /* connecting */
+  .vue-flow__pane.connecting.draggable path {
+    @apply stroke-2;
+  }
+
+  .vue-flow__connection-circle {
+    @apply fill-error stroke-[var(--vf-connection-path)];
+  }
+
+  /* toolbar */
+  .vue-flow__node-toolbar {
+    @apply rounded bg-surface-300 p-1 dark:bg-surface-900;
+  }
+
+  /* node */
+  .vue-flow__node-base-color {
+    @apply border-[var(--vf-node-color)] bg-[var(--vf-node-bg)];
+  }
+
+  .vue-flow__node-start {
+    @apply vue-flow__node-base-color;
+    @apply flex aspect-square items-center justify-center rounded-full border-2 p-2 text-center;
+  }
+
+  .vue-flow__node-end {
+    @apply vue-flow__node-base-color;
+    @apply flex aspect-square items-center justify-center rounded-full border-[6px] p-2 text-center;
+  }
+
+  .vue-flow__node-task {
+    @apply vue-flow__node-base-color;
+    @apply flex aspect-square items-center justify-center rounded border-2 p-2 text-center;
+  }
+
+  .vue-flow__node-gateway {
+    @apply border-transparent bg-transparent;
+    @apply flex items-center justify-center rounded p-2 text-center;
+    /* background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="50,10 90,50 50,90 10,50" fill="currentColor" stroke="currentColor" stroke-width="2" /></svg>'); */
+    /* background-size: 100% 100%; */
+    /* background-position: center; */
+  }
+}

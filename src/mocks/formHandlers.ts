@@ -17,30 +17,24 @@ export const formHandlers = [
     await delay()
     return HttpResponse.json([
       {
-        groupId: 'hr',
-        groupName: 'Form.Group.HR',
+        groupId: 'HR',
         list: [
           {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
+            formClass: 'A'
           },
           {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
+            formClass: 'B'
           }
         ]
       },
       {
-        groupId: 'it',
-        groupName: 'Form.Group.IT',
+        groupId: 'IT',
         list: [
           {
-            formClass: 'A',
-            formClassName: 'Form.Class.A'
+            formClass: 'A'
           },
           {
-            formClass: 'B',
-            formClassName: 'Form.Class.B'
+            formClass: 'B'
           }
         ]
       }
@@ -64,7 +58,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId: `${formClass}-flow-1`,
-        step: form.step
+        stepId: form.step
       } as FormCheckAuthViewModel)
     }
   ),
@@ -80,7 +74,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId: `${formClass}-flow-1`,
-        step: 1
+        stepId: 1
       } as FormCheckAuthViewModel)
     }
   ),
@@ -96,7 +90,7 @@ export const formHandlers = [
       formClass: formClass
     } as FormSaveViewModel)
   }),
-  http.post(`${appConfig.FORM_API}${formService.pandingApprovalListUrl}`, async ({ params }) => {
+  http.post(`${appConfig.FORM_API}${formService.pendingApprovalListUrl}`, async ({ params }) => {
     await delay()
     // const { formClass } = params
     return HttpResponse.json({
@@ -106,8 +100,8 @@ export const formHandlers = [
         {
           formId: 'A002',
           formClass: 'A',
-          applicationId: 'admin',
-          applicationName: 'Admin',
+          applicantId: 'admin',
+          applicantName: 'Admin',
           applicationDate: '2025-02-25T03:04:05.000Z',
           description: '標題: 測試第2步<br/>內容: <i>A002</i> test',
           approvalId: 'a002001',
@@ -120,8 +114,8 @@ export const formHandlers = [
         {
           formId: 'A003',
           formClass: 'A',
-          applicationId: 'admin',
-          applicationName: 'Admin',
+          applicantId: 'admin',
+          applicantName: 'Admin',
           applicationDate: '2025-02-26T08:15:55.000Z',
           description: '標題: 測試第3步<br/>內容: <i>A003</i> test',
           approvalId: 'a003001',

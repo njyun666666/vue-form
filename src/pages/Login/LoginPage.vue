@@ -6,7 +6,6 @@ import InputField from '@/components/UI/InputField.vue'
 import type { ResponseErrors } from '@/libs/api/formAPI'
 import { loginService } from '@/libs/services/loginService'
 import { useLoginStore } from '@/stores/login'
-import { toTypedSchema } from '@vee-validate/zod'
 import type { AxiosError } from 'axios'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -37,7 +36,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors, isSubmitting } = useForm({
-  validationSchema: toTypedSchema(formSchema),
+  validationSchema: formSchema,
   initialValues: {
     email: appConfig.VITE_EMAIL,
     password: appConfig.VITE_PASSWORD
@@ -77,7 +76,7 @@ const onSubmit = handleSubmit(async (values) => {
         <div class="flex flex-col gap-5 text-left">
           <ErrorMessage keypath="Login" :errors="errorMessage"> </ErrorMessage>
 
-          <InputField for="email" :label="$t('Login.Email')" :error="errors.email">
+          <InputField for="email" :label="$t('Login.email')" :error="errors.email">
             <InputText
               id="email"
               type="email"
@@ -87,7 +86,7 @@ const onSubmit = handleSubmit(async (values) => {
             />
           </InputField>
 
-          <InputField for="password" :label="$t('Login.Password')" :error="errors.password">
+          <InputField for="password" :label="$t('Login.password')" :error="errors.password">
             <InputText
               id="password"
               type="password"

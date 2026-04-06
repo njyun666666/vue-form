@@ -13,13 +13,15 @@
   },
   "Class": {
     "A": "A申請單",
-    "B": "B申請單"
+    "B": "B申請單",
+    "C": "C申請單",
+    "D": "D申請單"
   },
   "BaseInfo": {
     "formId": "單號",
     "formClass": "表單",
-    "applicationId": "申請人代號",
-    "applicationName": "申請人姓名",
+    "applicantId": "申請人代號",
+    "applicantName": "申請人姓名",
     "applicationDate": "申請日期",
     "description": "說明"
   },

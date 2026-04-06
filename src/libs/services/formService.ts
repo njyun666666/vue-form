@@ -9,21 +9,21 @@ import type {
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
 class FormService {
-  readonly applicationListUrl = '/api/Form/ApplicationList'
-  readonly checkAuthUrl = '/api/Form/CheckAuth'
-  readonly pandingApprovalListUrl = '/api/Form/PandingApprovalList'
+  readonly applicationListUrl = '/form/application-list'
+  readonly checkAuthUrl = '/form/check-auth'
+  readonly pendingApprovalListUrl = '/form/pending-approval-list'
 
   applicationList() {
     return formAPI.get<FormApplication[]>(this.applicationListUrl)
   }
 
-  pandingApprovalList(data: QueryModel<PendingApprovalModel>) {
-    return formAPI.post<QueryViewModel<PendingApprovalModel>>(this.pandingApprovalListUrl, data)
+  pendingApprovalList(data: QueryModel<PendingApprovalModel>) {
+    return formAPI.post<QueryViewModel<PendingApprovalModel>>(this.pendingApprovalListUrl, data)
   }
 
   checkAuth(pageInfo: FormPageInfoModel) {
     return formAPI.get<FormCheckAuthViewModel>(
-      `/api/Form/checkAuth/${pageInfo.formPageAction}/${pageInfo.formClass}/${pageInfo.formId ?? ''}`
+      `${this.checkAuthUrl}/${pageInfo.formPageAction}/${pageInfo.formClass}/${pageInfo.formId ?? ''}`
     )
   }
 }

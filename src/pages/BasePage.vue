@@ -10,7 +10,7 @@ interface Props {
 const props = defineProps<Props>()
 </script>
 <template>
-  <ScrollPanel :class="cn('w-full h-full')">
+  <ScrollPanel :class="cn('h-full w-full')">
     <div :class="cn('base-page', 'p-4', props.class)">
       <slot />
     </div>

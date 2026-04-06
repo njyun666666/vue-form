@@ -13,7 +13,10 @@
     "Settings": "Settings",
     "Search": "Saerch",
     "Profile": "Profile",
-    "ApplicationForm": "Application form"
+    "ApplicationForm": "Application form",
+    "FlowList": "Flow list",
+    "FlowNew": "New flow",
+    "Message": "Message"
   },
   "Datatable": {
     "RowsPerPage": "Rows per page",
@@ -46,7 +49,9 @@
     "Application": "Application",
     "Approve": "Approve",
     "Reject": "Reject",
-    "UploadFile": "Upload file"
+    "UploadFile": "Upload file",
+    "Copy": "Copy",
+    "Copied": "Copied"
   },
   "Title": {
     "Add": "Add {title}",

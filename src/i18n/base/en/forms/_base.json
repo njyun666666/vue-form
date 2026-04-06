@@ -13,13 +13,15 @@
   },
   "Class": {
     "A": "A form",
-    "B": "B form"
+    "B": "B form",
+    "C": "C form",
+    "D": "D form"
   },
   "BaseInfo": {
     "formId": "No.",
     "formClass": "Form",
-    "applicationId": "Application Id",
-    "applicationName": "Application Name",
+    "applicantId": "Application Id",
+    "applicantName": "Application Name",
     "applicationDate": "Application Date",
     "description": "Description"
   },

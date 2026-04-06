@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
 import { FormActionEnum } from '@/libs/enums/FormTypes'
-import type { FlowApprovalModel } from '@/libs/models/Form/FlowModel'
+import type { FlowApprovalModel } from '@/libs/models/Flow/FlowModel'
 import type { ActionDialogProps } from '@/libs/models/Form/Toolbar'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
@@ -46,7 +46,7 @@ onMounted(() => {
     >
       <Textarea v-model="comment" autoResize rows="5" class="w-full" :invalid="!!commentError" />
     </InputField>
-    <div class="flex gap-5 justify-end">
+    <div class="flex justify-end gap-5">
       <Button
         :label="$t('Action.Cancel')"
         severity="secondary"
@@ -57,14 +57,14 @@ onMounted(() => {
         v-if="props?.action == 'approve'"
         :label="$t('Action.Approve')"
         icon="pi pi-check"
-        @click="update(FormActionEnum.approve as FormActionEnum)"
+        @click="update(FormActionEnum.approve)"
       />
       <Button
         v-if="props?.action == 'reject'"
         :label="$t('Action.Reject')"
         icon="pi pi-times"
         severity="danger"
-        @click="update(FormActionEnum.reject as FormActionEnum)"
+        @click="update(FormActionEnum.reject)"
       />
     </div>
   </div>

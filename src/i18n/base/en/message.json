@@ -1,6 +1,7 @@
 {
   "Message": {
     "Required": "required",
+    "isNotEmpty": "required",
     "Login_Failed": "Login Failed",
     "Forbidden": "Access to this resource is forbidden",
     "EditSuccess": "Edited success",
@@ -10,6 +11,7 @@
     "AddFail": "Add failed",
     "DeleteFail": "Delete failed",
     "InvalidEmail": "Invalid Email",
+    "isEmail": "Invalid Email",
     "NoFound": "No found",
     "Select_at_least_number_items_is_required": "Select at least {number} items",
     "At_least_number_entry_is_required": "At least {number} entry is required",
