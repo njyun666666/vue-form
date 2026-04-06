@@ -11,7 +11,8 @@
       "WebFetch(domain:dev.to)",
       "WebFetch(domain:www.mintlify.com)",
       "WebFetch(domain:gist.github.com)",
-      "Bash(npx vue-tsc:*)"
+      "Bash(npx vue-tsc:*)",
+      "Bash(xargs wc:*)"
     ]
   }
 }
