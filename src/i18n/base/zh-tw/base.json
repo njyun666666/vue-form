@@ -15,7 +15,8 @@
     "Profile": "個人資料",
     "ApplicationForm": "申請表單",
     "FlowList": "流程清單",
-    "FlowNew": "新增流程"
+    "FlowNew": "新增流程",
+    "Message": "訊息"
   },
   "Datatable": {
     "RowsPerPage": "每頁筆數",

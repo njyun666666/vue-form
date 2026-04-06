@@ -15,7 +15,8 @@
     "Profile": "Profile",
     "ApplicationForm": "Application form",
     "FlowList": "Flow list",
-    "FlowNew": "New flow"
+    "FlowNew": "New flow",
+    "Message": "Message"
   },
   "Datatable": {
     "RowsPerPage": "Rows per page",

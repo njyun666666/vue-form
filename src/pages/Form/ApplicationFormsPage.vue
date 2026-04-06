@@ -38,7 +38,7 @@ const { isFetching, data } = useQuery({
               v-for="formClass in item.list"
               :key="formClass.formClass"
               :to="{
-                name: 'form/:formPageAction/:formClass',
+                name: 'form-detail',
                 params: {
                   formPageAction: FormPageActionEnum.application,
                   formClass: formClass.formClass

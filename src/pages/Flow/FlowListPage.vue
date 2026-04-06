@@ -37,7 +37,7 @@ datatable.handleFetchData()
           <template #body="{ data }">
             <RouterLink
               :to="{
-                name: 'flow/edit/:flowId',
+                name: 'flow-edit',
                 params: {
                   flowId: data.flowId
                 }

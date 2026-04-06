@@ -53,7 +53,7 @@ datatable.handleFetchData()
         <template #body="{ data }">
           <RouterLink
             :to="{
-              name: 'form/:formPageAction/:formClass/:formId',
+              name: 'form-detail-id',
               params: {
                 formPageAction: FormPageActionEnum.approval,
                 formClass: data.formClass,

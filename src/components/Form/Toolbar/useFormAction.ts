@@ -147,7 +147,7 @@ export function useFormAction(pageInfo: Ref<FormPageInfoModel>) {
     })
 
     routeTo.value = {
-      name: 'form/:formPageAction/:formClass/:formId',
+      name: 'form-detail-id',
       params: {
         formPageAction: FormPageActionEnum.info,
         formClass: save.value.formClass,
@@ -167,7 +167,7 @@ export function useFormAction(pageInfo: Ref<FormPageInfoModel>) {
     })
 
     routeTo.value = {
-      name: 'form/:formPageAction/:formClass/:formId',
+      name: 'form-detail-id',
       params: {
         formPageAction: FormPageActionEnum.info,
         formClass: pageInfo.value.formClass,
