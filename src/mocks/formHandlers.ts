@@ -90,7 +90,7 @@ export const formHandlers = [
       formClass: formClass
     } as FormSaveViewModel)
   }),
-  http.post(`${appConfig.FORM_API}${formService.pandingApprovalListUrl}`, async ({ params }) => {
+  http.post(`${appConfig.FORM_API}${formService.pendingApprovalListUrl}`, async ({ params }) => {
     await delay()
     // const { formClass } = params
     return HttpResponse.json({

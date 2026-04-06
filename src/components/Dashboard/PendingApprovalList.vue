@@ -18,7 +18,7 @@ const query = ref<QueryModel<PendingApprovalModel>>({
 })
 
 const fetchData = async (data: QueryModel<PendingApprovalModel>) => {
-  return await formService.pandingApprovalList(data).then(async ({ data }) => data)
+  return await formService.pendingApprovalList(data).then(async ({ data }) => data)
 }
 
 const datatable = useDatatable(query, fetchData)

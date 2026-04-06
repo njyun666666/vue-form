@@ -1,7 +1,6 @@
 import formAPI from '@/libs/api/formAPI'
-import type { AModel } from '@/libs/models/Form/A/A'
+import { AModel } from '@/libs/models/Form/A/A'
 import type { FormSaveViewModel } from '@/libs/models/Form/FormModel'
-import { ProductDetailModel } from '@/libs/models/Form/ProductDetail/ProductDetail'
 
 class AService {
   readonly saveUrl = '/A/Save'
@@ -13,7 +12,7 @@ class AService {
 
   data(formId: string) {
     return formAPI.get<AModel>(`${this.dataUrl}/${formId}`).then((res) => {
-      res.data.productDetail = res.data.productDetail?.map((item) => new ProductDetailModel(item))
+      res.data = new AModel(res.data)
       return res
     })
   }
