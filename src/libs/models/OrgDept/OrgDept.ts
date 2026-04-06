@@ -5,5 +5,5 @@ export interface OrgDept {
   rootDeptId: string
   enable: boolean
   expand: boolean
-  parentDept: OrgDept
+  parentDept?: Omit<OrgDept, 'parentDept'>
 }

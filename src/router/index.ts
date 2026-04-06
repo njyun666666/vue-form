@@ -1,7 +1,9 @@
-import { appConst } from '@/appConst'
 import { i18n } from '@/i18n/config'
+import HttpStatusCodes from '@/libs/api/httpStatusCodes'
+import { routeAuthService } from '@/libs/services/routeAuthService'
 import { useLayoutStore } from '@/stores/layout'
 import { useLoginStore } from '@/stores/login'
+import type { AxiosError } from 'axios'
 import { nextTick } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -14,7 +16,7 @@ const router = createRouter({
       children: [
         {
           path: '/',
-          name: 'index',
+          name: 'home',
           meta: {
             title: 'Page.Home'
           },
@@ -24,13 +26,13 @@ const router = createRouter({
           path: 'org',
           name: 'org',
           meta: {
-            title: 'Org.Org',
-            roles: [appConst.Role.Org]
+            title: 'Org.Org'
           },
+          redirect: { name: 'org-dept' },
           children: [
             {
               path: 'dept',
-              name: 'org/dept',
+              name: 'org-dept',
               meta: {
                 title: 'Org.Dept'
               },
@@ -38,7 +40,7 @@ const router = createRouter({
             },
             {
               path: 'dept/:deptId',
-              name: 'org/dept/:deptId',
+              name: 'org-dept-detail',
               meta: {
                 title: 'Org.Dept'
               },
@@ -46,7 +48,7 @@ const router = createRouter({
             },
             {
               path: 'user',
-              name: 'org/user',
+              name: 'org-user',
               meta: {
                 title: 'Org.User'
               },
@@ -67,20 +69,56 @@ const router = createRouter({
             },
             {
               path: ':formPageAction/:formClass',
-              name: 'form/:formPageAction/:formClass',
+              name: 'form-detail',
               component: () => import('@/pages/Form/FormPage.vue')
             },
             {
               path: ':formPageAction/:formClass/:formId',
-              name: 'form/:formPageAction/:formClass/:formId',
+              name: 'form-detail-id',
               component: () => import('@/pages/Form/FormPage.vue')
             }
           ]
         },
         {
           path: 'flow',
-          name: 'flow',
-          component: () => import('@/pages/Flow/FlowPage.vue')
+          children: [
+            {
+              path: '',
+              redirect: { name: 'flow-list' }
+            },
+            {
+              path: 'list',
+              name: 'flow-list',
+              meta: {
+                title: 'Page.FlowList'
+              },
+              component: () => import('@/pages/Flow/FlowListPage.vue')
+            },
+            {
+              path: 'new',
+              name: 'flow-new',
+              meta: {
+                title: 'Page.FlowNew'
+              },
+              component: () => import('@/pages/Flow/FlowPage.vue')
+            },
+            {
+              path: 'edit/:flowId',
+              name: 'flow-edit',
+              meta: {
+                title: 'Page.FlowNew'
+              },
+              component: () => import('@/pages/Flow/FlowPage.vue')
+            }
+          ]
+        },
+        {
+          path: 'message',
+          name: 'message',
+          meta: {
+            title: 'Page.Message'
+          },
+          component: () => import('@/pages/Message/MessagePage.vue')
         }
       ]
     },
@@ -94,20 +132,29 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      redirect: { name: 'index' }
+      redirect: { name: 'home' }
     }
   ]
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const loginStore = useLoginStore()
 
-  if (to.name != 'login' && !loginStore.loginState) {
+  if (to.name === 'login' || to.name === 'message') return
+
+  if (!loginStore.loginState) {
     return { name: 'login', query: { url: to.fullPath } }
   }
 
-  if (to.meta.roles && !loginStore.checkRole(to.meta.roles)) {
-    return { name: 'message', params: { message: 'Forbidden' } }
+  if (to.name) {
+    try {
+      await routeAuthService.checkRoute(to.name as string)
+    } catch (error) {
+      const axiosError = error as AxiosError
+      if (axiosError.response?.status === HttpStatusCodes.FORBIDDEN) {
+        return { name: 'message', query: { type: 'forbidden' } }
+      }
+    }
   }
 })
 

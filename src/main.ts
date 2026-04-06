@@ -32,7 +32,6 @@ const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(i18n)
-app.use(router)
 app.use(PrimeVue, primeVueConfig)
 app.use(VueQueryPlugin)
 app.use(DialogService)
@@ -40,9 +39,10 @@ app.use(ConfirmationService)
 app.use(ToastService)
 app.directive('tooltip', Tooltip)
 
-z.setErrorMap(zodErrorMap)
+z.config({ customError: zodErrorMap })
 
 enableMocking().then(() => {
+  app.use(router)
   app.mount('#app')
 })
 

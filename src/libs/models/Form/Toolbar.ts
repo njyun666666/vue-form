@@ -15,6 +15,7 @@ export class FormActionSetting {
     this.actionType = actionType
     this.display = false
     this.action = action
+    this.loading = false
   }
 }
 

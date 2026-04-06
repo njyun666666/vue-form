@@ -11,14 +11,14 @@ import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 class FormService {
   readonly applicationListUrl = '/form/application-list'
   readonly checkAuthUrl = '/form/check-auth'
-  readonly pandingApprovalListUrl = '/form/panding-approval-list'
+  readonly pendingApprovalListUrl = '/form/pending-approval-list'
 
   applicationList() {
     return formAPI.get<FormApplication[]>(this.applicationListUrl)
   }
 
-  pandingApprovalList(data: QueryModel<PendingApprovalModel>) {
-    return formAPI.post<QueryViewModel<PendingApprovalModel>>(this.pandingApprovalListUrl, data)
+  pendingApprovalList(data: QueryModel<PendingApprovalModel>) {
+    return formAPI.post<QueryViewModel<PendingApprovalModel>>(this.pendingApprovalListUrl, data)
   }
 
   checkAuth(pageInfo: FormPageInfoModel) {

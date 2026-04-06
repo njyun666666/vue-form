@@ -8,7 +8,6 @@ import {
   OwnerSettingEnum
 } from '@/libs/models/FlowChart/FlowNode'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
-import { toTypedSchema } from '@vee-validate/zod'
 import { useClipboard } from '@vueuse/core'
 import Button from 'primevue/button'
 import type Dialog from 'primevue/dialog'
@@ -49,7 +48,7 @@ const schema = z
 
         requiredFieldsValidator(val, taskFormRef.value?.fieldMode).forEach((field) => {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: 'custom',
             message: t('Message.Required'),
             path: [`${field}`]
           })
@@ -64,7 +63,7 @@ const schema = z
   .partial()
 
 const { values, errors, setValues, defineField, handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schema)
+  validationSchema: schema
 })
 
 const [label] = defineField('label')

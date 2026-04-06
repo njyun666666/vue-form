@@ -1,5 +1,9 @@
 {
   "Flow": {
+    "FlowId": "流程 Id",
+    "FlowName": "流程名稱",
+    "ModifiedAt": "修改日期",
+    "ModifiedBy": "修改人",
     "Node": {
       "stepId": "StepId",
       "label": "步驟名稱",

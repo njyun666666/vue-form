@@ -5,7 +5,6 @@ import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useDatatable } from '@/libs/utils/datatable'
-import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
@@ -32,7 +31,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(formSchema),
+  validationSchema: formSchema,
   initialValues: {
     deptName: ''
   }
@@ -74,7 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
       >
         <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
           <template #body="{ data }">
-            <RouterLink :to="{ name: 'org/dept/:deptId', params: { deptId: data.deptId } }">
+            <RouterLink :to="{ name: 'org-dept-detail', params: { deptId: data.deptId } }">
               <div class="w-full px-4 py-3">
                 {{ data.deptName }}
               </div>

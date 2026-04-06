@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
 import { FormActionEnum } from '@/libs/enums/FormTypes'
-import type { FlowApprovalModel } from '@/libs/models/Form/FlowModel'
+import type { FlowApprovalModel } from '@/libs/models/Flow/FlowModel'
 import type { ActionDialogProps } from '@/libs/models/Form/Toolbar'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'

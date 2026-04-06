@@ -13,7 +13,10 @@
     "Settings": "Settings",
     "Search": "Saerch",
     "Profile": "Profile",
-    "ApplicationForm": "Application form"
+    "ApplicationForm": "Application form",
+    "FlowList": "Flow list",
+    "FlowNew": "New flow",
+    "Message": "Message"
   },
   "Datatable": {
     "RowsPerPage": "Rows per page",

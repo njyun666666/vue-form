@@ -11,7 +11,6 @@ import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormMod
 import { aService } from '@/libs/services/forms/aService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
-import { toTypedSchema } from '@vee-validate/zod'
 import Skeleton from 'primevue/skeleton'
 import { useConfirm } from 'primevue/useconfirm'
 import { useForm } from 'vee-validate'
@@ -23,10 +22,8 @@ const { t } = useI18n()
 const confirm = useCreateConfirm(useConfirm())
 
 const loading = ref(true)
-// import type { ComponentExposed } from 'vue-component-type-helpers'
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
 const toolbar = inject<Ref<InstanceType<typeof Toolbar>>>('toolbar')
-// const toolbar2 = inject<Ref<ComponentExposed<typeof Toolbar>>>('toolbar2')
 const AFormInfoRef = useTemplateRef<InstanceType<typeof AFormInfo>>('AFormInfoRef')
 
 const initialValues: AModel = {
@@ -36,51 +33,49 @@ const initialValues: AModel = {
 }
 
 const form = useForm<AModel>({
-  validationSchema: toTypedSchema(
-    z
-      .object({
-        baseInfo: baseInfoSchema,
-        info: aFormInfoSchema,
-        productDetail: z.array(productDetailSchema)
-      })
-      .superRefine((val, ctx) => {
-        requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t('Message.Required'),
-            path: [`info.${field}`]
-          })
+  validationSchema: z
+    .object({
+      baseInfo: baseInfoSchema,
+      info: aFormInfoSchema,
+      productDetail: z.array(productDetailSchema)
+    })
+    .superRefine((val, ctx) => {
+      requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
+        ctx.addIssue({
+          code: 'custom',
+          message: t('Message.Required'),
+          path: [`info.${field}`]
         })
       })
-      .superRefine((val, ctx) => {
-        if (
-          AFormInfoRef.value?.fieldMode.productDetail == FormFieldModeEnum.required &&
-          val.productDetail.length == 0
-        ) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t('Message.At_least_number_entry_is_required', { number: 1 }),
-            path: ['productDetail']
-          })
-        }
+    })
+    .superRefine((val, ctx) => {
+      if (
+        AFormInfoRef.value?.fieldMode.productDetail === FormFieldModeEnum.required &&
+        val.productDetail.length === 0
+      ) {
+        ctx.addIssue({
+          code: 'custom',
+          message: t('Message.At_least_number_entry_is_required', { number: 1 }),
+          path: ['productDetail']
+        })
+      }
 
-        val.productDetail?.forEach((item, index) => {
-          requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
-            (field) => {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: t('Message.Required'),
-                path: [`productDetail.${index}.${field}`]
-              })
-            }
-          )
-        })
+      val.productDetail?.forEach((item, index) => {
+        requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
+          (field) => {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('Message.Required'),
+              path: [`productDetail.${index}.${field}`]
+            })
+          }
+        )
       })
-  ),
+    }),
   initialValues: initialValues
 })
 
-if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
+if (pageInfo?.value.formPageAction === FormPageActionEnum.application) {
   loading.value = false
 } else {
   aService.data(`${pageInfo.value.formId}`).then((data) => {
@@ -90,14 +85,10 @@ if (pageInfo?.value.formPageAction == FormPageActionEnum.application) {
 }
 
 async function onValidate() {
-  const isValid = await form.validate()
-  // console.log('values', isValid.values)
-  // console.log(values)
+  const { valid, errors } = await form.validate()
 
-  const aFormInfoValid = await AFormInfoRef.value?.validate()
-
-  if (!isValid.valid || !aFormInfoValid) {
-    console.error(isValid.errors)
+  if (!valid) {
+    console.error(errors)
     confirm.alert({ message: t('Message.Please_check_the_field') })
     return false
   }
@@ -120,23 +111,11 @@ async function onSubmit() {
 }
 
 onMounted(() => {
-  // console.log('aform')
-
-  // toolbar!.value.applicationBtn.beforeAction = async () => {
-  //   console.log('beforeAction')
-  // }
-
   toolbar!.value.applicationBtn.validate = onValidate
   toolbar!.value.approveBtn.validate = onValidate
-  // toolbar!.value.rejectBtn.validate = onValidate
 
   toolbar!.value.applicationBtn.saveAction = onSubmit
   toolbar!.value.approveBtn.saveAction = onSubmit
-  // toolbar!.value.rejectBtn.saveAction = onSubmit
-
-  // toolbar!.value.applicationBtn.afterAction = async () => {
-  //   console.log('afterAction')
-  // }
 })
 
 provide('form', form)
@@ -160,7 +139,5 @@ provide('form', form)
     <div>
       <AFormInfo ref="AFormInfoRef" />
     </div>
-
-    <!-- <pre>{{ JSON.stringify(form.values, null, 2) }}</pre> -->
   </form>
 </template>
