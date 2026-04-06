@@ -10,7 +10,7 @@ import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { z } from 'zod'
 
@@ -42,6 +42,8 @@ const [deptName] = defineField('deptName')
 const onSubmit = handleSubmit(async (values) => {
   await datatable.onSubmit(values)
 })
+
+onMounted(() => datatable.handleFetchData())
 </script>
 <template>
   <BasePage>

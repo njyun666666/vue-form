@@ -5,6 +5,7 @@ import { formHandlers } from './formHandlers'
 import { loginHandlers } from './loginHandlers'
 import { menuHandlers } from './menuHandlers'
 import { optionHandlers } from './optionHandlers'
+import { orgDeptHandlers } from './orgDeptHandlers'
 import { routeAuthHandlers } from './routeAuthHandlers'
 import { setupWorker } from 'msw/browser'
 
@@ -16,5 +17,6 @@ export const worker = setupWorker(
   ...optionHandlers,
   ...fileHandlers,
   ...flowHandlers,
+  ...orgDeptHandlers,
   ...routeAuthHandlers
 )
