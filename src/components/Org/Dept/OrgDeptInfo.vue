@@ -2,7 +2,6 @@
 import InputField from '@/components/UI/InputField.vue'
 import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
 import { orgDeptService } from '@/libs/services/orgDeptService'
-import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
@@ -29,7 +28,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors, setFieldValue, isSubmitting, values } = useForm({
-  validationSchema: toTypedSchema(formSchema),
+  validationSchema: formSchema,
   initialValues: {
     deptId: '',
     deptName: '',
@@ -48,7 +47,7 @@ orgDeptService.getOrgDept(deptId.value).then((res) => {
   data.value = res.data
   setFieldValue('deptId', data.value.deptId)
   setFieldValue('deptName', data.value.deptName)
-  setFieldValue('parentDeptId', data.value.parentDeptId)
+  setFieldValue('parentDeptId', data.value.parentDeptId ?? null)
   initValues.value = data.value.parentDeptId
   isFetched.value = true
 })

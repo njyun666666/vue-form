@@ -5,7 +5,6 @@ import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useDatatable } from '@/libs/utils/datatable'
-import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
@@ -32,7 +31,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(formSchema),
+  validationSchema: formSchema,
   initialValues: {
     deptName: ''
   }

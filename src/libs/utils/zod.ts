@@ -4,12 +4,12 @@ import { z } from 'zod'
 
 const { t } = i18n.global
 
-export const zodErrorMap: z.ZodErrorMap = (issue, ctx) => {
-  if (issue.code === 'invalid_type' && ['undefined', 'null'].includes(issue.received)) {
-    return { message: t('Message.Required') }
+export const zodErrorMap: z.core.$ZodErrorMap = (issue) => {
+  if (issue.code === 'invalid_type' && (issue.input === undefined || issue.input === null)) {
+    return t('Message.Required')
   }
 
-  return { message: ctx.defaultError }
+  return undefined
 }
 
 export const requiredFieldsValidator = (

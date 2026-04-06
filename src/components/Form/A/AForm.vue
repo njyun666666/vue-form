@@ -11,7 +11,6 @@ import { FormBaseInfoModel, FormPageInfoModel } from '@/libs/models/Form/FormMod
 import { aService } from '@/libs/services/forms/aService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
-import { toTypedSchema } from '@vee-validate/zod'
 import Skeleton from 'primevue/skeleton'
 import { useConfirm } from 'primevue/useconfirm'
 import { useForm } from 'vee-validate'
@@ -36,47 +35,45 @@ const initialValues: AModel = {
 }
 
 const form = useForm<AModel>({
-  validationSchema: toTypedSchema(
-    z
-      .object({
-        baseInfo: baseInfoSchema,
-        info: aFormInfoSchema,
-        productDetail: z.array(productDetailSchema)
-      })
-      .superRefine((val, ctx) => {
-        requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t('Message.Required'),
-            path: [`info.${field}`]
-          })
+  validationSchema: z
+    .object({
+      baseInfo: baseInfoSchema,
+      info: aFormInfoSchema,
+      productDetail: z.array(productDetailSchema)
+    })
+    .superRefine((val, ctx) => {
+      requiredFieldsValidator(val.info, AFormInfoRef.value?.fieldMode).forEach((field) => {
+        ctx.addIssue({
+          code: 'custom',
+          message: t('Message.Required'),
+          path: [`info.${field}`]
         })
       })
-      .superRefine((val, ctx) => {
-        if (
-          AFormInfoRef.value?.fieldMode.productDetail == FormFieldModeEnum.required &&
-          val.productDetail.length == 0
-        ) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: t('Message.At_least_number_entry_is_required', { number: 1 }),
-            path: ['productDetail']
-          })
-        }
+    })
+    .superRefine((val, ctx) => {
+      if (
+        AFormInfoRef.value?.fieldMode.productDetail == FormFieldModeEnum.required &&
+        val.productDetail.length == 0
+      ) {
+        ctx.addIssue({
+          code: 'custom',
+          message: t('Message.At_least_number_entry_is_required', { number: 1 }),
+          path: ['productDetail']
+        })
+      }
 
-        val.productDetail?.forEach((item, index) => {
-          requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
-            (field) => {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: t('Message.Required'),
-                path: [`productDetail.${index}.${field}`]
-              })
-            }
-          )
-        })
+      val.productDetail?.forEach((item, index) => {
+        requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
+          (field) => {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('Message.Required'),
+              path: [`productDetail.${index}.${field}`]
+            })
+          }
+        )
       })
-  ),
+    }),
   initialValues: initialValues
 })
 
