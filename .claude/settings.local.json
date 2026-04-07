@@ -14,7 +14,8 @@
       "Bash(npx vue-tsc:*)",
       "Bash(xargs wc:*)",
       "Bash(npm run:*)",
-      "Bash(grep -E \"\\\\.\\(ts|js\\)$\")"
+      "Bash(grep -E \"\\\\.\\(ts|js\\)$\")",
+      "Bash(xargs grep:*)"
     ]
   }
 }

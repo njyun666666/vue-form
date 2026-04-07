@@ -5,6 +5,9 @@
     "User": "User",
     "DeptName": "Department Name",
     "DeptInfo": "Department Information",
-    "ParentDept": "Parent Department"
+    "ParentDept": "Parent Department",
+    "EmployeeId": "Employee ID",
+    "UserName": "Name",
+    "JobTitle": "Job Title"
   }
 }
