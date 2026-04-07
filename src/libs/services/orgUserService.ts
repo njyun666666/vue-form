@@ -1,4 +1,5 @@
 import formAPI from '../api/formAPI'
+import type { OrgUser } from '../models/OrgUser/OrgUser'
 import type { OrgUserQuery, OrgUserQueryView } from '../models/OrgUser/OrgUserQuery'
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
@@ -8,6 +9,29 @@ class OrgUserService {
 
   query(data: QueryModel<OrgUserQuery>) {
     return formAPI.post<QueryViewModel<OrgUserQueryView>>(this.queryUrl, data)
+  }
+
+  getOrgUser(userId: string) {
+    return formAPI.get<OrgUser>(`${this.getOrgUserUrl}/${userId}`)
+  }
+
+  createOrgUser(data: {
+    employeeId: string
+    userName: string
+    deptId: string | null
+    jobTitle: string
+  }) {
+    return formAPI.post<OrgUser>(this.getOrgUserUrl, data)
+  }
+
+  updateOrgUser(data: {
+    userId: string
+    employeeId: string
+    userName: string
+    deptId: string | null
+    jobTitle: string
+  }) {
+    return formAPI.put<OrgUser>(`${this.getOrgUserUrl}/${data.userId}`, data)
   }
 }
 

@@ -6,6 +6,7 @@
     "DeptName": "部門名稱",
     "DeptInfo": "部門資訊",
     "ParentDept": "上層部門",
+    "UserInfo": "人員資訊",
     "EmployeeId": "員工編號",
     "UserName": "姓名",
     "JobTitle": "職稱"

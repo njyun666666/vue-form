@@ -61,6 +61,22 @@ const router = createRouter({
                 title: 'Org.User'
               },
               component: () => import('@/pages/Org/OrgUserPage.vue')
+            },
+            {
+              path: 'user/new',
+              name: 'org-user-new',
+              meta: {
+                title: 'Org.UserInfo'
+              },
+              component: () => import('@/pages/Org/OrgUserInfoPage.vue')
+            },
+            {
+              path: 'user/:userId',
+              name: 'org-user-detail',
+              meta: {
+                title: 'Org.UserInfo'
+              },
+              component: () => import('@/pages/Org/OrgUserInfoPage.vue')
             }
           ]
         },

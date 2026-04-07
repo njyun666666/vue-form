@@ -14,7 +14,10 @@ import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import { useForm } from 'vee-validate'
 import { onMounted, ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { z } from 'zod'
+
+const router = useRouter()
 
 const query = ref<QueryModel<OrgUserQuery>>({
   pageIndex: 0,
@@ -83,10 +86,14 @@ onMounted(() => datatable.handleFetchData())
             class="w-full"
           />
         </InputField>
-        <div class="flex items-end">
+        <div class="flex items-end gap-2">
           <Button type="submit">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
             {{ $t('Action.Search') }}
+          </Button>
+          <Button type="button" @click="router.push({ name: 'org-user-new' })">
+            <font-awesome-icon icon="fa-solid fa-plus" />
+            {{ $t('Action.Add') }}
           </Button>
         </div>
       </div>
@@ -96,10 +103,17 @@ onMounted(() => datatable.handleFetchData())
       <DataTable
         class="w-full"
         v-bind="datatable.props.value"
+        selectionMode="single"
         @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
-        <Column field="employeeId" :header="$t('Org.EmployeeId')" sortable />
+        <Column field="employeeId" :header="$t('Org.EmployeeId')" sortable bodyClass="!p-0">
+          <template #body="{ data }">
+            <RouterLink :to="{ name: 'org-user-detail', params: { userId: data.userId } }">
+              <div class="w-full px-4 py-3">{{ data.employeeId }}</div>
+            </RouterLink>
+          </template>
+        </Column>
         <Column field="userName" :header="$t('Org.UserName')" sortable />
         <Column field="deptName" :header="$t('Org.Dept')" sortable />
         <Column field="jobTitle" :header="$t('Org.JobTitle')" sortable />
