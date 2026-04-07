@@ -1,9 +1,22 @@
 import appConfig from '@/appConfig'
+import { orgDeptQueryViewList } from '@/faker/orgDept'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
 
 export const optionHandlers = [
+  http.get(`${appConfig.FORM_API}${optionService.deptUrl}`, async ({ request }) => {
+    await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const list = input
+      ? orgDeptQueryViewList.filter((d) => d.deptName.toLowerCase().includes(input))
+      : orgDeptQueryViewList
+    return HttpResponse.json(
+      list.map((d) => ({ value: d.deptId, label: d.deptName }) satisfies OptionModel<string>)
+    )
+  }),
+
   http.get(`${appConfig.FORM_API}${optionService.cityUrl}`, async () => {
     await delay()
     return HttpResponse.json([

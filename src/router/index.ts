@@ -39,6 +39,14 @@ const router = createRouter({
               component: () => import('@/pages/Org/OrgDeptPage.vue')
             },
             {
+              path: 'dept/new',
+              name: 'org-dept-new',
+              meta: {
+                title: 'Org.DeptInfo'
+              },
+              component: () => import('@/pages/Org/OrgDeptInfoPage.vue')
+            },
+            {
               path: 'dept/:deptId',
               name: 'org-dept-detail',
               meta: {

@@ -14,6 +14,14 @@ class OrgDeptService {
   getOrgDept(deptId: string) {
     return formAPI.get<OrgDept>(`${this.getOrgDeptUrl}/${deptId}`)
   }
+
+  createOrgDept(data: { deptName: string; parentDeptId: string | null }) {
+    return formAPI.post<OrgDept>(this.getOrgDeptUrl, data)
+  }
+
+  updateOrgDept(data: { deptId: string; deptName: string; parentDeptId: string | null }) {
+    return formAPI.put<OrgDept>(`${this.getOrgDeptUrl}/${data.deptId}`, data)
+  }
 }
 
 export const orgDeptService = new OrgDeptService()

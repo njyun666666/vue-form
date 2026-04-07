@@ -4,6 +4,7 @@
     "Dept": "Department",
     "User": "User",
     "DeptName": "Department Name",
-    "DeptInfo": "Department Information"
+    "DeptInfo": "Department Information",
+    "ParentDept": "Parent Department"
   }
 }

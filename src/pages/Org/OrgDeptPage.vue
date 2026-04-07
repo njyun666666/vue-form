@@ -11,8 +11,10 @@ import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
 import { onMounted, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { z } from 'zod'
+
+const router = useRouter()
 
 const query = ref<QueryModel<OrgDeptQuery>>({
   pageIndex: 0,
@@ -54,13 +56,15 @@ onMounted(() => datatable.handleFetchData())
         <InputField for="deptName" :label="$t('Org.DeptName')" :error="errors.deptName">
           <InputText id="deptName" v-model="deptName" />
         </InputField>
-        <div class="flex items-end">
-          <div>
-            <Button type="submit">
-              <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-              {{ $t('Action.Search') }}
-            </Button>
-          </div>
+        <div class="flex items-end gap-2">
+          <Button type="submit">
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+            {{ $t('Action.Search') }}
+          </Button>
+          <Button type="button" @click="router.push({ name: 'org-dept-new' })">
+            <font-awesome-icon icon="fa-solid fa-plus" />
+            {{ $t('Action.Add') }}
+          </Button>
         </div>
       </div>
     </form>

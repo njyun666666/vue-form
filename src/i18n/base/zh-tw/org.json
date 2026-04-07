@@ -4,6 +4,7 @@
     "Dept": "部門",
     "User": "人員",
     "DeptName": "部門名稱",
-    "DeptInfo": "部門資訊"
+    "DeptInfo": "部門資訊",
+    "ParentDept": "上層部門"
   }
 }

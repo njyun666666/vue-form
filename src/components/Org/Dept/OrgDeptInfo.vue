@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
-import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
+import { optionService } from '@/libs/services/optionService'
 import { orgDeptService } from '@/libs/services/orgDeptService'
+import { useCreateConfirm } from '@/libs/utils/confirm'
+import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
+import { useConfirm } from 'primevue/useconfirm'
+import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
-import { onBeforeMount, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
 
 const { t } = useI18n()
 const route = useRoute()
-const deptId = ref(route.params['deptId'] as string)
-const data = ref<OrgDept>()
-const initValues = ref<string>()
-const isFetched = ref(false)
+const router = useRouter()
+const toast = useToast()
+const confirmHelper = useCreateConfirm(useConfirm())
+
+const deptId = ref(route.params['deptId'] as string | undefined)
+const isEditMode = computed(() => !!deptId.value)
 
 const formSchema = z.object({
   deptId: z.string().trim(),
@@ -27,45 +34,92 @@ const formSchema = z.object({
   parentDeptId: z.string().trim().nullable()
 })
 
-const { defineField, handleSubmit, errors, setFieldValue, isSubmitting, values } = useForm({
+const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useForm({
   validationSchema: formSchema,
   initialValues: {
     deptId: '',
     deptName: '',
-    parentDeptId: undefined
+    parentDeptId: null
   }
 })
 
 const [deptName] = defineField('deptName')
 const [parentDeptId] = defineField('parentDeptId')
 
-const onSubmit = handleSubmit(async (values) => {
-  console.log(values)
+if (isEditMode.value) {
+  orgDeptService.getOrgDept(deptId.value!).then((res) => {
+    const data = res.data
+    setFieldValue('deptId', data.deptId)
+    setFieldValue('deptName', data.deptName)
+    setFieldValue('parentDeptId', data.parentDeptId ?? null)
+  })
+}
+
+const { data: allDeptOptions, isFetching: deptOptionsLoading } = useQuery({
+  queryKey: [optionService.deptUrl],
+  queryFn: () => optionService.dept({}).then(({ data }) => data),
+  staleTime: 5 * 60 * 1000
 })
 
-orgDeptService.getOrgDept(deptId.value).then((res) => {
-  data.value = res.data
-  setFieldValue('deptId', data.value.deptId)
-  setFieldValue('deptName', data.value.deptName)
-  setFieldValue('parentDeptId', data.value.parentDeptId ?? null)
-  initValues.value = data.value.parentDeptId
-  isFetched.value = true
-})
-// onBeforeMount(async () => {
-//   console.log(data.value)
-// })
+const parentDeptOptions = computed(() =>
+  (allDeptOptions.value ?? []).filter((opt) => opt.value !== deptId.value)
+)
+
+const onSubmit = handleSubmit(
+  async (values) => {
+    try {
+      if (isEditMode.value) {
+        await orgDeptService.updateOrgDept({
+          deptId: values.deptId,
+          deptName: values.deptName,
+          parentDeptId: values.parentDeptId ?? null
+        })
+        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
+      } else {
+        await orgDeptService.createOrgDept({
+          deptName: values.deptName,
+          parentDeptId: values.parentDeptId ?? null
+        })
+        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
+      }
+      router.push({ name: 'org-dept' })
+    } catch {
+      await confirmHelper.alert({
+        message: isEditMode.value ? t('Message.EditFail') : t('Message.AddFail')
+      })
+    }
+  },
+  () => {
+    confirmHelper.alert({ message: t('Message.Please_check_the_field') })
+  }
+)
 </script>
 <template>
   <Card>
-    <!-- <template #title>{{ data?.deptName }}</template> -->
     <template #content>
       <form novalidate @submit="onSubmit">
         <div class="flex flex-col gap-4 text-left">
-          <InputField for="deptName" :label="$t('Org.DeptName')" :error="errors.deptName">
-            <InputText id="deptName" v-model="deptName" />
+          <InputField
+            for="deptName"
+            :label="$t('Org.DeptName')"
+            :error="errors.deptName"
+            isRequired
+          >
+            <InputText id="deptName" v-model="deptName" :invalid="!!errors.deptName" />
           </InputField>
 
           <InputField for="parentDeptId" :label="$t('Org.ParentDept')" :error="errors.parentDeptId">
+            <Select
+              id="parentDeptId"
+              v-model="parentDeptId"
+              :options="parentDeptOptions"
+              optionLabel="label"
+              optionValue="value"
+              :loading="deptOptionsLoading"
+              :invalid="!!errors.parentDeptId"
+              showClear
+              class="w-full"
+            />
           </InputField>
 
           <div class="flex justify-end">
@@ -76,7 +130,6 @@ orgDeptService.getOrgDept(deptId.value).then((res) => {
           </div>
         </div>
       </form>
-      {{ values }}
     </template>
   </Card>
 </template>
