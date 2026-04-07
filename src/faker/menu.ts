@@ -26,6 +26,12 @@ export const menus: MenuViewModel[] = [
     url: '',
     children: [
       {
+        menuId: 'org-tree',
+        menuName: 'Org.OrgTree',
+        icon: 'fa-solid fa-sitemap',
+        url: '/org/tree'
+      },
+      {
         menuId: 'org-dept',
         menuName: 'Org.Dept',
         icon: 'fa-solid fa-building',

@@ -9,6 +9,7 @@
     "UserInfo": "人員資訊",
     "EmployeeId": "員工編號",
     "UserName": "姓名",
-    "JobTitle": "職稱"
+    "JobTitle": "職稱",
+    "OrgTree": "組織樹"
   }
 }

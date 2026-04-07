@@ -28,8 +28,16 @@ const router = createRouter({
           meta: {
             title: 'Org.Org'
           },
-          redirect: { name: 'org-dept' },
+          redirect: { name: 'org-tree' },
           children: [
+            {
+              path: 'tree',
+              name: 'org-tree',
+              meta: {
+                title: 'Org.OrgTree'
+              },
+              component: () => import('@/pages/Org/OrgTreePage.vue')
+            },
             {
               path: 'dept',
               name: 'org-dept',
