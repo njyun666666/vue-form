@@ -10,6 +10,10 @@
     "EmployeeId": "員工編號",
     "UserName": "姓名",
     "JobTitle": "職稱",
-    "OrgTree": "組織樹"
+    "OrgTree": "組織樹",
+    "Role": "角色",
+    "RoleName": "角色名稱",
+    "RoleDescription": "說明",
+    "RoleInfo": "角色資訊"
   }
 }

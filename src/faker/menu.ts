@@ -38,6 +38,12 @@ export const menus: MenuViewModel[] = [
         url: '/org/dept'
       },
       {
+        menuId: 'org-role',
+        menuName: 'Org.Role',
+        icon: 'fa-solid fa-user-shield',
+        url: '/org/role'
+      },
+      {
         menuId: 'org-user',
         menuName: 'Org.User',
         icon: 'fa-solid fa-user',
