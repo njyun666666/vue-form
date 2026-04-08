@@ -50,6 +50,12 @@ export const menus: MenuViewModel[] = [
         url: '/org/role'
       },
       {
+        menuId: 'org-job-title',
+        menuName: 'Org.JobTitle',
+        icon: 'fa-solid fa-id-badge',
+        url: '/org/job-title'
+      },
+      {
         menuId: 'org-user',
         menuName: 'Org.User',
         icon: 'fa-solid fa-user',

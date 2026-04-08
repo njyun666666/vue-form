@@ -18,6 +18,10 @@
     "Role": "Role",
     "RoleName": "Role Name",
     "RoleDescription": "Description",
-    "RoleInfo": "Role Information"
+    "RoleInfo": "Role Information",
+    "JobTitle": "Job Title",
+    "JobTitleName": "Job Title Name",
+    "JobLevel": "Job Level",
+    "JobTitleInfo": "Job Title Information"
   }
 }

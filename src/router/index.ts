@@ -105,6 +105,30 @@ const router = createRouter({
               component: () => import('@/pages/Org/OrgRoleInfoPage.vue')
             },
             {
+              path: 'job-title',
+              name: 'org-job-title',
+              meta: {
+                title: 'Org.JobTitle'
+              },
+              component: () => import('@/pages/Org/OrgJobTitlePage.vue')
+            },
+            {
+              path: 'job-title/new',
+              name: 'org-job-title-new',
+              meta: {
+                title: 'Org.JobTitleInfo'
+              },
+              component: () => import('@/pages/Org/OrgJobTitleInfoPage.vue')
+            },
+            {
+              path: 'job-title/:jobTitleId',
+              name: 'org-job-title-detail',
+              meta: {
+                title: 'Org.JobTitleInfo'
+              },
+              component: () => import('@/pages/Org/OrgJobTitleInfoPage.vue')
+            },
+            {
               path: 'user',
               name: 'org-user',
               meta: {
