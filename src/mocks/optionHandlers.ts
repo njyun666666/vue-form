@@ -1,10 +1,20 @@
 import appConfig from '@/appConfig'
 import { orgDeptQueryViewList } from '@/faker/orgDept'
+import { orgDeptLevelList } from '@/faker/orgDeptLevel'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
 
 export const optionHandlers = [
+  http.get(`${appConfig.FORM_API}${optionService.deptLevelUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgDeptLevelList.map(
+        (l) => ({ value: l.levelId, label: l.levelName }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
   http.get(`${appConfig.FORM_API}${optionService.deptUrl}`, async ({ request }) => {
     await delay()
     const url = new URL(request.url)

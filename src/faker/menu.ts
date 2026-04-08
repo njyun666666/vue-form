@@ -32,6 +32,12 @@ export const menus: MenuViewModel[] = [
         url: '/org/tree'
       },
       {
+        menuId: 'org-dept-level',
+        menuName: 'Org.DeptLevel',
+        icon: 'fa-solid fa-layer-group',
+        url: '/org/dept-level'
+      },
+      {
         menuId: 'org-dept',
         menuName: 'Org.Dept',
         icon: 'fa-solid fa-building',

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import BasePage from '../BasePage.vue'
 import InputField from '@/components/UI/InputField.vue'
-import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
+import type { OrgDeptLevelQuery } from '@/libs/models/OrgDeptLevel/OrgDeptLevelQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
-import { orgDeptService } from '@/libs/services/orgDeptService'
+import { orgDeptLevelService } from '@/libs/services/orgDeptLevelService'
 import { useDatatable } from '@/libs/utils/datatable'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
@@ -16,30 +16,28 @@ import { z } from 'zod'
 
 const router = useRouter()
 
-const query = ref<QueryModel<OrgDeptQuery>>({
+const query = ref<QueryModel<OrgDeptLevelQuery>>({
   pageIndex: 0,
   pageSize: 10,
-  sort: [{ field: 'deptName', order: 1 }]
+  sort: [{ field: 'level', order: 1 }]
 })
 
-const fetchData = async (data: QueryModel<OrgDeptQuery>) => {
-  return await orgDeptService.query(data).then(async ({ data }) => data)
+const fetchData = async (data: QueryModel<OrgDeptLevelQuery>) => {
+  return await orgDeptLevelService.query(data).then(({ data }) => data)
 }
 
 const datatable = useDatatable(query, fetchData)
 
 const formSchema = z.object({
-  deptName: z.string().trim()
+  levelName: z.string().trim()
 })
 
 const { defineField, handleSubmit, errors } = useForm({
   validationSchema: formSchema,
-  initialValues: {
-    deptName: ''
-  }
+  initialValues: { levelName: '' }
 })
 
-const [deptName] = defineField('deptName')
+const [levelName] = defineField('levelName')
 
 const onSubmit = handleSubmit(async (values) => {
   await datatable.onSubmit(values)
@@ -49,19 +47,19 @@ onMounted(() => datatable.handleFetchData())
 </script>
 <template>
   <BasePage>
-    <h1>{{ $t('Org.Dept') }}</h1>
+    <h1>{{ $t('Org.DeptLevel') }}</h1>
 
     <form novalidate @submit="onSubmit">
       <div class="mt-4 grid grid-cols-3 gap-4">
-        <InputField for="deptName" :label="$t('Org.DeptName')" :error="errors.deptName">
-          <InputText id="deptName" v-model="deptName" />
+        <InputField for="levelName" :label="$t('Org.DeptLevelName')" :error="errors.levelName">
+          <InputText id="levelName" v-model="levelName" />
         </InputField>
         <div class="flex items-end gap-2">
           <Button type="submit">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
             {{ $t('Action.Search') }}
           </Button>
-          <Button type="button" @click="router.push({ name: 'org-dept-new' })">
+          <Button type="button" @click="router.push({ name: 'org-dept-level-new' })">
             <font-awesome-icon icon="fa-solid fa-plus" />
             {{ $t('Action.Add') }}
           </Button>
@@ -77,16 +75,14 @@ onMounted(() => datatable.handleFetchData())
         @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
-        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
+        <Column field="levelName" :header="$t('Org.DeptLevelName')" sortable bodyClass="!p-0">
           <template #body="{ data }">
-            <RouterLink :to="{ name: 'org-dept-detail', params: { deptId: data.deptId } }">
-              <div class="w-full px-4 py-3">
-                {{ data.deptName }}
-              </div>
+            <RouterLink :to="{ name: 'org-dept-level-detail', params: { levelId: data.levelId } }">
+              <div class="w-full px-4 py-3">{{ data.levelName }}</div>
             </RouterLink>
           </template>
         </Column>
-        <Column field="levelName" :header="$t('Org.DeptLevel')" sortable />
+        <Column field="level" :header="$t('Org.DeptLevelOrder')" sortable />
       </DataTable>
     </div>
   </BasePage>

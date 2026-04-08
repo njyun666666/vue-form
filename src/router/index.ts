@@ -39,6 +39,24 @@ const router = createRouter({
               component: () => import('@/pages/Org/OrgTreePage.vue')
             },
             {
+              path: 'dept-level',
+              name: 'org-dept-level',
+              meta: { title: 'Org.DeptLevel' },
+              component: () => import('@/pages/Org/OrgDeptLevelPage.vue')
+            },
+            {
+              path: 'dept-level/new',
+              name: 'org-dept-level-new',
+              meta: { title: 'Org.DeptLevelInfo' },
+              component: () => import('@/pages/Org/OrgDeptLevelInfoPage.vue')
+            },
+            {
+              path: 'dept-level/:levelId',
+              name: 'org-dept-level-detail',
+              meta: { title: 'Org.DeptLevelInfo' },
+              component: () => import('@/pages/Org/OrgDeptLevelInfoPage.vue')
+            },
+            {
               path: 'dept',
               name: 'org-dept',
               meta: {

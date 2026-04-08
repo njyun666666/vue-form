@@ -1,11 +1,13 @@
 import appConfig from '@/appConfig'
-import { orgDeptMap, orgDeptQueryViewList } from '@/faker/orgDept'
+import { getLevelName, orgDeptMap, orgDeptQueryViewList } from '@/faker/orgDept'
 import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
 import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
 import type { QueryModel, QueryViewModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { HttpResponse, delay, http } from 'msw'
 import { v4 as uuid } from 'uuid'
+
+type DeptBody = { deptName: string; parentDeptId: string | null; levelId: string | null }
 
 export const orgDeptHandlers = [
   // POST /OrgDepts/Query
@@ -41,17 +43,22 @@ export const orgDeptHandlers = [
   // POST /OrgDepts
   http.post(`${appConfig.FORM_API}${orgDeptService.getOrgDeptUrl}`, async ({ request }) => {
     await delay()
-    const body = (await request.json()) as { deptName: string; parentDeptId: string | null }
+    const body = (await request.json()) as DeptBody
     const newDept: OrgDept = {
       deptId: uuid(),
       deptName: body.deptName,
       parentDeptId: body.parentDeptId ?? undefined,
+      levelId: body.levelId ?? undefined,
       rootDeptId: body.parentDeptId ? (orgDeptMap[body.parentDeptId]?.rootDeptId ?? '') : '',
       enable: true,
       expand: false
     }
     orgDeptMap[newDept.deptId] = newDept
-    orgDeptQueryViewList.push({ deptId: newDept.deptId, deptName: newDept.deptName })
+    orgDeptQueryViewList.push({
+      deptId: newDept.deptId,
+      deptName: newDept.deptName,
+      levelName: getLevelName(newDept.levelId)
+    })
     return HttpResponse.json(newDept, { status: 201 })
   }),
 
@@ -63,11 +70,15 @@ export const orgDeptHandlers = [
       const { deptId } = params
       const dept = orgDeptMap[deptId as string]
       if (!dept) return new HttpResponse(null, { status: 404 })
-      const body = (await request.json()) as { deptName: string; parentDeptId: string | null }
+      const body = (await request.json()) as DeptBody
       dept.deptName = body.deptName
       dept.parentDeptId = body.parentDeptId ?? undefined
+      dept.levelId = body.levelId ?? undefined
       const listItem = orgDeptQueryViewList.find((d) => d.deptId === deptId)
-      if (listItem) listItem.deptName = body.deptName
+      if (listItem) {
+        listItem.deptName = body.deptName
+        listItem.levelName = getLevelName(body.levelId ?? undefined)
+      }
       return HttpResponse.json(dept)
     }
   )

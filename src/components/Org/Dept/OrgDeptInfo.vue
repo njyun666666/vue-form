@@ -31,7 +31,8 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(1, { message: t('Message.Required') }),
-  parentDeptId: z.string().trim().nullable()
+  parentDeptId: z.string().trim().nullable(),
+  levelId: z.string().trim().nullable()
 })
 
 const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useForm({
@@ -39,12 +40,14 @@ const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useFo
   initialValues: {
     deptId: '',
     deptName: '',
-    parentDeptId: null
+    parentDeptId: null,
+    levelId: null
   }
 })
 
 const [deptName] = defineField('deptName')
 const [parentDeptId] = defineField('parentDeptId')
+const [levelId] = defineField('levelId')
 
 if (isEditMode.value) {
   orgDeptService.getOrgDept(deptId.value!).then((res) => {
@@ -52,12 +55,19 @@ if (isEditMode.value) {
     setFieldValue('deptId', data.deptId)
     setFieldValue('deptName', data.deptName)
     setFieldValue('parentDeptId', data.parentDeptId ?? null)
+    setFieldValue('levelId', data.levelId ?? null)
   })
 }
 
 const { data: allDeptOptions, isFetching: deptOptionsLoading } = useQuery({
   queryKey: [optionService.deptUrl],
   queryFn: () => optionService.dept({}).then(({ data }) => data),
+  staleTime: 5 * 60 * 1000
+})
+
+const { data: deptLevelOptions, isFetching: deptLevelOptionsLoading } = useQuery({
+  queryKey: [optionService.deptLevelUrl],
+  queryFn: () => optionService.deptLevel().then(({ data }) => data),
   staleTime: 5 * 60 * 1000
 })
 
@@ -72,13 +82,15 @@ const onSubmit = handleSubmit(
         await orgDeptService.updateOrgDept({
           deptId: values.deptId,
           deptName: values.deptName,
-          parentDeptId: values.parentDeptId ?? null
+          parentDeptId: values.parentDeptId ?? null,
+          levelId: values.levelId ?? null
         })
         toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
       } else {
         await orgDeptService.createOrgDept({
           deptName: values.deptName,
-          parentDeptId: values.parentDeptId ?? null
+          parentDeptId: values.parentDeptId ?? null,
+          levelId: values.levelId ?? null
         })
         toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
       }
@@ -117,6 +129,20 @@ const onSubmit = handleSubmit(
               optionValue="value"
               :loading="deptOptionsLoading"
               :invalid="!!errors.parentDeptId"
+              showClear
+              class="w-full"
+            />
+          </InputField>
+
+          <InputField for="levelId" :label="$t('Org.DeptLevel')" :error="errors.levelId">
+            <Select
+              id="levelId"
+              v-model="levelId"
+              :options="deptLevelOptions ?? []"
+              optionLabel="label"
+              optionValue="value"
+              :loading="deptLevelOptionsLoading"
+              :invalid="!!errors.levelId"
               showClear
               class="w-full"
             />

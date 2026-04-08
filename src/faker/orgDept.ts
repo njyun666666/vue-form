@@ -1,3 +1,4 @@
+import { orgDeptLevelMap } from '@/faker/orgDeptLevel'
 import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
 import type { OrgDeptQueryView } from '@/libs/models/OrgDept/OrgDeptQuery'
 import { omit } from 'lodash'
@@ -9,6 +10,7 @@ const 台灣總公司: OrgDept = {
   deptId: 'dept-001',
   deptName: '台灣總公司',
   rootDeptId: 'dept-001',
+  levelId: 'level-001',
   enable: true,
   expand: true
 }
@@ -19,6 +21,7 @@ const 業務部: OrgDept = {
   deptName: '業務部',
   parentDeptId: 'dept-001',
   rootDeptId: 'dept-001',
+  levelId: 'level-002',
   enable: true,
   expand: true,
   parentDept: omitParentDept(台灣總公司)
@@ -29,6 +32,7 @@ const 技術部: OrgDept = {
   deptName: '技術部',
   parentDeptId: 'dept-001',
   rootDeptId: 'dept-001',
+  levelId: 'level-002',
   enable: true,
   expand: true,
   parentDept: omitParentDept(台灣總公司)
@@ -39,6 +43,7 @@ const 人力資源部: OrgDept = {
   deptName: '人力資源部',
   parentDeptId: 'dept-001',
   rootDeptId: 'dept-001',
+  levelId: 'level-002',
   enable: true,
   expand: false,
   parentDept: omitParentDept(台灣總公司)
@@ -50,6 +55,7 @@ const 北區業務組: OrgDept = {
   deptName: '北區業務組',
   parentDeptId: 'dept-011',
   rootDeptId: 'dept-001',
+  levelId: 'level-003',
   enable: true,
   expand: false,
   parentDept: omitParentDept(業務部)
@@ -60,6 +66,7 @@ const 南區業務組: OrgDept = {
   deptName: '南區業務組',
   parentDeptId: 'dept-011',
   rootDeptId: 'dept-001',
+  levelId: 'level-003',
   enable: true,
   expand: false,
   parentDept: omitParentDept(業務部)
@@ -70,6 +77,7 @@ const 海外業務組: OrgDept = {
   deptName: '海外業務組',
   parentDeptId: 'dept-011',
   rootDeptId: 'dept-001',
+  levelId: 'level-003',
   enable: false,
   expand: false,
   parentDept: omitParentDept(業務部)
@@ -81,6 +89,7 @@ const 前端開發組: OrgDept = {
   deptName: '前端開發組',
   parentDeptId: 'dept-012',
   rootDeptId: 'dept-001',
+  levelId: 'level-003',
   enable: true,
   expand: false,
   parentDept: omitParentDept(技術部)
@@ -91,6 +100,7 @@ const 後端開發組: OrgDept = {
   deptName: '後端開發組',
   parentDeptId: 'dept-012',
   rootDeptId: 'dept-001',
+  levelId: 'level-003',
   enable: true,
   expand: false,
   parentDept: omitParentDept(技術部)
@@ -112,7 +122,14 @@ export const orgDeptMap: Record<string, OrgDept> = Object.fromEntries(
   orgDeptList.map((d) => [d.deptId, d])
 )
 
-export const orgDeptQueryViewList: OrgDeptQueryView[] = orgDeptList.map(({ deptId, deptName }) => ({
-  deptId,
-  deptName
-}))
+export const orgDeptQueryViewList: OrgDeptQueryView[] = orgDeptList.map(
+  ({ deptId, deptName, levelId }) => ({
+    deptId,
+    deptName,
+    levelName: levelId ? (orgDeptLevelMap[levelId]?.levelName ?? '') : ''
+  })
+)
+
+export function getLevelName(levelId: string | undefined): string {
+  return levelId ? (orgDeptLevelMap[levelId]?.levelName ?? '') : ''
+}

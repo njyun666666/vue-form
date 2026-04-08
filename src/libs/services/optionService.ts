@@ -4,8 +4,13 @@ import qs from 'qs'
 
 class OptionService {
   readonly deptUrl = '/Option/Dept'
+  readonly deptLevelUrl = '/Option/DeptLevel'
   readonly cityUrl = '/Option/City'
   readonly productCategoryUrl = '/Option/ProductCategory'
+
+  deptLevel() {
+    return formAPI.get<OptionModel<string>[]>(this.deptLevelUrl)
+  }
 
   dept(data: OptionQueryModel<string>) {
     return formAPI.get<OptionModel<string>[]>(this.deptUrl, {

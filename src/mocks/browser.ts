@@ -6,6 +6,7 @@ import { loginHandlers } from './loginHandlers'
 import { menuHandlers } from './menuHandlers'
 import { optionHandlers } from './optionHandlers'
 import { orgDeptHandlers } from './orgDeptHandlers'
+import { orgDeptLevelHandlers } from './orgDeptLevelHandlers'
 import { orgRoleHandlers } from './orgRoleHandlers'
 import { orgTreeHandlers } from './orgTreeHandlers'
 import { orgUserHandlers } from './orgUserHandlers'
@@ -21,6 +22,7 @@ export const worker = setupWorker(
   ...fileHandlers,
   ...flowHandlers,
   ...orgDeptHandlers,
+  ...orgDeptLevelHandlers,
   ...orgRoleHandlers,
   ...orgTreeHandlers,
   ...orgUserHandlers,
