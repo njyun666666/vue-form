@@ -7,6 +7,7 @@ import { optionService } from '@/libs/services/optionService'
 import { orgUserService } from '@/libs/services/orgUserService'
 import { useDatatable } from '@/libs/utils/datatable'
 import { useQuery } from '@tanstack/vue-query'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
@@ -38,7 +39,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: {
     employeeId: '',
     userName: '',

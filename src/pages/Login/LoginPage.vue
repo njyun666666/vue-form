@@ -6,6 +6,7 @@ import InputField from '@/components/UI/InputField.vue'
 import type { ResponseErrors } from '@/libs/api/formAPI'
 import { loginService } from '@/libs/services/loginService'
 import { useLoginStore } from '@/stores/login'
+import { toTypedSchema } from '@vee-validate/zod'
 import type { AxiosError } from 'axios'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -36,7 +37,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors, isSubmitting } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: {
     email: appConfig.VITE_EMAIL,
     password: appConfig.VITE_PASSWORD

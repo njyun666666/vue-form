@@ -1,6 +1,7 @@
 import appConfig from '@/appConfig'
 import { orgDeptQueryViewList } from '@/faker/orgDept'
 import { orgDeptLevelList } from '@/faker/orgDeptLevel'
+import { orgJobTitleList } from '@/faker/orgJobTitle'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
@@ -24,6 +25,15 @@ export const optionHandlers = [
       : orgDeptQueryViewList
     return HttpResponse.json(
       list.map((d) => ({ value: d.deptId, label: d.deptName }) satisfies OptionModel<string>)
+    )
+  }),
+
+  http.get(`${appConfig.FORM_API}${optionService.jobTitleUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgJobTitleList.map(
+        (j) => ({ value: j.jobTitleId, label: j.jobTitleName }) satisfies OptionModel<string>
+      )
     )
   }),
 

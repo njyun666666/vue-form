@@ -1,11 +1,33 @@
 import appConfig from '@/appConfig'
+import { orgJobTitleMap } from '@/faker/orgJobTitle'
 import { orgUserList, orgUserMap } from '@/faker/orgUser'
 import type { OrgUser } from '@/libs/models/OrgUser/OrgUser'
+import type { OrgUserDept } from '@/libs/models/OrgUser/OrgUserDept'
 import type { OrgUserQuery, OrgUserQueryView } from '@/libs/models/OrgUser/OrgUserQuery'
 import type { QueryModel, QueryViewModel } from '@/libs/models/Query/QueryModel'
+import type { UserDeptPayload } from '@/libs/services/orgUserService'
 import { orgUserService } from '@/libs/services/orgUserService'
 import { HttpResponse, delay, http } from 'msw'
 import { v4 as uuid } from 'uuid'
+
+function resolvePrimaryDept(user: OrgUser): { deptName: string; jobTitle: string } {
+  const primary = user.userDepts.find((d) => d.isPrimary) ?? user.userDepts[0]
+  return { deptName: primary?.deptName ?? '', jobTitle: primary?.jobTitleName ?? '' }
+}
+
+function buildUserDepts(payloads: UserDeptPayload[]): OrgUserDept[] {
+  return payloads.map((p) => {
+    const jobTitle = orgJobTitleMap[p.jobTitleId]
+    return {
+      userDeptId: p.userDeptId ?? uuid(),
+      deptId: p.deptId,
+      deptName: '', // resolved server-side; mock leaves blank (dept lookup omitted for brevity)
+      jobTitleId: p.jobTitleId,
+      jobTitleName: jobTitle?.jobTitleName ?? '',
+      isPrimary: p.isPrimary
+    }
+  })
+}
 
 export const orgUserHandlers = [
   // POST /OrgUsers/Query
@@ -18,20 +40,21 @@ export const orgUserHandlers = [
       (u) =>
         (!employeeId || u.employeeId.toLowerCase().includes(employeeId.trim().toLowerCase())) &&
         (!userName || u.userName.includes(userName.trim())) &&
-        (!deptId || u.deptId === deptId)
+        (!deptId || u.userDepts.some((d) => d.deptId === deptId))
     )
 
     const { pageIndex, pageSize } = body
     const start = pageIndex * pageSize
-    const data: OrgUserQueryView[] = filtered
-      .slice(start, start + pageSize)
-      .map(({ userId, employeeId, userName, deptName, jobTitle }) => ({
-        userId,
-        employeeId,
-        userName,
+    const data: OrgUserQueryView[] = filtered.slice(start, start + pageSize).map((u) => {
+      const { deptName, jobTitle } = resolvePrimaryDept(u)
+      return {
+        userId: u.userId,
+        employeeId: u.employeeId,
+        userName: u.userName,
         deptName,
         jobTitle
-      }))
+      }
+    })
 
     return HttpResponse.json({
       data,
@@ -55,16 +78,13 @@ export const orgUserHandlers = [
     const body = (await request.json()) as {
       employeeId: string
       userName: string
-      deptId: string | null
-      jobTitle: string
+      userDepts: UserDeptPayload[]
     }
     const newUser: OrgUser = {
       userId: uuid(),
       employeeId: body.employeeId,
       userName: body.userName,
-      deptId: body.deptId ?? '',
-      deptName: '',
-      jobTitle: body.jobTitle,
+      userDepts: buildUserDepts(body.userDepts ?? []),
       enable: true
     }
     orgUserMap[newUser.userId] = newUser
@@ -83,13 +103,11 @@ export const orgUserHandlers = [
       const body = (await request.json()) as {
         employeeId: string
         userName: string
-        deptId: string | null
-        jobTitle: string
+        userDepts: UserDeptPayload[]
       }
       user.employeeId = body.employeeId
       user.userName = body.userName
-      user.deptId = body.deptId ?? ''
-      user.jobTitle = body.jobTitle
+      user.userDepts = buildUserDepts(body.userDepts ?? [])
       return HttpResponse.json(user)
     }
   )

@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import OrgUserDepts from './OrgUserDepts.vue'
+import { orgUserDeptSchema } from './orgUserDeptSchema'
 import InputField from '@/components/UI/InputField.vue'
-import { optionService } from '@/libs/services/optionService'
+import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
 import { orgUserService } from '@/libs/services/orgUserService'
+import type { UserDeptPayload } from '@/libs/services/orgUserService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
-import { useQuery } from '@tanstack/vue-query'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
-import Select from 'primevue/select'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
@@ -25,71 +27,100 @@ const confirmHelper = useCreateConfirm(useConfirm())
 const userId = ref(route.params['userId'] as string | undefined)
 const isEditMode = computed(() => !!userId.value)
 
-const formSchema = z.object({
-  userId: z.string().trim(),
-  employeeId: z
-    .string()
-    .trim()
-    .min(1, { message: t('Message.Required') }),
-  userName: z
-    .string()
-    .trim()
-    .min(1, { message: t('Message.Required') }),
-  deptId: z.string().trim().nullable(),
-  jobTitle: z.string().trim()
-})
+// ---- Schema ----
+const formSchema = toTypedSchema(
+  z
+    .object({
+      userId: z.string(),
+      employeeId: z
+        .string()
+        .trim()
+        .min(1, { message: t('Message.Required') }),
+      userName: z
+        .string()
+        .trim()
+        .min(1, { message: t('Message.Required') }),
+      userDepts: z.array(orgUserDeptSchema)
+    })
+    .superRefine((val, ctx) => {
+      if (val.userDepts.length === 0) {
+        ctx.addIssue({ code: 'custom', message: t('Message.Required'), path: ['userDepts'] })
+        return
+      }
+      val.userDepts.forEach((dept, i) => {
+        if (!dept.deptId?.trim()) {
+          ctx.addIssue({
+            code: 'custom',
+            message: t('Message.Required'),
+            path: ['userDepts', i, 'deptId']
+          })
+        }
+        if (!dept.jobTitleId?.trim()) {
+          ctx.addIssue({
+            code: 'custom',
+            message: t('Message.Required'),
+            path: ['userDepts', i, 'jobTitleId']
+          })
+        }
+      })
+    })
+)
 
-const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useForm({
+// ---- Form ----
+const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     userId: '',
     employeeId: '',
     userName: '',
-    deptId: null,
-    jobTitle: ''
+    userDepts: [] as OrgUserDeptModel[]
   }
 })
 
+provide('form', form)
+
+const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = form
 const [employeeId] = defineField('employeeId')
 const [userName] = defineField('userName')
-const [deptId] = defineField('deptId')
-const [jobTitle] = defineField('jobTitle')
 
+// ---- Load for edit ----
 if (isEditMode.value) {
   orgUserService.getOrgUser(userId.value!).then((res) => {
     const data = res.data
     setFieldValue('userId', data.userId)
     setFieldValue('employeeId', data.employeeId)
     setFieldValue('userName', data.userName)
-    setFieldValue('deptId', data.deptId || null)
-    setFieldValue('jobTitle', data.jobTitle)
+    setFieldValue(
+      'userDepts',
+      data.userDepts.map((d) => new OrgUserDeptModel(d))
+    )
   })
 }
 
-const { data: deptOptions, isFetching: deptOptionsLoading } = useQuery({
-  queryKey: [optionService.deptUrl],
-  queryFn: () => optionService.dept({}).then(({ data }) => data),
-  staleTime: 5 * 60 * 1000
-})
-
+// ---- Submit ----
 const onSubmit = handleSubmit(
   async (values) => {
     try {
+      const deptsPayload: UserDeptPayload[] = values.userDepts.map((d) => ({
+        userDeptId: d.userDeptId || undefined,
+        deptId: d.deptId!,
+        jobTitleId: d.jobTitleId!,
+        isPrimary: d.isPrimary!
+      }))
+
       if (isEditMode.value) {
         await orgUserService.updateOrgUser({
           userId: values.userId,
           employeeId: values.employeeId,
           userName: values.userName,
-          deptId: values.deptId ?? null,
-          jobTitle: values.jobTitle
+          userDepts: deptsPayload
         })
         toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
       } else {
         await orgUserService.createOrgUser({
           employeeId: values.employeeId,
           userName: values.userName,
-          deptId: values.deptId ?? null,
-          jobTitle: values.jobTitle
+          userDepts: deptsPayload
         })
         toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
       }
@@ -109,7 +140,7 @@ const onSubmit = handleSubmit(
   <Card>
     <template #content>
       <form novalidate @submit="onSubmit">
-        <div class="flex flex-col gap-4 text-left">
+        <div class="flex flex-col gap-6 text-left">
           <InputField
             for="employeeId"
             :label="$t('Org.EmployeeId')"
@@ -128,23 +159,7 @@ const onSubmit = handleSubmit(
             <InputText id="userName" v-model="userName" :invalid="!!errors.userName" />
           </InputField>
 
-          <InputField for="deptId" :label="$t('Org.Dept')" :error="errors.deptId">
-            <Select
-              id="deptId"
-              v-model="deptId"
-              :options="deptOptions ?? []"
-              optionLabel="label"
-              optionValue="value"
-              :loading="deptOptionsLoading"
-              :invalid="!!errors.deptId"
-              showClear
-              class="w-full"
-            />
-          </InputField>
-
-          <InputField for="jobTitle" :label="$t('Org.JobTitle')" :error="errors.jobTitle">
-            <InputText id="jobTitle" v-model="jobTitle" :invalid="!!errors.jobTitle" />
-          </InputField>
+          <OrgUserDepts />
 
           <div class="flex justify-end">
             <Button type="submit" :disabled="isSubmitting">

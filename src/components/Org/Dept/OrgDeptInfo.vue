@@ -4,6 +4,7 @@ import { optionService } from '@/libs/services/optionService'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { useQuery } from '@tanstack/vue-query'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
@@ -36,7 +37,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: {
     deptId: '',
     deptName: '',

@@ -5,6 +5,7 @@ import type { OrgJobTitleQuery } from '@/libs/models/OrgJobTitle/OrgJobTitleQuer
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgJobTitleService } from '@/libs/services/orgJobTitleService'
 import { useDatatable } from '@/libs/utils/datatable'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
@@ -33,7 +34,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: { jobTitleName: '' }
 })
 

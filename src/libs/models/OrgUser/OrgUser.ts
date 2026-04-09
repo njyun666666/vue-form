@@ -1,9 +1,9 @@
+import type { OrgUserDept } from './OrgUserDept'
+
 export interface OrgUser {
   userId: string
   employeeId: string
   userName: string
-  deptId: string
-  deptName: string
-  jobTitle: string
+  userDepts: OrgUserDept[]
   enable: boolean
 }

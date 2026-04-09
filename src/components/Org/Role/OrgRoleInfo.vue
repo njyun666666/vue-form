@@ -2,6 +2,7 @@
 import InputField from '@/components/UI/InputField.vue'
 import { orgRoleService } from '@/libs/services/orgRoleService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
@@ -33,7 +34,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: {
     roleId: '',
     roleName: '',

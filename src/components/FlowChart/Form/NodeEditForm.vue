@@ -8,6 +8,7 @@ import {
   OwnerSettingEnum
 } from '@/libs/models/FlowChart/FlowNode'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import { useClipboard } from '@vueuse/core'
 import Button from 'primevue/button'
 import type Dialog from 'primevue/dialog'
@@ -63,7 +64,7 @@ const schema = z
   .partial()
 
 const { values, errors, setValues, defineField, handleSubmit } = useForm({
-  validationSchema: schema
+  validationSchema: toTypedSchema(schema)
 })
 
 const [label] = defineField('label')

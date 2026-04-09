@@ -17,12 +17,15 @@ function buildTree(
 
   return depts.map((dept) => {
     const users = deptUserMap[dept.deptId] ?? []
-    const userNodes: OrgTreeNode[] = users.map((u) => ({
-      type: 'user',
-      id: u.userId,
-      label: u.userName,
-      jobTitle: u.jobTitle
-    }))
+    const userNodes: OrgTreeNode[] = users.map((u) => {
+      const primaryDept = u.userDepts.find((d) => d.isPrimary) ?? u.userDepts[0]
+      return {
+        type: 'user',
+        id: u.userId,
+        label: u.userName,
+        jobTitle: primaryDept?.jobTitleName
+      }
+    })
     const childDeptNodes = buildTree(dept.deptId, deptChildrenMap, deptUserMap)
     return {
       type: 'dept',
@@ -46,8 +49,10 @@ export const orgTreeHandlers = [
 
     const deptUserMap: Record<string, OrgUser[]> = {}
     for (const user of orgUserList) {
-      if (!deptUserMap[user.deptId]) deptUserMap[user.deptId] = []
-      deptUserMap[user.deptId].push(user)
+      for (const dept of user.userDepts) {
+        if (!deptUserMap[dept.deptId]) deptUserMap[dept.deptId] = []
+        deptUserMap[dept.deptId].push(user)
+      }
     }
 
     const tree = buildTree(undefined, deptChildrenMap, deptUserMap)
