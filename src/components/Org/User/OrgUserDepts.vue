@@ -138,7 +138,7 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
       </Column>
 
       <!-- Delete -->
-      <Column class="!text-center" bodyClass="content-start">
+      <Column class="text-center!" bodyClass="content-start">
         <template #body="{ index }">
           <Button
             icon="pi pi-trash"

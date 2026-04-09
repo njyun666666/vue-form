@@ -195,7 +195,7 @@ const { data: productCategoryList, isFetching: productCategoryIsFetching } = use
 
       <Column
         v-if="mode != FormFieldModeEnum.readonly"
-        class="!text-center"
+        class="text-center!"
         bodyClass="content-start"
       >
         <template #body="{ data, index }">

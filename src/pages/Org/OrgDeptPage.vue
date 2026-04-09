@@ -78,7 +78,7 @@ onMounted(() => datatable.handleFetchData())
         @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
-        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
+        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="p-0!">
           <template #body="{ data }">
             <RouterLink :to="{ name: 'org-dept-detail', params: { deptId: data.deptId } }">
               <div class="w-full px-4 py-3">
