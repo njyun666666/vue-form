@@ -53,7 +53,7 @@ const form = useForm<AModel>({
       .superRefine((val, ctx) => {
         if (
           AFormInfoRef.value?.fieldMode.productDetail === FormFieldModeEnum.required &&
-          val.productDetail.length === 0
+          val.productDetail.filter((item) => !item.isDeleted).length === 0
         ) {
           ctx.addIssue({
             code: 'custom',
@@ -62,17 +62,20 @@ const form = useForm<AModel>({
           })
         }
 
-        val.productDetail?.forEach((item, index) => {
+        for (let i = 0; i < val.productDetail.length; i++) {
+          const item = val.productDetail[i]
+          if (item.isDeleted) continue
+
           requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
             (field) => {
               ctx.addIssue({
                 code: 'custom',
                 message: t('Message.Required'),
-                path: [`productDetail.${index}.${field}`]
+                path: [`productDetail.${i}.${field}`]
               })
             }
           )
-        })
+        }
       })
   ),
   initialValues: initialValues
