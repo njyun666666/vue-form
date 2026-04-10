@@ -84,7 +84,7 @@ function onNodeSelect(node: TreeNode) {
                 icon="fa-solid fa-building"
                 class="text-primary"
               />
-              <font-awesome-icon v-else icon="fa-solid fa-user" class="text-green-600" />
+              <font-awesome-icon v-else icon="fa-solid fa-user" class="text-neutral-500" />
               <span>{{ node.label }}</span>
               <span v-if="node.data.jobTitle" class="text-muted-color text-sm">
                 {{ node.data.jobTitle }}
