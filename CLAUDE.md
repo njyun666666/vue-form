@@ -100,6 +100,22 @@ src/
 - 前端顯示文字**全部**走 `vue-i18n`（`$t(...)` / `useI18n().t(...)`）。
 - 語系檔依模組拆分：`src/i18n/base/en/forms/x.json` & `src/i18n/base/zh-tw/forms/x.json`。
 
+### Service
+
+- 新增與修改**合併為單一 `save*` function**，在 service 內依 ID 是否存在決定呼叫 POST 或 PUT。
+
+```ts
+// ✅ 正確
+saveOrgDept(data: OrgDept) {
+  if (data.deptId) {
+    return formAPI.put<OrgDept>(`${this.url}/${data.deptId}`, data)
+  }
+  return formAPI.post<OrgDept>(this.url, data)
+}
+
+// ❌ 錯誤：分開 createOrgDept / updateOrgDept
+```
+
 ### Mock
 
 - 每支 API 都要在 `src/mocks/` 新增對應的 MSW handler。
