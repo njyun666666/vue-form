@@ -44,7 +44,11 @@ const formSchema = toTypedSchema(
     })
     .superRefine((val, ctx) => {
       if (val.userDepts.length === 0) {
-        ctx.addIssue({ code: 'custom', message: t('Message.Required'), path: ['userDepts'] })
+        ctx.addIssue({
+          code: 'custom',
+          message: t('Message.At_least_number_entry_is_required', { number: 1 }),
+          path: ['userDepts']
+        })
         return
       }
       val.userDepts.forEach((dept, i) => {

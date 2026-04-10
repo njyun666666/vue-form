@@ -31,10 +31,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const form = inject<FormContext<AModel>>('form')!
-const editingRows = computed(() => fieldArray.fields.value.map((x) => x.value.guid))
 const fieldArray = useFieldArray<ProductDetailModel>(props.arrayPath)
+const editingRows = computed(() => fieldArray.fields.value.map((x) => x.value.guid))
+
 const getError = (index: number, field: string) =>
   (form.errors.value as Record<string, string>)[`productDetail[${index}].${field}`]
+
 const add = () =>
   fieldArray.push(
     new ProductDetailModel({
