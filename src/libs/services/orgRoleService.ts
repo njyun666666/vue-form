@@ -15,12 +15,11 @@ class OrgRoleService {
     return formAPI.get<OrgRole>(`${this.getOrgRoleUrl}/${roleId}`)
   }
 
-  createOrgRole(data: { roleName: string; description: string }) {
+  saveOrgRole(data: OrgRole) {
+    if (data.roleId) {
+      return formAPI.put<OrgRole>(`${this.getOrgRoleUrl}/${data.roleId}`, data)
+    }
     return formAPI.post<OrgRole>(this.getOrgRoleUrl, data)
-  }
-
-  updateOrgRole(data: { roleId: string; roleName: string; description: string }) {
-    return formAPI.put<OrgRole>(`${this.getOrgRoleUrl}/${data.roleId}`, data)
   }
 }
 

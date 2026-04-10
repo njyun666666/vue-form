@@ -5,4 +5,5 @@ export interface OrgUserDept {
   jobTitleId: string
   jobTitleName: string
   isPrimary: boolean
+  isDeptManager: boolean
 }

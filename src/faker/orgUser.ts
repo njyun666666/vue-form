@@ -12,7 +12,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '前端開發組',
         jobTitleId: 'jobtitle-001',
         jobTitleName: '工程師',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       },
       {
         userDeptId: 'udept-001-2',
@@ -20,7 +21,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '人力資源部',
         jobTitleId: 'jobtitle-006',
         jobTitleName: '人資專員',
-        isPrimary: false
+        isPrimary: false,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -36,7 +38,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '後端開發組',
         jobTitleId: 'jobtitle-001',
         jobTitleName: '工程師',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -52,7 +55,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '業務部',
         jobTitleId: 'jobtitle-004',
         jobTitleName: '業務專員',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -68,7 +72,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '北區業務組',
         jobTitleId: 'jobtitle-005',
         jobTitleName: '業務經理',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       },
       {
         userDeptId: 'udept-004-2',
@@ -76,7 +81,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '業務部',
         jobTitleId: 'jobtitle-004',
         jobTitleName: '業務專員',
-        isPrimary: false
+        isPrimary: false,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -92,7 +98,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '人力資源部',
         jobTitleId: 'jobtitle-006',
         jobTitleName: '人資專員',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -108,7 +115,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '前端開發組',
         jobTitleId: 'jobtitle-009',
         jobTitleName: 'UI設計師',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -124,7 +132,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '後端開發組',
         jobTitleId: 'jobtitle-008',
         jobTitleName: '系統架構師',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       },
       {
         userDeptId: 'udept-007-2',
@@ -132,7 +141,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '技術部',
         jobTitleId: 'jobtitle-003',
         jobTitleName: '主任工程師',
-        isPrimary: false
+        isPrimary: false,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -148,7 +158,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '南區業務組',
         jobTitleId: 'jobtitle-004',
         jobTitleName: '業務專員',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -164,7 +175,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '人力資源部',
         jobTitleId: 'jobtitle-007',
         jobTitleName: '人資主任',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true
@@ -180,7 +192,8 @@ export const orgUserList: OrgUser[] = [
         deptName: '技術部',
         jobTitleId: 'jobtitle-010',
         jobTitleName: '技術部經理',
-        isPrimary: true
+        isPrimary: true,
+        isDeptManager: false
       }
     ],
     enable: true

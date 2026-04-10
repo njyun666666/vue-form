@@ -5,7 +5,6 @@ import type { OrgUser } from '@/libs/models/OrgUser/OrgUser'
 import type { OrgUserDept } from '@/libs/models/OrgUser/OrgUserDept'
 import type { OrgUserQuery, OrgUserQueryView } from '@/libs/models/OrgUser/OrgUserQuery'
 import type { QueryModel, QueryViewModel } from '@/libs/models/Query/QueryModel'
-import type { UserDeptPayload } from '@/libs/services/orgUserService'
 import { orgUserService } from '@/libs/services/orgUserService'
 import { HttpResponse, delay, http } from 'msw'
 import { v4 as uuid } from 'uuid'
@@ -15,16 +14,17 @@ function resolvePrimaryDept(user: OrgUser): { deptName: string; jobTitle: string
   return { deptName: primary?.deptName ?? '', jobTitle: primary?.jobTitleName ?? '' }
 }
 
-function buildUserDepts(payloads: UserDeptPayload[]): OrgUserDept[] {
+function buildUserDepts(payloads: OrgUserDept[]): OrgUserDept[] {
   return payloads.map((p) => {
     const jobTitle = orgJobTitleMap[p.jobTitleId]
     return {
       userDeptId: p.userDeptId ?? uuid(),
       deptId: p.deptId,
-      deptName: '', // resolved server-side; mock leaves blank (dept lookup omitted for brevity)
+      deptName: '',
       jobTitleId: p.jobTitleId,
       jobTitleName: jobTitle?.jobTitleName ?? '',
-      isPrimary: p.isPrimary
+      isPrimary: p.isPrimary,
+      isDeptManager: p.isDeptManager
     }
   })
 }
@@ -75,17 +75,13 @@ export const orgUserHandlers = [
   // POST /OrgUsers
   http.post(`${appConfig.FORM_API}${orgUserService.getOrgUserUrl}`, async ({ request }) => {
     await delay()
-    const body = (await request.json()) as {
-      employeeId: string
-      userName: string
-      userDepts: UserDeptPayload[]
-    }
+    const body = (await request.json()) as OrgUser
     const newUser: OrgUser = {
       userId: uuid(),
       employeeId: body.employeeId,
       userName: body.userName,
       userDepts: buildUserDepts(body.userDepts ?? []),
-      enable: true
+      enable: body.enable
     }
     orgUserMap[newUser.userId] = newUser
     orgUserList.push(newUser)
@@ -100,13 +96,10 @@ export const orgUserHandlers = [
       const { userId } = params
       const user = orgUserMap[userId as string]
       if (!user) return new HttpResponse(null, { status: 404 })
-      const body = (await request.json()) as {
-        employeeId: string
-        userName: string
-        userDepts: UserDeptPayload[]
-      }
+      const body = (await request.json()) as OrgUser
       user.employeeId = body.employeeId
       user.userName = body.userName
+      user.enable = body.enable
       user.userDepts = buildUserDepts(body.userDepts ?? [])
       return HttpResponse.json(user)
     }

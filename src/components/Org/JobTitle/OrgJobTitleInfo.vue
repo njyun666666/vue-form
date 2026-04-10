@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import type { OrgJobTitle } from '@/libs/models/OrgJobTitle/OrgJobTitle'
 import { orgJobTitleService } from '@/libs/services/orgJobTitleService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -60,20 +61,12 @@ if (isEditMode.value) {
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      if (isEditMode.value) {
-        await orgJobTitleService.updateOrgJobTitle({
-          jobTitleId: values.jobTitleId,
-          jobTitleName: values.jobTitleName,
-          jobLevel: values.jobLevel
-        })
-        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
-      } else {
-        await orgJobTitleService.createOrgJobTitle({
-          jobTitleName: values.jobTitleName,
-          jobLevel: values.jobLevel
-        })
-        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
-      }
+      await orgJobTitleService.saveOrgJobTitle(values as OrgJobTitle)
+      toast.add({
+        severity: 'success',
+        summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
+        life: 3000
+      })
       router.push({ name: 'org-job-title' })
     } catch {
       await confirmHelper.alert({

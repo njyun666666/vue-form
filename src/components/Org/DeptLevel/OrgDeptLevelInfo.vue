@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import type { OrgDeptLevel } from '@/libs/models/OrgDeptLevel/OrgDeptLevel'
 import { orgDeptLevelService } from '@/libs/services/orgDeptLevelService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -60,20 +61,12 @@ if (isEditMode.value) {
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      if (isEditMode.value) {
-        await orgDeptLevelService.updateOrgDeptLevel({
-          levelId: values.levelId,
-          levelName: values.levelName,
-          level: values.level
-        })
-        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
-      } else {
-        await orgDeptLevelService.createOrgDeptLevel({
-          levelName: values.levelName,
-          level: values.level
-        })
-        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
-      }
+      await orgDeptLevelService.saveOrgDeptLevel(values as OrgDeptLevel)
+      toast.add({
+        severity: 'success',
+        summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
+        life: 3000
+      })
       router.push({ name: 'org-dept-level' })
     } catch {
       await confirmHelper.alert({

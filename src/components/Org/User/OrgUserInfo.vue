@@ -2,13 +2,14 @@
 import OrgUserDepts from './OrgUserDepts.vue'
 import { orgUserDeptSchema } from './orgUserDeptSchema'
 import InputField from '@/components/UI/InputField.vue'
+import type { OrgUser } from '@/libs/models/OrgUser/OrgUser'
 import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
 import { orgUserService } from '@/libs/services/orgUserService'
-import type { UserDeptPayload } from '@/libs/services/orgUserService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
@@ -40,6 +41,7 @@ const formSchema = toTypedSchema(
         .string()
         .trim()
         .min(1, { message: t('Message.Required') }),
+      enable: z.boolean(),
       userDepts: z.array(orgUserDeptSchema)
     })
     .superRefine((val, ctx) => {
@@ -79,6 +81,7 @@ const form = useForm({
     userId: '',
     employeeId: '',
     userName: '',
+    enable: true,
     userDepts: [] as OrgUserDeptModel[]
   }
 })
@@ -88,6 +91,7 @@ provide('form', form)
 const { defineField, handleSubmit, errors, isSubmitting } = form
 const [employeeId] = defineField('employeeId')
 const [userName] = defineField('userName')
+const [enable] = defineField('enable')
 
 // ---- Load for edit ----
 if (isEditMode.value) {
@@ -97,6 +101,7 @@ if (isEditMode.value) {
       userId: data.userId,
       employeeId: data.employeeId,
       userName: data.userName,
+      enable: data.enable,
       userDepts: data.userDepts.map((d) => new OrgUserDeptModel(d))
     })
   })
@@ -106,22 +111,7 @@ if (isEditMode.value) {
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      const deptsPayload: UserDeptPayload[] = values.userDepts
-        .filter((d) => d.userDeptId || !d.isDeleted)
-        .map((d) => ({
-          userDeptId: d.userDeptId || undefined,
-          deptId: d.deptId!,
-          jobTitleId: d.jobTitleId!,
-          isPrimary: d.isPrimary!,
-          isDeleted: d.isDeleted ?? false
-        }))
-
-      await orgUserService.saveOrgUser({
-        userId: isEditMode.value ? values.userId : undefined,
-        employeeId: values.employeeId,
-        userName: values.userName,
-        userDepts: deptsPayload
-      })
+      await orgUserService.saveOrgUser(values as OrgUser)
       toast.add({
         severity: 'success',
         summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
@@ -161,6 +151,11 @@ const onSubmit = handleSubmit(
           >
             <InputText id="userName" v-model="userName" :invalid="!!errors.userName" />
           </InputField>
+
+          <div class="flex items-center gap-2">
+            <Checkbox v-model="enable" :binary="true" inputId="enable" />
+            <label for="enable">{{ $t('Org.Enable') }}</label>
+          </div>
 
           <OrgUserDepts />
 

@@ -15,12 +15,11 @@ class OrgJobTitleService {
     return formAPI.get<OrgJobTitle>(`${this.getOrgJobTitleUrl}/${jobTitleId}`)
   }
 
-  createOrgJobTitle(data: { jobTitleName: string; jobLevel: number }) {
+  saveOrgJobTitle(data: OrgJobTitle) {
+    if (data.jobTitleId) {
+      return formAPI.put<OrgJobTitle>(`${this.getOrgJobTitleUrl}/${data.jobTitleId}`, data)
+    }
     return formAPI.post<OrgJobTitle>(this.getOrgJobTitleUrl, data)
-  }
-
-  updateOrgJobTitle(data: { jobTitleId: string; jobTitleName: string; jobLevel: number }) {
-    return formAPI.put<OrgJobTitle>(`${this.getOrgJobTitleUrl}/${data.jobTitleId}`, data)
   }
 }
 

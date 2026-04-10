@@ -3,14 +3,6 @@ import type { OrgUser } from '../models/OrgUser/OrgUser'
 import type { OrgUserQuery, OrgUserQueryView } from '../models/OrgUser/OrgUserQuery'
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
-export interface UserDeptPayload {
-  userDeptId?: string
-  deptId: string
-  jobTitleId: string
-  isPrimary: boolean
-  isDeleted: boolean
-}
-
 class OrgUserService {
   readonly queryUrl = '/OrgUsers/Query'
   readonly getOrgUserUrl = '/OrgUsers'
@@ -23,12 +15,7 @@ class OrgUserService {
     return formAPI.get<OrgUser>(`${this.getOrgUserUrl}/${userId}`)
   }
 
-  saveOrgUser(data: {
-    userId?: string
-    employeeId: string
-    userName: string
-    userDepts: UserDeptPayload[]
-  }) {
+  saveOrgUser(data: OrgUser) {
     return formAPI.post<OrgUser>(this.getOrgUserUrl, data)
   }
 }

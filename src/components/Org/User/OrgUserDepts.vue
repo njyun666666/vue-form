@@ -5,6 +5,7 @@ import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
 import { optionService } from '@/libs/services/optionService'
 import { useQuery } from '@tanstack/vue-query'
 import Button from 'primevue/button'
+import Checkbox from 'primevue/checkbox'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import RadioButton from 'primevue/radiobutton'
@@ -145,6 +146,18 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
               :placeholder="$t('Org.JobTitle')"
             />
           </InputField>
+        </template>
+      </Column>
+
+      <!-- isDeptManager -->
+      <Column field="isDeptManager" bodyClass="content-start">
+        <template #header>
+          <span>{{ $t('Org.DeptManager') }}</span>
+        </template>
+        <template #editor="{ data }">
+          <div class="flex justify-center">
+            <Checkbox v-model="data.value.isDeptManager" :binary="true" />
+          </div>
         </template>
       </Column>
 

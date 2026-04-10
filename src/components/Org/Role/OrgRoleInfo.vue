@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import type { OrgRole } from '@/libs/models/OrgRole/OrgRole'
 import { orgRoleService } from '@/libs/services/orgRoleService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -57,20 +58,12 @@ if (isEditMode.value) {
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      if (isEditMode.value) {
-        await orgRoleService.updateOrgRole({
-          roleId: values.roleId,
-          roleName: values.roleName,
-          description: values.description
-        })
-        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
-      } else {
-        await orgRoleService.createOrgRole({
-          roleName: values.roleName,
-          description: values.description
-        })
-        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
-      }
+      await orgRoleService.saveOrgRole(values as OrgRole)
+      toast.add({
+        severity: 'success',
+        summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
+        life: 3000
+      })
       router.push({ name: 'org-role' })
     } catch {
       await confirmHelper.alert({

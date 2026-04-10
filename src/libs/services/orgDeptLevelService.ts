@@ -18,12 +18,11 @@ class OrgDeptLevelService {
     return formAPI.get<OrgDeptLevel>(`${this.getOrgDeptLevelUrl}/${levelId}`)
   }
 
-  createOrgDeptLevel(data: { levelName: string; level: number }) {
+  saveOrgDeptLevel(data: OrgDeptLevel) {
+    if (data.levelId) {
+      return formAPI.put<OrgDeptLevel>(`${this.getOrgDeptLevelUrl}/${data.levelId}`, data)
+    }
     return formAPI.post<OrgDeptLevel>(this.getOrgDeptLevelUrl, data)
-  }
-
-  updateOrgDeptLevel(data: { levelId: string; levelName: string; level: number }) {
-    return formAPI.put<OrgDeptLevel>(`${this.getOrgDeptLevelUrl}/${data.levelId}`, data)
   }
 }
 

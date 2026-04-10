@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
 import { optionService } from '@/libs/services/optionService'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
@@ -79,22 +80,12 @@ const parentDeptOptions = computed(() =>
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      if (isEditMode.value) {
-        await orgDeptService.updateOrgDept({
-          deptId: values.deptId,
-          deptName: values.deptName,
-          parentDeptId: values.parentDeptId ?? null,
-          levelId: values.levelId ?? null
-        })
-        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
-      } else {
-        await orgDeptService.createOrgDept({
-          deptName: values.deptName,
-          parentDeptId: values.parentDeptId ?? null,
-          levelId: values.levelId ?? null
-        })
-        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
-      }
+      await orgDeptService.saveOrgDept(values as OrgDept)
+      toast.add({
+        severity: 'success',
+        summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
+        life: 3000
+      })
       router.push({ name: 'org-dept' })
     } catch {
       await confirmHelper.alert({
