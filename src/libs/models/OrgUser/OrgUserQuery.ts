@@ -10,4 +10,5 @@ export interface OrgUserQueryView {
   userName: string
   deptName: string
   jobTitle: string
+  isDeptManager?: boolean
 }

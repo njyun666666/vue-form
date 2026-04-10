@@ -28,6 +28,7 @@
     "PrimaryDeptHint": "Select the radio button to set as primary department",
     "Enable": "Enable",
     "DeptManager": "Dept. Manager",
+    "DeptMembers": "Department Members",
     "DeptRowError": "Row {n}: Department and Job Title are required"
   }
 }

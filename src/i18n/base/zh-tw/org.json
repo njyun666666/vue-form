@@ -28,6 +28,7 @@
     "PrimaryDeptHint": "選取左側圓鈕可設定為主要職務部門",
     "Enable": "啟用",
     "DeptManager": "部門主管",
+    "DeptMembers": "部門成員",
     "DeptRowError": "第 {n} 列：部門與職稱為必填"
   }
 }

@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
 import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
+import type { OrgUserQuery, OrgUserQueryView } from '@/libs/models/OrgUser/OrgUserQuery'
+import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { optionService } from '@/libs/services/optionService'
 import { orgDeptService } from '@/libs/services/orgDeptService'
+import { orgUserService } from '@/libs/services/orgUserService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
+import { useDatatable } from '@/libs/utils/datatable'
 import { useQuery } from '@tanstack/vue-query'
 import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { z } from 'zod'
@@ -97,6 +103,20 @@ const onSubmit = handleSubmit(
     confirmHelper.alert({ message: t('Message.Please_check_the_field') })
   }
 )
+
+const membersQuery = ref<QueryModel<OrgUserQuery>>({
+  pageIndex: 0,
+  pageSize: 10,
+  filter: { deptId: deptId.value }
+})
+
+const membersDatatable = useDatatable<OrgUserQuery, OrgUserQueryView>(membersQuery, (q) =>
+  orgUserService.query(q).then(({ data }) => data)
+)
+
+if (isEditMode.value) {
+  onMounted(() => membersDatatable.handleFetchData())
+}
 </script>
 <template>
   <Card>
@@ -148,6 +168,36 @@ const onSubmit = handleSubmit(
           </div>
         </div>
       </form>
+    </template>
+  </Card>
+
+  <Card v-if="isEditMode" class="mt-4">
+    <template #content>
+      <DataTable
+        v-bind="membersDatatable.props.value"
+        selectionMode="single"
+        @page="membersDatatable.onPage"
+        @update:multiSortMeta="membersDatatable.onUpdateMultiSortMeta"
+        @rowSelect="
+          router.push({ name: 'org-user-detail', params: { userId: $event.data.userId } })
+        "
+      >
+        <template #header>
+          <span class="text-lg font-bold">{{ $t('Org.DeptMembers') }}</span>
+        </template>
+        <Column field="employeeId" :header="$t('Org.EmployeeId')" />
+        <Column field="userName" :header="$t('Org.UserName')" />
+        <Column field="jobTitle" :header="$t('Org.JobTitle')" />
+        <Column field="isDeptManager" :header="$t('Org.DeptManager')" class="text-center!">
+          <template #body="{ data }">
+            <font-awesome-icon
+              v-if="data.isDeptManager"
+              icon="fa-solid fa-check"
+              class="text-primary"
+            />
+          </template>
+        </Column>
+      </DataTable>
     </template>
   </Card>
 </template>

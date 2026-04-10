@@ -46,13 +46,17 @@ export const orgUserHandlers = [
     const { pageIndex, pageSize } = body
     const start = pageIndex * pageSize
     const data: OrgUserQueryView[] = filtered.slice(start, start + pageSize).map((u) => {
-      const { deptName, jobTitle } = resolvePrimaryDept(u)
+      const targetDept = deptId ? u.userDepts.find((d) => d.deptId === deptId) : undefined
+      const { deptName, jobTitle } = targetDept
+        ? { deptName: targetDept.deptName, jobTitle: targetDept.jobTitleName }
+        : resolvePrimaryDept(u)
       return {
         userId: u.userId,
         employeeId: u.employeeId,
         userName: u.userName,
         deptName,
-        jobTitle
+        jobTitle,
+        isDeptManager: targetDept?.isDeptManager
       }
     })
 
