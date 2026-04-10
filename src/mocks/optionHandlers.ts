@@ -22,11 +22,16 @@ export const optionHandlers = [
     await delay()
     const url = new URL(request.url)
     const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
     const list = input
       ? orgDeptQueryViewList.filter((d) => d.deptName.toLowerCase().includes(input))
-      : orgDeptQueryViewList
+      : initValues.length
+        ? orgDeptQueryViewList.filter((d) => initValues.includes(d.deptId))
+        : orgDeptQueryViewList
     return HttpResponse.json(
-      list.map((d) => ({ value: d.deptId, label: d.deptName }) satisfies OptionModel<string>)
+      list.map(
+        (d) => ({ value: d.deptId, label: d.deptName, data: d }) satisfies OptionModel<string>
+      )
     )
   }),
 
@@ -47,23 +52,44 @@ export const optionHandlers = [
       { label: '桃園市', value: 'Taoyuan' }
     ] as OptionModel<string>[])
   }),
-  http.get(`${appConfig.FORM_API}${optionService.roleUrl}`, async () => {
+  http.get(`${appConfig.FORM_API}${optionService.roleUrl}`, async ({ request }) => {
     await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
+    const enabled = orgRoleList.filter((r) => r.enable)
+    const list = input
+      ? enabled.filter((r) => r.roleName.toLowerCase().includes(input))
+      : initValues.length
+        ? enabled.filter((r) => initValues.includes(r.roleId))
+        : enabled
     return HttpResponse.json(
-      orgRoleList
-        .filter((r) => r.enable)
-        .map((r) => ({ value: r.roleId, label: r.roleName }) satisfies OptionModel<string>)
+      list.map(
+        (r) => ({ value: r.roleId, label: r.roleName, data: r }) satisfies OptionModel<string>
+      )
     )
   }),
 
-  http.get(`${appConfig.FORM_API}${optionService.userUrl}`, async () => {
+  http.get(`${appConfig.FORM_API}${optionService.userUrl}`, async ({ request }) => {
     await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
+    const list = input
+      ? orgUserList.filter(
+          (u) =>
+            u.employeeId.toLowerCase().includes(input) || u.userName.toLowerCase().includes(input)
+        )
+      : initValues.length
+        ? orgUserList.filter((u) => initValues.includes(u.userId))
+        : orgUserList
     return HttpResponse.json(
-      orgUserList.map(
+      list.map(
         (u) =>
           ({
             value: u.userId,
-            label: `${u.employeeId} ${u.userName}`
+            label: `${u.employeeId} ${u.userName}`,
+            data: u
           }) satisfies OptionModel<string>
       )
     )

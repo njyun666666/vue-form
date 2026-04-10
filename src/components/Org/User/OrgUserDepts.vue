@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RequiredMark from '@/components/Common/RequiredMark.vue'
 import InputField from '@/components/UI/InputField.vue'
+import OrgSelector from '@/components/UI/OrgSelector.vue'
 import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
 import { optionService } from '@/libs/services/optionService'
 import { useQuery } from '@tanstack/vue-query'
@@ -56,12 +57,6 @@ function setPrimary(originalIndex: number) {
   })
 }
 
-const { data: deptOptions, isFetching: deptOptionsLoading } = useQuery({
-  queryKey: [optionService.deptUrl],
-  queryFn: () => optionService.dept({}).then(({ data }) => data),
-  staleTime: 5 * 60 * 1000
-})
-
 const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
   queryKey: [optionService.jobTitleUrl],
   queryFn: () => optionService.jobTitle().then(({ data }) => data),
@@ -111,16 +106,11 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
         </template>
         <template #editor="{ data }">
           <InputField :error="getError(data.originalIndex, 'deptId')">
-            <Select
-              v-model="data.value.deptId"
-              :options="deptOptions ?? []"
-              optionLabel="label"
-              optionValue="value"
-              :loading="deptOptionsLoading"
+            <OrgSelector
+              dept
+              :modelValue="data.value.deptId"
               :invalid="!!getError(data.originalIndex, 'deptId')"
-              showClear
-              class="w-full"
-              :placeholder="$t('Org.Dept')"
+              @update:modelValue="data.value.deptId = ($event as string) || ''"
             />
           </InputField>
         </template>

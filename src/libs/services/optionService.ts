@@ -34,12 +34,18 @@ class OptionService {
     return formAPI.get<OptionModel<string>[]>(this.jobTitleUrl)
   }
 
-  role() {
-    return formAPI.get<OptionModel<string>[]>(this.roleUrl)
+  role(data?: OptionQueryModel<string>) {
+    return formAPI.get<OptionModel<string>[]>(this.roleUrl, {
+      params: data,
+      paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' })
+    })
   }
 
-  user() {
-    return formAPI.get<OptionModel<string>[]>(this.userUrl)
+  user(data?: OptionQueryModel<string>) {
+    return formAPI.get<OptionModel<string>[]>(this.userUrl, {
+      params: data,
+      paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' })
+    })
   }
 }
 

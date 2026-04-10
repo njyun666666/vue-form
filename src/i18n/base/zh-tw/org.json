@@ -31,6 +31,7 @@
     "DeptMembers": "部門成員",
     "DeptRowError": "第 {n} 列：部門與職稱為必填",
     "RoleMembers": "角色成員",
-    "AddRoleMember": "新增成員"
+    "AddRoleMember": "新增成員",
+    "Selected": "已選擇"
   }
 }

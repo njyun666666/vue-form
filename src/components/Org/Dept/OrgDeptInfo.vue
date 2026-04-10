@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import OrgSelector from '@/components/UI/OrgSelector.vue'
 import type { OrgDept } from '@/libs/models/OrgDept/OrgDept'
 import type { OrgUserQuery, OrgUserQueryView } from '@/libs/models/OrgUser/OrgUserQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
@@ -67,21 +68,11 @@ if (isEditMode.value) {
   })
 }
 
-const { data: allDeptOptions, isFetching: deptOptionsLoading } = useQuery({
-  queryKey: [optionService.deptUrl],
-  queryFn: () => optionService.dept({}).then(({ data }) => data),
-  staleTime: 5 * 60 * 1000
-})
-
 const { data: deptLevelOptions, isFetching: deptLevelOptionsLoading } = useQuery({
   queryKey: [optionService.deptLevelUrl],
   queryFn: () => optionService.deptLevel().then(({ data }) => data),
   staleTime: 5 * 60 * 1000
 })
-
-const parentDeptOptions = computed(() =>
-  (allDeptOptions.value ?? []).filter((opt) => opt.value !== deptId.value)
-)
 
 const onSubmit = handleSubmit(
   async (values) => {
@@ -133,16 +124,12 @@ if (isEditMode.value) {
           </InputField>
 
           <InputField for="parentDeptId" :label="$t('Org.ParentDept')" :error="errors.parentDeptId">
-            <Select
-              id="parentDeptId"
-              v-model="parentDeptId"
-              :options="parentDeptOptions"
-              optionLabel="label"
-              optionValue="value"
-              :loading="deptOptionsLoading"
+            <OrgSelector
+              inputId="parentDeptId"
+              dept
+              :modelValue="parentDeptId"
               :invalid="!!errors.parentDeptId"
-              showClear
-              class="w-full"
+              @update:modelValue="setFieldValue('parentDeptId', ($event as string) || null)"
             />
           </InputField>
 

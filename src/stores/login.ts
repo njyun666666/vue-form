@@ -1,4 +1,3 @@
-import type { RoleType } from '@/appConst'
 import type { LoginViewModel, UserPayload } from '@/libs/models/Login/Login'
 import { loginService } from '@/libs/services/loginService'
 import { StorageSerializers, useStorage } from '@vueuse/core'
@@ -59,20 +58,6 @@ export const useLoginStore = defineStore('login', () => {
     return false
   }
 
-  const checkRole = (roles?: RoleType[]) => {
-    if (!roles) return true
-
-    const length = roles.length
-
-    for (let i = 0; i < length; i++) {
-      if (tokenPayload.value?.role.includes(roles[i])) {
-        return true
-      }
-    }
-
-    return false
-  }
-
   return {
     user,
     loginState,
@@ -81,7 +66,6 @@ export const useLoginStore = defineStore('login', () => {
     login,
     logout,
     refresh,
-    checkLogin,
-    checkRole
+    checkLogin
   }
 })

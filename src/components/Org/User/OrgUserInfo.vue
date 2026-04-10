@@ -2,18 +2,16 @@
 import OrgUserDepts from './OrgUserDepts.vue'
 import { orgUserDeptSchema } from './orgUserDeptSchema'
 import InputField from '@/components/UI/InputField.vue'
+import OrgSelector from '@/components/UI/OrgSelector.vue'
 import type { OrgUser } from '@/libs/models/OrgUser/OrgUser'
 import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
-import { optionService } from '@/libs/services/optionService'
 import { orgUserService } from '@/libs/services/orgUserService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
-import { useQuery } from '@tanstack/vue-query'
 import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
-import MultiSelect from 'primevue/multiselect'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
@@ -99,12 +97,6 @@ const [userName] = defineField('userName')
 const [enable] = defineField('enable')
 const [roleIds] = defineField('roleIds')
 
-const { data: roleOptions, isFetching: roleOptionsLoading } = useQuery({
-  queryKey: [optionService.roleUrl],
-  queryFn: () => optionService.role().then(({ data }) => data),
-  staleTime: 5 * 60 * 1000
-})
-
 // ---- Load for edit ----
 if (isEditMode.value) {
   orgUserService.getOrgUser(userId.value!).then((res) => {
@@ -166,18 +158,7 @@ const onSubmit = handleSubmit(
           </InputField>
 
           <InputField for="roleIds" :label="$t('Org.Role')">
-            <MultiSelect
-              v-model="roleIds"
-              inputId="roleIds"
-              :options="roleOptions ?? []"
-              optionLabel="label"
-              optionValue="value"
-              :loading="roleOptionsLoading"
-              :placeholder="$t('Org.Role')"
-              filter
-              display="chip"
-              class="w-full"
-            />
+            <OrgSelector inputId="roleIds" role multiple v-model="roleIds" />
           </InputField>
 
           <div class="flex items-center gap-2">
