@@ -113,6 +113,28 @@ src/
 - `requiredFieldsValidator(val, fieldMode)` 位於 `src/libs/utils/zod.ts`，依 `FormFieldModeEnum` 動態決定必填。
 - Schema 以 `z.object({...}).partial()` 定義 info；主表單再 `superRefine` 補強跨欄位規則。
 
+### VeeValidate array 欄位載入資料
+
+**禁止**對 array 欄位使用 `setFieldValue`，一律改用 `form.setValues`：
+
+```ts
+// ❌ 錯誤：setFieldValue 會建立 pathState，導致 nested error 被提升到 array 層
+setFieldValue('userDepts', data)
+
+// ✅ 正確：setValues 直接 merge 值，不建立 pathState
+form.setValues({ userDepts: data })
+```
+
+**原因**：`setFieldValue` 內部呼叫 `createPathState(path)`，VeeValidate 的 `findHoistedPath` 會將 `userDepts[0].deptId` 的 error 提升至 `userDepts`，造成 nested field error 路徑錯誤。Edit mode 載入資料建議整包一起設定：
+
+```ts
+form.setValues({
+  fieldA: data.fieldA,
+  fieldB: data.fieldB,
+  arrayField: data.arrayField.map((d) => new Model(d))
+})
+```
+
 ---
 
 ## 路由與認證

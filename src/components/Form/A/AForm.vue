@@ -62,20 +62,18 @@ const form = useForm<AModel>({
           })
         }
 
-        for (let i = 0; i < val.productDetail.length; i++) {
-          const item = val.productDetail[i]
-          if (item.isDeleted) continue
-
+        val.productDetail.forEach((item, i) => {
+          if (item.isDeleted) return
           requiredFieldsValidator(item, AFormInfoRef.value?.productDetailFieldMode).forEach(
             (field) => {
               ctx.addIssue({
                 code: 'custom',
                 message: t('Message.Required'),
-                path: [`productDetail.${i}.${field}`]
+                path: ['productDetail', i, field]
               })
             }
           )
-        }
+        })
       })
   ),
   initialValues: initialValues

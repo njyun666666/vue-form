@@ -5,6 +5,7 @@ export const orgUserDeptSchema = z
     userDeptId: z.string(),
     deptId: z.string(),
     jobTitleId: z.string(),
-    isPrimary: z.boolean()
+    isPrimary: z.boolean(),
+    isDeleted: z.boolean()
   })
   .partial()

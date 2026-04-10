@@ -17,30 +17,41 @@ const { t } = useI18n()
 
 const form = inject<FormContext>('form')!
 const fieldArray = useFieldArray<OrgUserDeptModel>('userDepts')
-const editingRows = computed(() => fieldArray.fields.value.map((f) => f.value.guid))
 
-const getError = (index: number, field: string) =>
-  (form.errors.value as Record<string, string>)[`userDepts[${index}].${field}`]
+const visibleFields = computed(() =>
+  fieldArray.fields.value
+    .map((f, i) => ({ ...f, originalIndex: i }))
+    .filter((f) => !f.value.isDeleted)
+)
+const editingRows = computed(() => visibleFields.value.map((f) => f.value.guid))
+
+const getError = (originalIndex: number, field: string) =>
+  (form.errors.value as Record<string, string>)[`userDepts[${originalIndex}].${field}`]
 
 function add() {
-  fieldArray.push(new OrgUserDeptModel({ isPrimary: fieldArray.fields.value.length === 0 }))
+  const hasActive = fieldArray.fields.value.some((f) => !f.value.isDeleted)
+  fieldArray.push(new OrgUserDeptModel({ isPrimary: !hasActive }))
 }
 
-function remove(index: number) {
-  fieldArray.remove(index)
-  // If removed row was primary, promote first remaining row
-  if (fieldArray.fields.value.length > 0) {
-    const hasPrimary = fieldArray.fields.value.some((f) => f.value.isPrimary)
-    if (!hasPrimary) {
-      const first = fieldArray.fields.value[0].value
-      fieldArray.update(0, new OrgUserDeptModel({ ...first, isPrimary: true }))
+function remove(originalIndex: number) {
+  const item = fieldArray.fields.value[originalIndex].value
+  const wasPrimary = item.isPrimary
+  fieldArray.update(originalIndex, new OrgUserDeptModel({ ...item, isDeleted: true }))
+  if (wasPrimary) {
+    const firstIdx = fieldArray.fields.value.findIndex(
+      (f, i) => i !== originalIndex && !f.value.isDeleted
+    )
+    if (firstIdx !== -1) {
+      const first = fieldArray.fields.value[firstIdx].value
+      fieldArray.update(firstIdx, new OrgUserDeptModel({ ...first, isPrimary: true }))
     }
   }
 }
 
-function setPrimary(index: number) {
+function setPrimary(originalIndex: number) {
   fieldArray.fields.value.forEach((f, idx) => {
-    fieldArray.update(idx, new OrgUserDeptModel({ ...f.value, isPrimary: idx === index }))
+    if (f.value.isDeleted) return
+    fieldArray.update(idx, new OrgUserDeptModel({ ...f.value, isPrimary: idx === originalIndex }))
   })
 }
 
@@ -61,7 +72,7 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
   <div>
     <DataTable
       v-model:editingRows="editingRows"
-      :value="fieldArray.fields.value"
+      :value="visibleFields"
       editMode="row"
       dataKey="guid"
     >
@@ -79,12 +90,12 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
         <template #header>
           <span>{{ $t('Org.IsPrimary') }}</span>
         </template>
-        <template #editor="{ data, index }">
+        <template #editor="{ data }">
           <div class="flex justify-center">
             <RadioButton
               :modelValue="data.value.isPrimary"
               :value="true"
-              @update:modelValue="setPrimary(index)"
+              @update:modelValue="setPrimary(data.originalIndex)"
               :inputId="`isPrimary-${data.value.guid}`"
             />
           </div>
@@ -97,15 +108,15 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
           <RequiredMark />
           <span>{{ $t('Org.Dept') }}</span>
         </template>
-        <template #editor="{ data, index }">
-          <InputField :error="getError(index, 'deptId')">
+        <template #editor="{ data }">
+          <InputField :error="getError(data.originalIndex, 'deptId')">
             <Select
               v-model="data.value.deptId"
               :options="deptOptions ?? []"
               optionLabel="label"
               optionValue="value"
               :loading="deptOptionsLoading"
-              :invalid="!!getError(index, 'deptId')"
+              :invalid="!!getError(data.originalIndex, 'deptId')"
               showClear
               class="w-full"
               :placeholder="$t('Org.Dept')"
@@ -120,15 +131,15 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
           <RequiredMark />
           <span>{{ $t('Org.JobTitle') }}</span>
         </template>
-        <template #editor="{ data, index }">
-          <InputField :error="getError(index, 'jobTitleId')">
+        <template #editor="{ data }">
+          <InputField :error="getError(data.originalIndex, 'jobTitleId')">
             <Select
               v-model="data.value.jobTitleId"
               :options="jobTitleOptions ?? []"
               optionLabel="label"
               optionValue="value"
               :loading="jobTitleOptionsLoading"
-              :invalid="!!getError(index, 'jobTitleId')"
+              :invalid="!!getError(data.originalIndex, 'jobTitleId')"
               showClear
               class="w-full"
               :placeholder="$t('Org.JobTitle')"
@@ -139,12 +150,12 @@ const { data: jobTitleOptions, isFetching: jobTitleOptionsLoading } = useQuery({
 
       <!-- Delete -->
       <Column class="text-center!" bodyClass="content-start">
-        <template #body="{ index }">
+        <template #body="{ data }">
           <Button
             icon="pi pi-trash"
             rounded
             severity="secondary"
-            @click="remove(index)"
+            @click="remove(data.originalIndex)"
             v-tooltip="$t('Action.Remove')"
           />
         </template>

@@ -43,7 +43,8 @@ const formSchema = toTypedSchema(
       userDepts: z.array(orgUserDeptSchema)
     })
     .superRefine((val, ctx) => {
-      if (val.userDepts.length === 0) {
+      const activeDepts = val.userDepts.filter((d) => !d.isDeleted)
+      if (activeDepts.length === 0) {
         ctx.addIssue({
           code: 'custom',
           message: t('Message.At_least_number_entry_is_required', { number: 1 }),
@@ -52,6 +53,7 @@ const formSchema = toTypedSchema(
         return
       }
       val.userDepts.forEach((dept, i) => {
+        if (dept.isDeleted) return
         if (!dept.deptId?.trim()) {
           ctx.addIssue({
             code: 'custom',
@@ -83,7 +85,7 @@ const form = useForm({
 
 provide('form', form)
 
-const { defineField, handleSubmit, errors, setFieldValue, isSubmitting } = form
+const { defineField, handleSubmit, errors, isSubmitting } = form
 const [employeeId] = defineField('employeeId')
 const [userName] = defineField('userName')
 
@@ -91,13 +93,12 @@ const [userName] = defineField('userName')
 if (isEditMode.value) {
   orgUserService.getOrgUser(userId.value!).then((res) => {
     const data = res.data
-    setFieldValue('userId', data.userId)
-    setFieldValue('employeeId', data.employeeId)
-    setFieldValue('userName', data.userName)
-    setFieldValue(
-      'userDepts',
-      data.userDepts.map((d) => new OrgUserDeptModel(d))
-    )
+    form.setValues({
+      userId: data.userId,
+      employeeId: data.employeeId,
+      userName: data.userName,
+      userDepts: data.userDepts.map((d) => new OrgUserDeptModel(d))
+    })
   })
 }
 
@@ -105,29 +106,27 @@ if (isEditMode.value) {
 const onSubmit = handleSubmit(
   async (values) => {
     try {
-      const deptsPayload: UserDeptPayload[] = values.userDepts.map((d) => ({
-        userDeptId: d.userDeptId || undefined,
-        deptId: d.deptId!,
-        jobTitleId: d.jobTitleId!,
-        isPrimary: d.isPrimary!
-      }))
+      const deptsPayload: UserDeptPayload[] = values.userDepts
+        .filter((d) => d.userDeptId || !d.isDeleted)
+        .map((d) => ({
+          userDeptId: d.userDeptId || undefined,
+          deptId: d.deptId!,
+          jobTitleId: d.jobTitleId!,
+          isPrimary: d.isPrimary!,
+          isDeleted: d.isDeleted ?? false
+        }))
 
-      if (isEditMode.value) {
-        await orgUserService.updateOrgUser({
-          userId: values.userId,
-          employeeId: values.employeeId,
-          userName: values.userName,
-          userDepts: deptsPayload
-        })
-        toast.add({ severity: 'success', summary: t('Message.EditSuccess'), life: 3000 })
-      } else {
-        await orgUserService.createOrgUser({
-          employeeId: values.employeeId,
-          userName: values.userName,
-          userDepts: deptsPayload
-        })
-        toast.add({ severity: 'success', summary: t('Message.AddSuccess'), life: 3000 })
-      }
+      await orgUserService.saveOrgUser({
+        userId: isEditMode.value ? values.userId : undefined,
+        employeeId: values.employeeId,
+        userName: values.userName,
+        userDepts: deptsPayload
+      })
+      toast.add({
+        severity: 'success',
+        summary: t(isEditMode.value ? 'Message.EditSuccess' : 'Message.AddSuccess'),
+        life: 3000
+      })
       router.push({ name: 'org-user' })
     } catch {
       await confirmHelper.alert({

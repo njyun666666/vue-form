@@ -6,12 +6,14 @@ export class OrgUserDeptModel {
   deptId?: string
   jobTitleId?: string
   isPrimary?: boolean
+  isDeleted?: boolean
 
   constructor(input?: Partial<OrgUserDeptModel>) {
     this.userDeptId = input?.userDeptId
     this.deptId = input?.deptId
     this.jobTitleId = input?.jobTitleId
     this.isPrimary = input?.isPrimary ?? false
+    this.isDeleted = input?.isDeleted ?? false
   }
 
   get guid() {
