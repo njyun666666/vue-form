@@ -85,6 +85,7 @@ export const orgUserHandlers = [
       employeeId: body.employeeId,
       userName: body.userName,
       userDepts: buildUserDepts(body.userDepts ?? []),
+      roleIds: body.roleIds ?? [],
       enable: body.enable
     }
     orgUserMap[newUser.userId] = newUser
@@ -104,6 +105,7 @@ export const orgUserHandlers = [
       user.employeeId = body.employeeId
       user.userName = body.userName
       user.enable = body.enable
+      user.roleIds = body.roleIds ?? []
       user.userDepts = buildUserDepts(body.userDepts ?? [])
       return HttpResponse.json(user)
     }

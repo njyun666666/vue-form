@@ -2,6 +2,7 @@ import appConfig from '@/appConfig'
 import { orgDeptQueryViewList } from '@/faker/orgDept'
 import { orgDeptLevelList } from '@/faker/orgDeptLevel'
 import { orgJobTitleList } from '@/faker/orgJobTitle'
+import { orgRoleList } from '@/faker/orgRole'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
@@ -45,6 +46,15 @@ export const optionHandlers = [
       { label: '桃園市', value: 'Taoyuan' }
     ] as OptionModel<string>[])
   }),
+  http.get(`${appConfig.FORM_API}${optionService.roleUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgRoleList
+        .filter((r) => r.enable)
+        .map((r) => ({ value: r.roleId, label: r.roleName }) satisfies OptionModel<string>)
+    )
+  }),
+
   http.get(`${appConfig.FORM_API}${optionService.productCategoryUrl}`, async () => {
     await delay()
     return HttpResponse.json([

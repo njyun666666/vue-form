@@ -5,5 +5,6 @@ export interface OrgUser {
   employeeId: string
   userName: string
   userDepts: OrgUserDept[]
+  roleIds: string[]
   enable: boolean
 }

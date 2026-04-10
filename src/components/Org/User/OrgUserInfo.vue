@@ -4,13 +4,16 @@ import { orgUserDeptSchema } from './orgUserDeptSchema'
 import InputField from '@/components/UI/InputField.vue'
 import type { OrgUser } from '@/libs/models/OrgUser/OrgUser'
 import { OrgUserDeptModel } from '@/libs/models/OrgUser/OrgUserDeptModel'
+import { optionService } from '@/libs/services/optionService'
 import { orgUserService } from '@/libs/services/orgUserService'
 import { useCreateConfirm } from '@/libs/utils/confirm'
+import { useQuery } from '@tanstack/vue-query'
 import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
+import MultiSelect from 'primevue/multiselect'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
@@ -42,6 +45,7 @@ const formSchema = toTypedSchema(
         .trim()
         .min(1, { message: t('Message.Required') }),
       enable: z.boolean(),
+      roleIds: z.array(z.string()),
       userDepts: z.array(orgUserDeptSchema)
     })
     .superRefine((val, ctx) => {
@@ -82,6 +86,7 @@ const form = useForm({
     employeeId: '',
     userName: '',
     enable: true,
+    roleIds: [] as string[],
     userDepts: [] as OrgUserDeptModel[]
   }
 })
@@ -92,6 +97,13 @@ const { defineField, handleSubmit, errors, isSubmitting } = form
 const [employeeId] = defineField('employeeId')
 const [userName] = defineField('userName')
 const [enable] = defineField('enable')
+const [roleIds] = defineField('roleIds')
+
+const { data: roleOptions, isFetching: roleOptionsLoading } = useQuery({
+  queryKey: [optionService.roleUrl],
+  queryFn: () => optionService.role().then(({ data }) => data),
+  staleTime: 5 * 60 * 1000
+})
 
 // ---- Load for edit ----
 if (isEditMode.value) {
@@ -102,6 +114,7 @@ if (isEditMode.value) {
       employeeId: data.employeeId,
       userName: data.userName,
       enable: data.enable,
+      roleIds: data.roleIds ?? [],
       userDepts: data.userDepts.map((d) => new OrgUserDeptModel(d))
     })
   })
@@ -150,6 +163,21 @@ const onSubmit = handleSubmit(
             isRequired
           >
             <InputText id="userName" v-model="userName" :invalid="!!errors.userName" />
+          </InputField>
+
+          <InputField for="roleIds" :label="$t('Org.Role')">
+            <MultiSelect
+              v-model="roleIds"
+              inputId="roleIds"
+              :options="roleOptions ?? []"
+              optionLabel="label"
+              optionValue="value"
+              :loading="roleOptionsLoading"
+              :placeholder="$t('Org.Role')"
+              filter
+              display="chip"
+              class="w-full"
+            />
           </InputField>
 
           <div class="flex items-center gap-2">

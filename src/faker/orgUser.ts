@@ -5,6 +5,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-001',
     employeeId: 'E001',
     userName: '王小明',
+    roleIds: ['role-001', 'role-002'],
     userDepts: [
       {
         userDeptId: 'udept-001-1',
@@ -31,6 +32,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-002',
     employeeId: 'E002',
     userName: '李美華',
+    roleIds: ['role-003'],
     userDepts: [
       {
         userDeptId: 'udept-002-1',
@@ -48,6 +50,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-003',
     employeeId: 'E003',
     userName: '張志豪',
+    roleIds: ['role-004'],
     userDepts: [
       {
         userDeptId: 'udept-003-1',
@@ -65,6 +68,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-004',
     employeeId: 'E004',
     userName: '陳雅婷',
+    roleIds: ['role-002', 'role-004'],
     userDepts: [
       {
         userDeptId: 'udept-004-1',
@@ -91,6 +95,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-005',
     employeeId: 'E005',
     userName: '林建國',
+    roleIds: ['role-005'],
     userDepts: [
       {
         userDeptId: 'udept-005-1',
@@ -108,6 +113,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-006',
     employeeId: 'E006',
     userName: '黃淑芬',
+    roleIds: ['role-003'],
     userDepts: [
       {
         userDeptId: 'udept-006-1',
@@ -125,6 +131,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-007',
     employeeId: 'E007',
     userName: '吳俊賢',
+    roleIds: ['role-006'],
     userDepts: [
       {
         userDeptId: 'udept-007-1',
@@ -151,6 +158,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-008',
     employeeId: 'E008',
     userName: '蔡佳穎',
+    roleIds: ['role-004'],
     userDepts: [
       {
         userDeptId: 'udept-008-1',
@@ -168,6 +176,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-009',
     employeeId: 'E009',
     userName: '鄭文翔',
+    roleIds: ['role-005', 'role-007'],
     userDepts: [
       {
         userDeptId: 'udept-009-1',
@@ -185,6 +194,7 @@ export const orgUserList: OrgUser[] = [
     userId: 'user-010',
     employeeId: 'E010',
     userName: '許雅雯',
+    roleIds: ['role-001', 'role-006'],
     userDepts: [
       {
         userDeptId: 'udept-010-1',
