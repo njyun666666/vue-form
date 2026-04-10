@@ -3,5 +3,6 @@ export interface OrgTreeNode {
   id: string
   label: string
   jobTitle?: string
+  isManager?: boolean
   children?: OrgTreeNode[]
 }

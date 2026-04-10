@@ -23,7 +23,8 @@ function buildTree(
         type: 'user',
         id: u.userId,
         label: u.userName,
-        jobTitle: primaryDept?.jobTitleName
+        jobTitle: primaryDept?.jobTitleName,
+        isManager: u.userDepts.some((d) => d.deptId === dept.deptId && d.isDeptManager)
       }
     })
     const childDeptNodes = buildTree(dept.deptId, deptChildrenMap, deptUserMap)

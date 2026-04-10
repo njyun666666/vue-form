@@ -51,7 +51,9 @@
     "Reject": "Reject",
     "UploadFile": "Upload file",
     "Copy": "Copy",
-    "Copied": "Copied"
+    "Copied": "Copied",
+    "ExpandAll": "Expand all",
+    "CollapseAll": "Collapse all"
   },
   "Title": {
     "Add": "Add {title}",

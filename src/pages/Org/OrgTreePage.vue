@@ -3,6 +3,7 @@ import BasePage from '../BasePage.vue'
 import type { OrgTreeNode } from '@/libs/models/OrgTree/OrgTreeNode'
 import { orgTreeService } from '@/libs/services/orgTreeService'
 import { useQuery } from '@tanstack/vue-query'
+import Button from 'primevue/button'
 import Card from 'primevue/card'
 import Tree from 'primevue/tree'
 import type { TreeNode } from 'primevue/treenode'
@@ -21,7 +22,7 @@ function toTreeNodes(nodes: OrgTreeNode[]): TreeNode[] {
   return nodes.map((n) => ({
     key: `${n.type}-${n.id}`,
     label: n.label,
-    data: { type: n.type, id: n.id, jobTitle: n.jobTitle },
+    data: { type: n.type, id: n.id, jobTitle: n.jobTitle, isManager: n.isManager },
     children: n.children ? toTreeNodes(n.children) : undefined,
     leaf: !n.children || n.children.length === 0
   }))
@@ -41,6 +42,12 @@ function collectKeys(nodes: TreeNode[]): Record<string, boolean> {
 }
 
 const expandedKeys = ref<Record<string, boolean>>({})
+const allKeys = computed(() => collectKeys(treeNodes.value))
+const isExpanded = computed(() => Object.keys(expandedKeys.value).length > 0)
+
+function toggleExpand() {
+  expandedKeys.value = isExpanded.value ? {} : allKeys.value
+}
 
 watch(
   treeNodes,
@@ -69,29 +76,44 @@ function onNodeSelect(node: TreeNode) {
         <div v-if="isFetching" class="text-muted-color py-4 text-center">
           <font-awesome-icon icon="fa-solid fa-spinner" spin />
         </div>
-        <Tree
-          v-else
-          :value="treeNodes"
-          v-model:expandedKeys="expandedKeys"
-          selectionMode="single"
-          @node-select="onNodeSelect"
-          class="w-full"
-        >
-          <template #default="{ node }">
-            <div class="flex items-center gap-2">
-              <font-awesome-icon
-                v-if="node.data.type === 'dept'"
-                icon="fa-solid fa-building"
-                class="text-primary"
-              />
-              <font-awesome-icon v-else icon="fa-solid fa-user" class="text-neutral-500" />
-              <span>{{ node.label }}</span>
-              <span v-if="node.data.jobTitle" class="text-muted-color text-sm">
-                {{ node.data.jobTitle }}
-              </span>
-            </div>
-          </template>
-        </Tree>
+        <div v-else>
+          <div class="mb-2 flex justify-end">
+            <Button
+              :icon="isExpanded ? 'pi pi-minus' : 'pi pi-plus'"
+              :label="isExpanded ? $t('Action.CollapseAll') : $t('Action.ExpandAll')"
+              size="small"
+              severity="secondary"
+              @click="toggleExpand"
+            />
+          </div>
+          <Tree
+            :value="treeNodes"
+            v-model:expandedKeys="expandedKeys"
+            selectionMode="single"
+            @node-select="onNodeSelect"
+            class="w-full"
+          >
+            <template #default="{ node }">
+              <div class="flex items-center gap-2">
+                <font-awesome-icon
+                  v-if="node.data.type === 'dept'"
+                  icon="fa-solid fa-building"
+                  class="text-primary"
+                />
+                <font-awesome-icon
+                  v-else-if="node.data.isManager"
+                  icon="fa-solid fa-user"
+                  class="text-red-500"
+                />
+                <font-awesome-icon v-else icon="fa-solid fa-user" class="text-neutral-500" />
+                <span>{{ node.label }}</span>
+                <span v-if="node.data.jobTitle" class="text-muted-color text-sm">
+                  {{ node.data.jobTitle }}
+                </span>
+              </div>
+            </template>
+          </Tree>
+        </div>
       </template>
     </Card>
   </BasePage>
