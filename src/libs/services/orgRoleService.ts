@@ -1,5 +1,6 @@
 import formAPI from '../api/formAPI'
 import type { OrgRole } from '../models/OrgRole/OrgRole'
+import type { OrgRoleMember } from '../models/OrgRole/OrgRoleMember'
 import type { OrgRoleQuery, OrgRoleQueryView } from '../models/OrgRole/OrgRoleQuery'
 import type { QueryModel, QueryViewModel } from '../models/Query/QueryModel'
 
@@ -20,6 +21,18 @@ class OrgRoleService {
       return formAPI.put<OrgRole>(`${this.getOrgRoleUrl}/${data.roleId}`, data)
     }
     return formAPI.post<OrgRole>(this.getOrgRoleUrl, data)
+  }
+
+  getMembers(roleId: string) {
+    return formAPI.get<OrgRoleMember[]>(`${this.getOrgRoleUrl}/${roleId}/Members`)
+  }
+
+  addMember(roleId: string, userId: string) {
+    return formAPI.post<OrgRoleMember>(`${this.getOrgRoleUrl}/${roleId}/Members`, { userId })
+  }
+
+  removeMember(roleId: string, userId: string) {
+    return formAPI.delete(`${this.getOrgRoleUrl}/${roleId}/Members/${userId}`)
   }
 }
 

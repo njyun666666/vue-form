@@ -9,6 +9,7 @@ class OptionService {
   readonly productCategoryUrl = '/Option/ProductCategory'
   readonly jobTitleUrl = '/Option/JobTitle'
   readonly roleUrl = '/Option/Role'
+  readonly userUrl = '/Option/User'
 
   deptLevel() {
     return formAPI.get<OptionModel<string>[]>(this.deptLevelUrl)
@@ -35,6 +36,10 @@ class OptionService {
 
   role() {
     return formAPI.get<OptionModel<string>[]>(this.roleUrl)
+  }
+
+  user() {
+    return formAPI.get<OptionModel<string>[]>(this.userUrl)
   }
 }
 

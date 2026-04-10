@@ -29,6 +29,8 @@
     "Enable": "Enable",
     "DeptManager": "Dept. Manager",
     "DeptMembers": "Department Members",
-    "DeptRowError": "Row {n}: Department and Job Title are required"
+    "DeptRowError": "Row {n}: Department and Job Title are required",
+    "RoleMembers": "Role Members",
+    "AddRoleMember": "Add Member"
   }
 }

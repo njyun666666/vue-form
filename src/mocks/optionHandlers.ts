@@ -3,6 +3,7 @@ import { orgDeptQueryViewList } from '@/faker/orgDept'
 import { orgDeptLevelList } from '@/faker/orgDeptLevel'
 import { orgJobTitleList } from '@/faker/orgJobTitle'
 import { orgRoleList } from '@/faker/orgRole'
+import { orgUserList } from '@/faker/orgUser'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
@@ -52,6 +53,19 @@ export const optionHandlers = [
       orgRoleList
         .filter((r) => r.enable)
         .map((r) => ({ value: r.roleId, label: r.roleName }) satisfies OptionModel<string>)
+    )
+  }),
+
+  http.get(`${appConfig.FORM_API}${optionService.userUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgUserList.map(
+        (u) =>
+          ({
+            value: u.userId,
+            label: `${u.employeeId} ${u.userName}`
+          }) satisfies OptionModel<string>
+      )
     )
   }),
 
