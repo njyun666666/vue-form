@@ -16,7 +16,9 @@
       "Bash(npm run:*)",
       "Bash(grep -E \"\\\\.\\(ts|js\\)$\")",
       "Bash(xargs grep:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm info:*)"
     ]
   }
 }

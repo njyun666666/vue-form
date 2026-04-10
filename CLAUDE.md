@@ -9,23 +9,23 @@ npm run lint         # ESLint 自動修正
 npm run format       # Prettier 格式化 src/
 ```
 
-> 新增或升級依賴一律使用 `npm install --legacy-peer-deps`
+> 新增或升級依賴一律使用 `npm install`
 
 ---
 
 ## Tech Stack
 
-| 層級      | 套件                                                                             |
-| --------- | -------------------------------------------------------------------------------- |
-| Framework | Vue 3 (Composition API + `<script setup>`)                                       |
-| Build     | Vite 7 + `@vitejs/plugin-vue`                                                    |
-| UI        | PrimeVue 4、Tailwind CSS 4、Font Awesome 7 (`<font-awesome-icon />`)、PrimeIcons |
-| 狀態/路由 | Pinia 3、Vue Router 5、@tanstack/vue-query                                       |
-| 表單      | VeeValidate 5 beta (`useForm`、`useField`) + Zod 4 (`toTypedSchema`)             |
-| 流程圖    | @vue-flow (core, background, controls, minimap, node-resizer, node-toolbar)      |
-| i18n      | vue-i18n 11；語系：`en`、`zh-tw`                                                 |
-| Mock      | MSW 2；worker 目錄 `public/`；`VITE_MOCK_MODE=1` 啟用                            |
-| 工具      | VueUse、dayjs、lodash、axios、uuid、jwt-decode、clsx、tailwind-merge、qs         |
+| 層級      | 套件                                                                                     |
+| --------- | ---------------------------------------------------------------------------------------- |
+| Framework | Vue 3 (Composition API + `<script setup>`)                                               |
+| Build     | Vite 7 + `@vitejs/plugin-vue`                                                            |
+| UI        | PrimeVue 4、Tailwind CSS 4、Font Awesome 7 (`<font-awesome-icon />`)、PrimeIcons         |
+| 狀態/路由 | Pinia 3、Vue Router 5、@tanstack/vue-query                                               |
+| 表單      | VeeValidate 4 (`useForm`、`useField`) + Zod 3 (`toTypedSchema` from `@vee-validate/zod`) |
+| 流程圖    | @vue-flow (core, background, controls, minimap, node-resizer, node-toolbar)              |
+| i18n      | vue-i18n 11；語系：`en`、`zh-tw`                                                         |
+| Mock      | MSW 2；worker 目錄 `public/`；`VITE_MOCK_MODE=1` 啟用                                    |
+| 工具      | VueUse、dayjs、lodash、axios、uuid、jwt-decode、clsx、tailwind-merge、qs                 |
 
 **路徑別名**：`@` → `src/`
 
@@ -109,7 +109,7 @@ src/
 
 ## 驗證
 
-- 使用 `VeeValidate 5 beta` + `Zod 4`；**禁止**混用其他驗證庫。
+- 使用 `VeeValidate 4` + `Zod 3`（`@vee-validate/zod` 提供 `toTypedSchema`）；**禁止**混用其他驗證庫。
 - `requiredFieldsValidator(val, fieldMode)` 位於 `src/libs/utils/zod.ts`，依 `FormFieldModeEnum` 動態決定必填。
 - Schema 以 `z.object({...}).partial()` 定義 info；主表單再 `superRefine` 補強跨欄位規則。
 

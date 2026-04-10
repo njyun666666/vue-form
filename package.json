@@ -53,7 +53,7 @@
     "vue-component-type-helpers": "^3.2.5",
     "vue-i18n": "^11.2.8",
     "vue-router": "^5.0.3",
-    "zod": "^4.0.0"
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.16.1",

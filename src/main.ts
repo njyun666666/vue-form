@@ -39,7 +39,7 @@ app.use(ConfirmationService)
 app.use(ToastService)
 app.directive('tooltip', Tooltip)
 
-z.config({ customError: zodErrorMap })
+z.setErrorMap(zodErrorMap)
 
 enableMocking().then(() => {
   app.use(router)

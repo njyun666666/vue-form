@@ -31,7 +31,7 @@ const formSchema = z.object({
     .trim()
     .min(1, { message: t('Message.Required') }),
   jobLevel: z
-    .number({ error: t('Message.Required') })
+    .number({ invalid_type_error: t('Message.Required') })
     .int()
     .min(1)
 })
