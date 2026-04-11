@@ -144,7 +144,7 @@ defineExpose({ onSave })
 <template>
   <div class="flex h-full w-full flex-col">
     <div class="dnd-flow flex h-full w-full" @drop="onDrop">
-      <NodeBar class="h-full w-[100px] border"></NodeBar>
+      <NodeBar class="h-full w-25 border"></NodeBar>
       <div class="grow" @click="flowDivClick">
         <VueFlow
           v-model:nodes="nodes"

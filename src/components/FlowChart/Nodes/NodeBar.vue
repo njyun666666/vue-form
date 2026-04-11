@@ -37,7 +37,7 @@ const { onDragStart } = useFlowNodeDnd(useConfirm())
       @dragstart="onDragStart($event, 'gateway')"
     >
       <GetewaySvg class="absolute top-0 left-0 z-0" />
-      <div class="relative z-[1]">Gateway</div>
+      <div class="relative z-1">Gateway</div>
     </div>
   </div>
 </template>
