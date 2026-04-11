@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ToolbarBase from '../UI/ToolbarBase.vue'
 import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
 import EndNode from './Nodes/EndNode.vue'
 import GatewayNode from './Nodes/GatewayNode.vue'
@@ -14,7 +13,6 @@ import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
 import type { Edge, EdgeChange, EdgeRemoveChange, Node, NodeMouseEvent } from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
-import Button from 'primevue/button'
 import { useConfirm } from 'primevue/useconfirm'
 import { markRaw, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -139,13 +137,12 @@ onEdgesChange(async (changes) => {
 })
 
 const nodeClick = () => {}
+
+defineExpose({ onSave })
 </script>
 
 <template>
   <div class="flex h-full w-full flex-col">
-    <ToolbarBase class="shrink-0">
-      <Button :label="$t('Action.Save')" icon="pi pi-save" variant="text" @click="onSave" />
-    </ToolbarBase>
     <div class="dnd-flow flex h-full w-full" @drop="onDrop">
       <NodeBar class="h-full w-[100px] border"></NodeBar>
       <div class="grow" @click="flowDivClick">
