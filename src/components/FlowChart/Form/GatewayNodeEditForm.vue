@@ -24,8 +24,7 @@ const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const node = ref<FlowNode>()
 
 const schema = z.object({
-  label: z.string().min(1, { message: t('Message.Required') }),
-  gateway: z.object({ funcName: z.string() }).partial()
+  label: z.string().min(1, { message: t('Message.Required') })
 })
 
 const { errors, setValues, defineField, handleSubmit } = useForm({
@@ -33,7 +32,6 @@ const { errors, setValues, defineField, handleSubmit } = useForm({
 })
 
 const [label] = defineField('label')
-const [gatewayFuncName] = defineField('gateway.funcName')
 
 const onSubmit = handleSubmit(async (values) => {
   emit('dataSend', values as FlowNodeData)
@@ -42,7 +40,7 @@ const onSubmit = handleSubmit(async (values) => {
 onMounted(() => {
   const graphNode = dialogRef.value.data
   node.value = graphNode
-  setValues({ label: graphNode.data.label, gateway: graphNode.data.gateway })
+  setValues({ label: graphNode.data.label })
   emit('save', onSubmit)
 })
 
@@ -77,22 +75,6 @@ defineExpose({ onSubmit })
           :isRequired="true"
         >
           <InputText id="label" type="text" v-model.trim="label" :invalid="!!errors.label" />
-        </InputField>
-      </div>
-
-      <div class="grid grid-cols-12 gap-5">
-        <InputField
-          class="col-span-full"
-          for="gatewayFuncName"
-          :label="$t('Flow.Node.gateway.funcName')"
-          :error="errors['gateway.funcName']"
-        >
-          <InputText
-            id="gatewayFuncName"
-            type="text"
-            v-model.trim="gatewayFuncName"
-            :invalid="!!errors['gateway.funcName']"
-          />
         </InputField>
       </div>
     </div>
