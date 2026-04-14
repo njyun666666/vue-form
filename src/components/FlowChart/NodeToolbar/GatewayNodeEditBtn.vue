@@ -16,7 +16,14 @@ const onEdit = () => {
       id: e.target,
       label: findNode(e.target)?.data?.label ?? e.target
     }))
-  openDialog(GatewayNodeEditForm, node, { targetNodes }, '75vw')
+  openDialog(GatewayNodeEditForm, node, { targetNodes }, '75vw', (data) => {
+    data.gateway?.conditions?.forEach((cond) => {
+      const edge = getEdges.value.find(
+        (e) => e.source === node.id && e.target === cond.targetNodeId
+      )
+      if (edge) edge.label = cond.name ?? ''
+    })
+  })
 }
 </script>
 <template>

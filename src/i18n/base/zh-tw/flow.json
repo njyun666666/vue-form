@@ -47,6 +47,10 @@
           "targetNode": "指向節點"
         }
       }
+    },
+    "Edge": {
+      "edgeId": "EdgeId",
+      "label": "標籤"
     }
   }
 }

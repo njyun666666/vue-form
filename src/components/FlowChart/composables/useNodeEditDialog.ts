@@ -13,7 +13,8 @@ export function useNodeEditDialog() {
     formComponent: Component,
     node: GraphNode<FlowNodeData>,
     extraData?: Record<string, unknown>,
-    width?: string
+    width?: string,
+    afterDataSend?: (data: FlowNodeData) => void
   ) {
     const save = ref<(e?: Event) => Promise<Promise<void> | undefined>>()
 
@@ -35,6 +36,7 @@ export function useNodeEditDialog() {
         },
         onDataSend: (data: FlowNodeData) => {
           updateNodeData(node.id, data)
+          afterDataSend?.(data)
           dialogRef.close()
         }
       }

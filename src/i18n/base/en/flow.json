@@ -47,6 +47,10 @@
           "targetNode": "Target node"
         }
       }
+    },
+    "Edge": {
+      "edgeId": "EdgeId",
+      "label": "Label"
     }
   }
 }

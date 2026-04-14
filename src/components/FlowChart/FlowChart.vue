@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
+import SpecialEdge from './Edges/SpecialEdge.vue'
 import EndNode from './Nodes/EndNode.vue'
 import GatewayNode from './Nodes/GatewayNode.vue'
 import NodeBar from './Nodes/NodeBar.vue'
@@ -42,6 +43,9 @@ const nodeTypes = {
   end: markRaw(EndNode),
   task: markRaw(TaskNode),
   gateway: markRaw(GatewayNode)
+}
+const edgeTypes = {
+  special: markRaw(SpecialEdge)
 }
 
 onConnect(addEdges)
@@ -114,10 +118,13 @@ onEdgesChange(async (changes) => {
     if (change.type === 'remove') {
       // console.log('edge change', change)
 
+      const sourceLabel = (findNode(change.source)?.data?.label as string) || change.source
+      const targetLabel = (findNode(change.target)?.data?.label as string) || change.target
+
       const isConfirmed = await createComfrim.open({
         message: t('Title.ConfirmText', {
           action: t('Action.Remove'),
-          title: 'Connection'
+          title: `${sourceLabel} -> ${targetLabel}`
         }),
         acceptProps: {
           label: t('Action.Remove'),
@@ -152,10 +159,11 @@ defineExpose({ onSave })
           :connection-radius="40"
           delete-key-code="Delete"
           :default-edge-options="{
-            type: 'smoothstep',
+            type: 'special',
             markerEnd: 'arrowclosed'
           }"
           :node-types="nodeTypes"
+          :edge-types="edgeTypes"
           :zoomOnDoubleClick="false"
           @dragover="onDragOver"
           @dragleave="onDragLeave"
