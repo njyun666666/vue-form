@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import GatewayConditionList from './GatewayConditionList.vue'
 import InputField from '@/components/UI/InputField.vue'
-import type { FlowNode, FlowNodeData } from '@/libs/models/FlowChart/FlowNode'
+import { type FlowNode, type FlowNodeData } from '@/libs/models/FlowChart/FlowNode'
+import { GatewayConditionTypeEnum } from '@/libs/models/FlowChart/FlowNode'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useClipboard } from '@vueuse/core'
 import Button from 'primevue/button'
@@ -22,15 +24,37 @@ const { t } = useI18n()
 const { copy, copied } = useClipboard()
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const node = ref<FlowNode>()
+const targetNodes = ref<Array<{ id: string; label: string }>>([])
 
-const schema = z.object({
-  label: z.string().min(1, { message: t('Message.Required') })
-})
+const conditionSchema = z
+  .object({
+    name: z.string().optional(),
+    type: z.string().optional(),
+    funcName: z.string().optional(),
+    targetNodeId: z.string().optional()
+  })
+  .superRefine((val, ctx) => {
+    if (!val.type) {
+      ctx.addIssue({ code: 'custom', message: t('Message.Required'), path: ['type'] })
+    }
+    if (val.type === GatewayConditionTypeEnum.func && !val.funcName?.trim()) {
+      ctx.addIssue({ code: 'custom', message: t('Message.Required'), path: ['funcName'] })
+    }
+  })
 
-const { errors, setValues, defineField, handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schema)
-})
+const schema = z
+  .object({
+    label: z.string().min(1, { message: t('Message.Required') }),
+    gateway: z
+      .object({
+        conditions: z.array(conditionSchema)
+      })
+      .optional()
+  })
+  .partial()
 
+const form = useForm({ validationSchema: toTypedSchema(schema) })
+const { errors, defineField, handleSubmit } = form
 const [label] = defineField('label')
 
 const onSubmit = handleSubmit(async (values) => {
@@ -40,7 +64,11 @@ const onSubmit = handleSubmit(async (values) => {
 onMounted(() => {
   const graphNode = dialogRef.value.data
   node.value = graphNode
-  setValues({ label: graphNode.data.label })
+  targetNodes.value = graphNode.targetNodes ?? []
+  form.setValues({
+    label: graphNode.data.label,
+    gateway: graphNode.data.gateway
+  })
   emit('save', onSubmit)
 })
 
@@ -77,6 +105,8 @@ defineExpose({ onSubmit })
           <InputText id="label" type="text" v-model.trim="label" :invalid="!!errors.label" />
         </InputField>
       </div>
+
+      <GatewayConditionList :targetNodes="targetNodes" />
     </div>
   </form>
 </template>

@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import NodeTaskForm from './NodeTaskForm.vue'
 import InputField from '@/components/UI/InputField.vue'
-import type { FlowNode, FlowNodeData } from '@/libs/models/FlowChart/FlowNode'
+import { FlowButtonEnum, type FlowNode, type FlowNodeData } from '@/libs/models/FlowChart/FlowNode'
 import { requiredFieldsValidator } from '@/libs/utils/zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useClipboard } from '@vueuse/core'
 import Button from 'primevue/button'
+import Checkbox from 'primevue/checkbox'
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import InputText from 'primevue/inputtext'
-import { useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { type Ref, inject, onMounted, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
@@ -26,6 +27,8 @@ const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef')!
 const node = ref<FlowNode>()
 const taskFormRef = useTemplateRef<InstanceType<typeof NodeTaskForm>>('taskFormRef')
 
+const buttonSchema = z.object({ enabled: z.boolean(), funcName: z.string() }).partial()
+
 const schema = z
   .object({
     label: z.string().min(1, { message: t('Message.Required') }),
@@ -34,7 +37,14 @@ const schema = z
         type: z.string(),
         ownerSetting: z.string(),
         owner: z.array(z.string()),
-        funcName: z.string()
+        funcName: z.string(),
+        buttons: z
+          .object({
+            [FlowButtonEnum.approve]: buttonSchema,
+            [FlowButtonEnum.reject]: buttonSchema,
+            [FlowButtonEnum.close]: buttonSchema
+          })
+          .partial()
       })
       .partial()
       .superRefine((val, ctx) => {
@@ -54,6 +64,23 @@ const { errors, setValues, defineField, handleSubmit } = useForm({
 })
 
 const [label] = defineField('label')
+
+const buttonKeys = Object.values(FlowButtonEnum)
+const buttonFields = Object.fromEntries(
+  buttonKeys.map((key) => [
+    key,
+    {
+      enabled: useField<boolean>(`task.buttons.${key}.enabled`),
+      funcName: useField<string>(`task.buttons.${key}.funcName`)
+    }
+  ])
+) as Record<
+  FlowButtonEnum,
+  {
+    enabled: ReturnType<typeof useField<boolean>>
+    funcName: ReturnType<typeof useField<string>>
+  }
+>
 
 const onSubmit = handleSubmit(async (values) => {
   emit('dataSend', values as FlowNodeData)
@@ -98,6 +125,40 @@ defineExpose({ onSubmit })
         >
           <InputText id="label" type="text" v-model.trim="label" :invalid="!!errors.label" />
         </InputField>
+      </div>
+
+      <div class="space-y-3">
+        <div class="text-sm font-medium">{{ $t('Flow.Node.task.buttons.title') }}</div>
+        <div v-for="key in buttonKeys" :key="key" class="space-y-2">
+          <div class="flex items-center gap-2">
+            <Checkbox
+              v-model="buttonFields[key].enabled.value.value"
+              :binary="true"
+              :inputId="`btn-${key}`"
+            />
+            <label :for="`btn-${key}`" class="cursor-pointer select-none">
+              {{ $t(`Flow.Node.task.buttons.options.${key}`) }}
+            </label>
+          </div>
+          <InputField
+            v-if="buttonFields[key].enabled.value.value"
+            :for="`btn-funcName-${key}`"
+            :label="
+              $t('Flow.Node.task.buttons.funcName', {
+                name: $t(`Flow.Node.task.buttons.options.${key}`)
+              })
+            "
+            :error="buttonFields[key].funcName.errorMessage.value"
+            class="pl-6"
+          >
+            <InputText
+              :id="`btn-funcName-${key}`"
+              type="text"
+              v-model.trim="buttonFields[key].funcName.value.value"
+              :invalid="!!buttonFields[key].funcName.errorMessage.value"
+            />
+          </InputField>
+        </div>
       </div>
 
       <NodeTaskForm ref="taskFormRef" />

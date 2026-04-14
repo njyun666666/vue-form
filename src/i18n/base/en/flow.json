@@ -22,7 +22,30 @@
           "func": "Function"
         },
         "owner": "Owner",
-        "funcName": "Function name"
+        "funcName": "Function name",
+        "buttons": {
+          "title": "Button settings",
+          "funcName": "{name} post-action function",
+          "options": {
+            "approve": "Approve",
+            "reject": "Reject",
+            "close": "Close"
+          }
+        }
+      },
+      "gateway": {
+        "conditions": {
+          "title": "Condition settings",
+          "add": "Add condition",
+          "name": "Condition name",
+          "type": "Condition type",
+          "typeOptions": {
+            "func": "Function",
+            "default": "Default"
+          },
+          "funcName": "Function name",
+          "targetNode": "Target node"
+        }
       }
     }
   }
