@@ -17,7 +17,7 @@ const conditionTypeOptions = parseOptions<typeof GatewayConditionTypeEnum, strin
 )
 
 const { errors } = useFormContext()
-const { fields, push, remove } = useFieldArray<GatewayCondition>('gateway.conditions')
+const { fields, push, remove, move } = useFieldArray<GatewayCondition>('gateway.conditions')
 
 const addCondition = () => push({})
 
@@ -48,13 +48,31 @@ const getConditionError = (index: number, field: string): string | undefined =>
     <div v-for="(field, index) in fields" :key="field.key" class="rounded-md border p-3">
       <div class="mb-2 flex items-center justify-between">
         <span class="text-muted-color text-xs">{{ index + 1 }}</span>
-        <Button
-          icon="pi pi-trash"
-          severity="danger"
-          variant="text"
-          size="small"
-          @click="remove(index)"
-        />
+        <div class="flex items-center gap-1">
+          <Button
+            icon="pi pi-arrow-up"
+            severity="secondary"
+            variant="text"
+            size="small"
+            :disabled="index === 0"
+            @click="move(index, index - 1)"
+          />
+          <Button
+            icon="pi pi-arrow-down"
+            severity="secondary"
+            variant="text"
+            size="small"
+            :disabled="index === fields.length - 1"
+            @click="move(index, index + 1)"
+          />
+          <Button
+            icon="pi pi-trash"
+            severity="danger"
+            variant="text"
+            size="small"
+            @click="remove(index)"
+          />
+        </div>
       </div>
 
       <div class="grid grid-cols-4 gap-x-4 gap-y-3">
