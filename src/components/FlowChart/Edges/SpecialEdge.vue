@@ -32,7 +32,8 @@ const path = computed(() => getSmoothStepPath(props))
       :style="{
         pointerEvents: 'all',
         position: 'absolute',
-        transform: `translate(-50%, -100%) translate(${path[1]}px, ${path[2] - 4}px)`
+        transform: `translate(-50%, -100%) translate(${path[1]}px, ${path[2] - 4}px)`,
+        zIndex: 1001
       }"
       class="nodrag nopan flex gap-1 rounded bg-surface-300 p-1 dark:bg-surface-900"
     >

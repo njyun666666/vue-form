@@ -1,0 +1,146 @@
+{
+  "flowId": "FLOW-002",
+  "flowName": "FLOW-002",
+  "flowSetting": {
+    "nodes": [
+      {
+        "id": "start-9306f61aaa954ca6a506d4b902169fef",
+        "type": "start",
+        "initialized": false,
+        "position": { "x": 73, "y": 22 },
+        "data": { "label": "start_0" },
+        "style": { "width": "80px", "height": "80px" }
+      },
+      {
+        "id": "task-c3d9811da0034edb8f67425db4336b51",
+        "type": "task",
+        "initialized": false,
+        "position": { "x": 244, "y": 161 },
+        "data": { "label": "task_1" },
+        "style": { "width": "80px", "height": "80px" }
+      },
+      {
+        "id": "gateway-94714e277f764ac09b37bbbec60b35c5",
+        "type": "gateway",
+        "initialized": false,
+        "position": { "x": 73, "y": 160 },
+        "data": {
+          "label": "gateway_2",
+          "gateway": {
+            "conditions": [
+              {
+                "name": "a",
+                "type": "func",
+                "funcName": "a",
+                "targetNodeId": "task-c3d9811da0034edb8f67425db4336b51"
+              },
+              {
+                "name": "else",
+                "type": "default",
+                "funcName": "",
+                "targetNodeId": "task-d1c94bc7a33f4384b66e80dd36308709"
+              }
+            ]
+          }
+        },
+        "style": { "width": "80px", "height": "80px" }
+      },
+      {
+        "id": "end-c4797c5e1fc84668a865b701d25f04bd",
+        "type": "end",
+        "initialized": false,
+        "position": { "x": 244, "y": 298 },
+        "data": { "label": "end_3" },
+        "style": { "width": "80px", "height": "80px" }
+      },
+      {
+        "id": "task-d1c94bc7a33f4384b66e80dd36308709",
+        "type": "task",
+        "initialized": false,
+        "position": { "x": 72, "y": 296 },
+        "data": { "label": "task_4" },
+        "style": { "width": "80px", "height": "80px" }
+      }
+    ],
+    "edges": [
+      {
+        "id": "vueflow__edge-start-9306f61aaa954ca6a506d4b902169fefsource-b-gateway-94714e277f764ac09b37bbbec60b35c5source-t",
+        "type": "special",
+        "source": "start-9306f61aaa954ca6a506d4b902169fef",
+        "target": "gateway-94714e277f764ac09b37bbbec60b35c5",
+        "sourceHandle": "source-b",
+        "targetHandle": "source-t",
+        "data": {},
+        "label": "",
+        "markerEnd": "arrowclosed",
+        "sourceX": 113,
+        "sourceY": 104,
+        "targetX": 113,
+        "targetY": 156
+      },
+      {
+        "id": "vueflow__edge-gateway-94714e277f764ac09b37bbbec60b35c5source-r-task-c3d9811da0034edb8f67425db4336b51source-l",
+        "type": "special",
+        "source": "gateway-94714e277f764ac09b37bbbec60b35c5",
+        "target": "task-c3d9811da0034edb8f67425db4336b51",
+        "sourceHandle": "source-r",
+        "targetHandle": "source-l",
+        "data": {},
+        "label": "a",
+        "markerEnd": "arrowclosed",
+        "sourceX": 157,
+        "sourceY": 200,
+        "targetX": 242,
+        "targetY": 201
+      },
+      {
+        "id": "vueflow__edge-gateway-94714e277f764ac09b37bbbec60b35c5source-b-task-d1c94bc7a33f4384b66e80dd36308709source-t",
+        "type": "special",
+        "source": "gateway-94714e277f764ac09b37bbbec60b35c5",
+        "target": "task-d1c94bc7a33f4384b66e80dd36308709",
+        "sourceHandle": "source-b",
+        "targetHandle": "source-t",
+        "data": {},
+        "label": "else",
+        "markerEnd": "arrowclosed",
+        "sourceX": 113,
+        "sourceY": 244,
+        "targetX": 112,
+        "targetY": 294
+      },
+      {
+        "id": "vueflow__edge-task-d1c94bc7a33f4384b66e80dd36308709source-r-end-c4797c5e1fc84668a865b701d25f04bdsource-l",
+        "type": "special",
+        "source": "task-d1c94bc7a33f4384b66e80dd36308709",
+        "target": "end-c4797c5e1fc84668a865b701d25f04bd",
+        "sourceHandle": "source-r",
+        "targetHandle": "source-l",
+        "data": {},
+        "label": "",
+        "markerEnd": "arrowclosed",
+        "sourceX": 154,
+        "sourceY": 336,
+        "targetX": 246,
+        "targetY": 338
+      },
+      {
+        "id": "vueflow__edge-task-c3d9811da0034edb8f67425db4336b51source-b-end-c4797c5e1fc84668a865b701d25f04bdsource-t",
+        "type": "special",
+        "source": "task-c3d9811da0034edb8f67425db4336b51",
+        "target": "end-c4797c5e1fc84668a865b701d25f04bd",
+        "sourceHandle": "source-b",
+        "targetHandle": "source-t",
+        "data": {},
+        "label": "",
+        "markerEnd": "arrowclosed",
+        "sourceX": 284,
+        "sourceY": 243,
+        "targetX": 284,
+        "targetY": 300
+      }
+    ],
+    "position": [0, 0],
+    "zoom": 1,
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
+}
