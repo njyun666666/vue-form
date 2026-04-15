@@ -23,3 +23,9 @@ export class FlowListItem {
   modifiedAt?: string
   modifiedBy?: string
 }
+
+export class FlowSaveModel {
+  flowId?: string
+  flowName?: string
+  flowSetting?: Record<string, unknown>
+}

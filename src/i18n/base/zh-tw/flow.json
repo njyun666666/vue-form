@@ -1,5 +1,7 @@
 {
   "Flow": {
+    "New": "新增流程",
+    "InfoTitle": "基本資料",
     "FlowId": "流程 Id",
     "FlowName": "流程名稱",
     "ModifiedAt": "修改日期",

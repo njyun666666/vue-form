@@ -50,8 +50,10 @@ const edgeTypes = {
 
 onConnect(addEdges)
 
-const onSave = () => {
-  console.log('json', toObject())
+const getFlowObject = () => toObject()
+
+const loadFlow = (setting: Record<string, unknown>) => {
+  fromObject(setting as Parameters<typeof fromObject>[0])
 }
 
 // const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
@@ -145,7 +147,7 @@ onEdgesChange(async (changes) => {
 
 const nodeClick = () => {}
 
-defineExpose({ onSave })
+defineExpose({ getFlowObject, loadFlow })
 </script>
 
 <template>

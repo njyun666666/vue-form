@@ -1,5 +1,7 @@
 {
   "Flow": {
+    "New": "New flow",
+    "InfoTitle": "Basic info",
     "FlowId": "Flow Id",
     "FlowName": "Flow name",
     "ModifiedAt": "Last modified",
