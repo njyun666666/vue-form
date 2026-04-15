@@ -31,6 +31,7 @@ const {
   removeEdges,
   toObject,
   fromObject,
+  setViewport,
   setNodes,
   findNode,
   getEdges
@@ -54,6 +55,7 @@ const getFlowObject = () => toObject()
 
 const loadFlow = (setting: Record<string, unknown>) => {
   fromObject(setting as Parameters<typeof fromObject>[0])
+  setTimeout(() => setViewport({ x: 0, y: 0, zoom: 1 }), 0)
 }
 
 // const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {

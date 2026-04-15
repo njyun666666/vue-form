@@ -1,5 +1,6 @@
 import appConfig from '@/appConfig'
 import { flowListFaker } from '@/faker/flow'
+import { flowDetailFaker } from '@/faker/flowDetail'
 import type {
   FlowApprovalModel,
   FlowApprovalViewModel,
@@ -12,12 +13,9 @@ import { HttpResponse, delay, http } from 'msw'
 
 export const flowHandlers = [
   http.get(`${appConfig.FORM_API}${flowService.saveUrl}/:flowId`, async ({ params }) => {
-    const item = flowListFaker.find((f) => f.flowId === params.flowId)
+    const item = flowDetailFaker[params.flowId as string]
     await delay()
-    return HttpResponse.json({
-      flowId: item?.flowId,
-      flowName: item?.flowName
-    } satisfies FlowSaveModel)
+    return HttpResponse.json((item ?? { flowId: params.flowId as string }) satisfies FlowSaveModel)
   }),
   http.post(`${appConfig.FORM_API}${flowService.saveUrl}`, async ({ request }) => {
     const json = (await request.json()) as FlowSaveModel

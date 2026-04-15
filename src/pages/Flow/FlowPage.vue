@@ -8,6 +8,7 @@ import { flowService } from '@/libs/services/flowService'
 import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import { useDialog } from 'primevue/usedialog'
+import { useToast } from 'primevue/usetoast'
 import { useForm } from 'vee-validate'
 import { markRaw, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -18,6 +19,7 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const dialog = useDialog()
+const toast = useToast()
 const flowChart = ref<InstanceType<typeof FlowChart>>()
 
 const isNew = route.name === 'flow-new'
@@ -75,6 +77,12 @@ const onSave = async () => {
   } else {
     await flowService.updateFlow(flowId!, payload)
   }
+
+  toast.add({
+    severity: 'success',
+    summary: t(isNew ? 'Message.AddSuccess' : 'Message.EditSuccess'),
+    life: 3000
+  })
 }
 
 onMounted(async () => {
