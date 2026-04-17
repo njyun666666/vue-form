@@ -1,3 +1,4 @@
+import type { FlowSaveModel } from '../Flow/FlowModel'
 import type { FormActionEnum, FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 
 export interface FormApplication {
@@ -39,7 +40,7 @@ export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionEnum[]
   flowId?: string
   stepId: string
-  flow?: Record<string, unknown>
+  flow?: FlowSaveModel
 }
 
 export class FormPageInfoModel {
@@ -48,4 +49,5 @@ export class FormPageInfoModel {
   formId?: string
   flowId?: string
   stepId!: string
+  flow?: FlowSaveModel
 }

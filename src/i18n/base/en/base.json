@@ -53,7 +53,8 @@
     "Copy": "Copy",
     "Copied": "Copied",
     "ExpandAll": "Expand all",
-    "CollapseAll": "Collapse all"
+    "CollapseAll": "Collapse all",
+    "FlowChart": "Flow chart"
   },
   "Title": {
     "Add": "Add {title}",

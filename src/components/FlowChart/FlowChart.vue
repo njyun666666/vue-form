@@ -18,6 +18,11 @@ import { useConfirm } from 'primevue/useconfirm'
 import { markRaw, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+interface Props {
+  readonly?: boolean
+}
+const props = withDefaults(defineProps<Props>(), { readonly: false })
+
 const { t } = useI18n()
 const comfrim = useConfirm()
 const createComfrim = useCreateConfirm(comfrim)
@@ -154,8 +159,12 @@ defineExpose({ getFlowObject, loadFlow })
 
 <template>
   <div class="flex h-full w-full flex-col">
-    <div class="dnd-flow flex h-full w-full" @drop="onDrop">
-      <NodeBar class="h-full w-25 border"></NodeBar>
+    <div
+      class="dnd-flow flex h-full w-full"
+      :class="{ 'cursor-default': props.readonly }"
+      @drop="!props.readonly ? onDrop : undefined"
+    >
+      <NodeBar v-if="!props.readonly" class="h-full w-25 border"></NodeBar>
       <div class="grow" @click="flowDivClick">
         <VueFlow
           v-model:nodes="nodes"
@@ -169,8 +178,11 @@ defineExpose({ getFlowObject, loadFlow })
           :node-types="nodeTypes"
           :edge-types="edgeTypes"
           :zoomOnDoubleClick="false"
-          @dragover="onDragOver"
-          @dragleave="onDragLeave"
+          :nodes-draggable="!props.readonly"
+          :nodes-connectable="!props.readonly"
+          :elements-selectable="!props.readonly"
+          @dragover="!props.readonly ? onDragOver : undefined"
+          @dragleave="!props.readonly ? onDragLeave : undefined"
           :apply-default="false"
         >
           <template

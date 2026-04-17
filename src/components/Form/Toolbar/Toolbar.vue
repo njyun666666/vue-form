@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import FlowChartDialog from './FlowChartDialog.vue'
 import { useFormAction } from './useFormAction'
 import ToolbarBase from '@/components/UI/ToolbarBase.vue'
 import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import Button from 'primevue/button'
-import { type Ref, inject } from 'vue'
+import { type Ref, inject, ref } from 'vue'
+
+const flowChartDialog = ref<InstanceType<typeof FlowChartDialog>>()
 
 interface Props {
   formPageAction: FormPageActionEnum
@@ -62,5 +65,21 @@ defineExpose({ applicationBtn, approveBtn, rejectBtn })
       :loading="rejectBtn.loading"
       @click="commentAction(rejectBtn)"
     />
+
+    <Button
+      v-if="pageInfo.flow?.flowSetting"
+      :label="$t('Action.FlowChart')"
+      icon="pi pi-sitemap"
+      severity="secondary"
+      variant="text"
+      @click="flowChartDialog?.open()"
+    />
   </ToolbarBase>
+
+  <FlowChartDialog
+    v-if="pageInfo.flow?.flowSetting"
+    ref="flowChartDialog"
+    :flow-setting="pageInfo.flow.flowSetting as Record<string, unknown>"
+    :active-step-id="pageInfo.stepId"
+  />
 </template>
