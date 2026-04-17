@@ -1,5 +1,6 @@
 import formAPI from '../api/formAPI'
 import type {
+  ApprovalHistoryItemModel,
   FormApplication,
   FormBaseInfoModel,
   FormCheckAuthViewModel,
@@ -12,6 +13,7 @@ class FormService {
   readonly applicationListUrl = '/form/application-list'
   readonly checkAuthUrl = '/form/check-auth'
   readonly pendingApprovalListUrl = '/form/pending-approval-list'
+  readonly approvalHistoryUrl = '/form/approval-history'
 
   applicationList() {
     return formAPI.get<FormApplication[]>(this.applicationListUrl)
@@ -19,6 +21,10 @@ class FormService {
 
   pendingApprovalList(data: QueryModel<PendingApprovalModel>) {
     return formAPI.post<QueryViewModel<PendingApprovalModel>>(this.pendingApprovalListUrl, data)
+  }
+
+  getApprovalHistory(formId: string) {
+    return formAPI.get<ApprovalHistoryItemModel[]>(`${this.approvalHistoryUrl}/${formId}`)
   }
 
   checkAuth(pageInfo: FormPageInfoModel) {

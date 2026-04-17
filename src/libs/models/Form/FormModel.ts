@@ -1,6 +1,14 @@
 import type { FlowSaveModel } from '../Flow/FlowModel'
 import type { FormActionEnum, FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 
+export class ApprovalHistoryItemModel {
+  stepId?: string
+  approverName?: string
+  result?: FormActionEnum
+  comment?: string
+  approvalTime?: Date
+}
+
 export interface FormApplication {
   groupId: string
   list: FormClass[]

@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import ApprovalHistoryDialog from './ApprovalHistoryDialog.vue'
 import FlowChartDialog from './FlowChartDialog.vue'
 import { useFormAction } from './useFormAction'
 import ToolbarBase from '@/components/UI/ToolbarBase.vue'
 import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import Button from 'primevue/button'
-import { type Ref, inject, ref } from 'vue'
+import { type Ref, computed, inject, ref } from 'vue'
 
 const flowChartDialog = ref<InstanceType<typeof FlowChartDialog>>()
+const approvalHistoryDialog = ref<InstanceType<typeof ApprovalHistoryDialog>>()
 
 interface Props {
   formPageAction: FormPageActionEnum
@@ -15,6 +17,10 @@ interface Props {
 
 const props = defineProps<Props>()
 const pageInfo = inject<Ref<FormPageInfoModel>>('pageInfo')!
+
+const flowSetting = computed(
+  () => pageInfo.value.flow?.flowSetting as Record<string, unknown> | undefined
+)
 
 const { applicationBtn, approveBtn, rejectBtn, handleClick, commentAction } =
   useFormAction(pageInfo)
@@ -74,6 +80,15 @@ defineExpose({ applicationBtn, approveBtn, rejectBtn })
       variant="text"
       @click="flowChartDialog?.open()"
     />
+
+    <Button
+      v-if="pageInfo.formId"
+      :label="$t('Form.ApprovalHistory.title')"
+      icon="pi pi-history"
+      severity="secondary"
+      variant="text"
+      @click="approvalHistoryDialog?.open()"
+    />
   </ToolbarBase>
 
   <FlowChartDialog
@@ -81,5 +96,15 @@ defineExpose({ applicationBtn, approveBtn, rejectBtn })
     ref="flowChartDialog"
     :flow-setting="pageInfo.flow.flowSetting as Record<string, unknown>"
     :active-step-id="pageInfo.stepId"
+    :form-id="pageInfo.formId"
+    :flow-name="pageInfo.flow.flowName"
+    :flow-id="pageInfo.flow.flowId"
+  />
+
+  <ApprovalHistoryDialog
+    v-if="pageInfo.formId"
+    ref="approvalHistoryDialog"
+    :form-id="pageInfo.formId"
+    :flow-setting="flowSetting"
   />
 </template>

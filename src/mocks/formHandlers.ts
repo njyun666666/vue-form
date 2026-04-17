@@ -1,5 +1,6 @@
 import { PendingApprovalModel } from './../libs/models/Form/FormModel'
 import appConfig from '@/appConfig'
+import { approvalHistoryFaker } from '@/faker/approvalHistory'
 import { flowDetailFaker } from '@/faker/flowDetail'
 import { formFaker } from '@/faker/form'
 import { FormPageActionEnum } from '@/libs/enums/FormTypes'
@@ -94,6 +95,11 @@ export const formHandlers = [
       formId: formId,
       formClass: formClass
     } as FormSaveViewModel)
+  }),
+  http.get(`${appConfig.FORM_API}${formService.approvalHistoryUrl}/:formId`, async ({ params }) => {
+    await delay()
+    const { formId } = params
+    return HttpResponse.json(approvalHistoryFaker[formId as string] ?? [])
   }),
   http.post(`${appConfig.FORM_API}${formService.pendingApprovalListUrl}`, async ({ params }) => {
     await delay()

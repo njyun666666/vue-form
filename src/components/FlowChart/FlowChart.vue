@@ -12,7 +12,14 @@ import type { FlowNode } from '@/libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
-import type { Edge, EdgeChange, EdgeRemoveChange, Node, NodeMouseEvent } from '@vue-flow/core'
+import type {
+  Edge,
+  EdgeChange,
+  EdgeRemoveChange,
+  MouseTouchEvent,
+  Node,
+  NodeMouseEvent
+} from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { useConfirm } from 'primevue/useconfirm'
 import { markRaw, ref } from 'vue'
@@ -22,6 +29,10 @@ interface Props {
   readonly?: boolean
 }
 const props = withDefaults(defineProps<Props>(), { readonly: false })
+
+const emit = defineEmits<{
+  nodeHover: [payload: { nodeId: string; event: MouseTouchEvent } | null]
+}>()
 
 const { t } = useI18n()
 const comfrim = useConfirm()
@@ -63,9 +74,13 @@ const loadFlow = (setting: Record<string, unknown>) => {
   setTimeout(() => setViewport({ x: 0, y: 0, zoom: 1 }), 0)
 }
 
-// const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
-//   console.log(event, node)
-// }
+const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
+  if (props.readonly) emit('nodeHover', { nodeId: node.id, event })
+}
+
+const nodeMouseLeave = () => {
+  if (props.readonly) emit('nodeHover', null)
+}
 
 const flowDivClick = (e: MouseEvent) => {
   const dom = e.target as HTMLDivElement
@@ -184,6 +199,8 @@ defineExpose({ getFlowObject, loadFlow })
           @dragover="!props.readonly ? onDragOver : undefined"
           @dragleave="!props.readonly ? onDragLeave : undefined"
           :apply-default="false"
+          @node-mouse-enter="nodeMouseEnter"
+          @node-mouse-leave="nodeMouseLeave"
         >
           <template
             #connection-line="{
