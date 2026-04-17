@@ -60,7 +60,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId,
-        stepId: form.step,
+        stepId: String(form.step),
         flow: flowDetailFaker[flowId] ?? null
       } as FormCheckAuthViewModel)
     }
@@ -78,7 +78,7 @@ export const formHandlers = [
           FormPageActionEnum.approval
         ],
         flowId,
-        stepId: 1,
+        stepId: '1',
         flow: flowDetailFaker[flowId] ?? null
       } as FormCheckAuthViewModel)
     }
@@ -113,7 +113,7 @@ export const formHandlers = [
           arrivedDate: '2025-02-25T04:23:06.000Z',
           approverId: 'admin',
           approverName: 'Admin',
-          stepId: 2,
+          stepId: '2',
           stepName: '部門主管'
         },
         {
@@ -127,7 +127,7 @@ export const formHandlers = [
           arrivedDate: '2025-02-26T08:45:17.000Z',
           approverId: 'admin',
           approverName: 'Admin',
-          stepId: 3,
+          stepId: '3',
           stepName: '處級主管'
         }
       ]

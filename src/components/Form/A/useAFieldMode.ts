@@ -20,18 +20,18 @@ export function useAFieldMode(pageInfo: Ref<FormPageInfoModel>, form: FormContex
 
     if (pageInfo.value.formPageAction === FormPageActionEnum.info) return mode
 
-    if (pageInfo.value.stepId === 1) {
+    if (pageInfo.value.stepId === '1') {
       mode.title = FormFieldModeEnum.required
       mode.content = FormFieldModeEnum.required
       mode.productDetail = FormFieldModeEnum.required
     }
 
-    if (pageInfo.value.stepId === 2) {
+    if (pageInfo.value.stepId === '2') {
       mode.amount = FormFieldModeEnum.required
       mode.datetime = FormFieldModeEnum.required
     }
 
-    if (pageInfo.value.stepId === 3) {
+    if (pageInfo.value.stepId === '3') {
       mode.radio = FormFieldModeEnum.required
 
       switch (form.values.info?.radio) {
@@ -67,7 +67,7 @@ export function useAFieldMode(pageInfo: Ref<FormPageInfoModel>, form: FormContex
 
     if (pageInfo.value.formPageAction === FormPageActionEnum.info) return mode
 
-    if (pageInfo.value.stepId === 1) {
+    if (pageInfo.value.stepId === '1') {
       mode.id = FormFieldModeEnum.required
       mode.name = FormFieldModeEnum.required
       mode.price = FormFieldModeEnum.required
@@ -76,7 +76,7 @@ export function useAFieldMode(pageInfo: Ref<FormPageInfoModel>, form: FormContex
       mode.category = FormFieldModeEnum.required
     }
 
-    if (pageInfo.value.stepId === 2) {
+    if (pageInfo.value.stepId === '2') {
       mode.price = FormFieldModeEnum.required
     }
 
