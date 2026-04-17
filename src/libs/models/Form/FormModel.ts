@@ -1,4 +1,13 @@
+import type { FlowSaveModel } from '../Flow/FlowModel'
 import type { FormActionEnum, FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
+
+export class ApprovalHistoryItemModel {
+  stepId?: string
+  approverName?: string
+  result?: FormActionEnum
+  comment?: string
+  approvalTime?: Date
+}
 
 export interface FormApplication {
   groupId: string
@@ -24,7 +33,7 @@ export class PendingApprovalModel extends FormBaseInfoModel {
   arrivedDate?: Date
   approverId?: string
   approverName?: string
-  stepId?: number
+  stepId?: string
   stepName?: string
 }
 
@@ -38,7 +47,8 @@ export class FormSaveViewModel {
 export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionEnum[]
   flowId?: string
-  stepId: number
+  stepId: string
+  flow?: FlowSaveModel
 }
 
 export class FormPageInfoModel {
@@ -46,5 +56,6 @@ export class FormPageInfoModel {
   formClass!: FormClassEnum
   formId?: string
   flowId?: string
-  stepId!: number
+  stepId!: string
+  flow?: FlowSaveModel
 }

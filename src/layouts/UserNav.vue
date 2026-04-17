@@ -80,7 +80,7 @@ const toggle = (event: MouseEvent) => {
 </script>
 <template>
   <div>
-    <Button type="button" label="Toggle" @click="toggle" text rounded class="!p-0">
+    <Button type="button" label="Toggle" @click="toggle" text rounded class="p-0!">
       <Avatar
         :image="loginStore.tokenPayload?.photoUrl"
         :label="

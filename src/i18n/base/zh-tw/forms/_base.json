@@ -30,5 +30,13 @@
     "arrivedDate": "送達時間",
     "approverName": "簽核人",
     "stepName": "目前步驟"
+  },
+  "ApprovalHistory": {
+    "title": "簽核歷程",
+    "stepLabel": "步驟",
+    "approverName": "簽核人",
+    "result": "簽核結果",
+    "comment": "簽核意見",
+    "approvalTime": "簽核時間"
   }
 }

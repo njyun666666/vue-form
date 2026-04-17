@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { getBezierPath } from '@vue-flow/core'
-import type { GetBezierPathParams } from 'node_modules/@vue-flow/core/dist/components/Edges/utils'
+import { Position, getBezierPath } from '@vue-flow/core'
 import { computed } from 'vue'
 
-const props = defineProps<GetBezierPathParams>()
+const props = defineProps<{
+  sourceX: number
+  sourceY: number
+  sourcePosition?: Position
+  targetX: number
+  targetY: number
+  targetPosition?: Position
+  curvature?: number
+}>()
 const path = computed(() => getBezierPath(props))
 </script>
 

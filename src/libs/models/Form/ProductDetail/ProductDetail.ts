@@ -17,7 +17,7 @@ export class ProductDetailModel {
     this.description = input?.description
     this.image = input?.image
     this.category = input?.category
-    this.isDeleted = input?.isDeleted
+    this.isDeleted = input?.isDeleted ?? false
   }
 
   get guid() {

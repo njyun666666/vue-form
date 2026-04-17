@@ -28,8 +28,34 @@ const router = createRouter({
           meta: {
             title: 'Org.Org'
           },
-          redirect: { name: 'org-dept' },
+          redirect: { name: 'org-tree' },
           children: [
+            {
+              path: 'tree',
+              name: 'org-tree',
+              meta: {
+                title: 'Org.OrgTree'
+              },
+              component: () => import('@/pages/Org/OrgTreePage.vue')
+            },
+            {
+              path: 'dept-level',
+              name: 'org-dept-level',
+              meta: { title: 'Org.DeptLevel' },
+              component: () => import('@/pages/Org/OrgDeptLevelPage.vue')
+            },
+            {
+              path: 'dept-level/new',
+              name: 'org-dept-level-new',
+              meta: { title: 'Org.DeptLevelInfo' },
+              component: () => import('@/pages/Org/OrgDeptLevelInfoPage.vue')
+            },
+            {
+              path: 'dept-level/:levelId',
+              name: 'org-dept-level-detail',
+              meta: { title: 'Org.DeptLevelInfo' },
+              component: () => import('@/pages/Org/OrgDeptLevelInfoPage.vue')
+            },
             {
               path: 'dept',
               name: 'org-dept',
@@ -37,6 +63,14 @@ const router = createRouter({
                 title: 'Org.Dept'
               },
               component: () => import('@/pages/Org/OrgDeptPage.vue')
+            },
+            {
+              path: 'dept/new',
+              name: 'org-dept-new',
+              meta: {
+                title: 'Org.DeptInfo'
+              },
+              component: () => import('@/pages/Org/OrgDeptInfoPage.vue')
             },
             {
               path: 'dept/:deptId',
@@ -47,12 +81,76 @@ const router = createRouter({
               component: () => import('@/pages/Org/OrgDeptInfoPage.vue')
             },
             {
+              path: 'role',
+              name: 'org-role',
+              meta: {
+                title: 'Org.Role'
+              },
+              component: () => import('@/pages/Org/OrgRolePage.vue')
+            },
+            {
+              path: 'role/new',
+              name: 'org-role-new',
+              meta: {
+                title: 'Org.RoleInfo'
+              },
+              component: () => import('@/pages/Org/OrgRoleInfoPage.vue')
+            },
+            {
+              path: 'role/:roleId',
+              name: 'org-role-detail',
+              meta: {
+                title: 'Org.RoleInfo'
+              },
+              component: () => import('@/pages/Org/OrgRoleInfoPage.vue')
+            },
+            {
+              path: 'job-title',
+              name: 'org-job-title',
+              meta: {
+                title: 'Org.JobTitle'
+              },
+              component: () => import('@/pages/Org/OrgJobTitlePage.vue')
+            },
+            {
+              path: 'job-title/new',
+              name: 'org-job-title-new',
+              meta: {
+                title: 'Org.JobTitleInfo'
+              },
+              component: () => import('@/pages/Org/OrgJobTitleInfoPage.vue')
+            },
+            {
+              path: 'job-title/:jobTitleId',
+              name: 'org-job-title-detail',
+              meta: {
+                title: 'Org.JobTitleInfo'
+              },
+              component: () => import('@/pages/Org/OrgJobTitleInfoPage.vue')
+            },
+            {
               path: 'user',
               name: 'org-user',
               meta: {
                 title: 'Org.User'
               },
               component: () => import('@/pages/Org/OrgUserPage.vue')
+            },
+            {
+              path: 'user/new',
+              name: 'org-user-new',
+              meta: {
+                title: 'Org.UserInfo'
+              },
+              component: () => import('@/pages/Org/OrgUserInfoPage.vue')
+            },
+            {
+              path: 'user/:userId',
+              name: 'org-user-detail',
+              meta: {
+                title: 'Org.UserInfo'
+              },
+              component: () => import('@/pages/Org/OrgUserInfoPage.vue')
             }
           ]
         },

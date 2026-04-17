@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ToolbarBase from '../UI/ToolbarBase.vue'
 import SnappableConnectionLine from './ConnectionLine/SnappableConnectionLine.vue'
+import SpecialEdge from './Edges/SpecialEdge.vue'
 import EndNode from './Nodes/EndNode.vue'
 import GatewayNode from './Nodes/GatewayNode.vue'
 import NodeBar from './Nodes/NodeBar.vue'
@@ -12,12 +12,27 @@ import type { FlowNode } from '@/libs/models/FlowChart/FlowNode'
 import { useCreateConfirm } from '@/libs/utils/confirm'
 import { uuid } from '@/libs/utils/uuid'
 import { Background } from '@vue-flow/background'
-import type { Edge, EdgeChange, EdgeRemoveChange, Node, NodeMouseEvent } from '@vue-flow/core'
+import type {
+  Edge,
+  EdgeChange,
+  EdgeRemoveChange,
+  MouseTouchEvent,
+  Node,
+  NodeMouseEvent
+} from '@vue-flow/core'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
-import Button from 'primevue/button'
 import { useConfirm } from 'primevue/useconfirm'
 import { markRaw, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
+interface Props {
+  readonly?: boolean
+}
+const props = withDefaults(defineProps<Props>(), { readonly: false })
+
+const emit = defineEmits<{
+  nodeHover: [payload: { nodeId: string; event: MouseTouchEvent } | null]
+}>()
 
 const { t } = useI18n()
 const comfrim = useConfirm()
@@ -32,6 +47,7 @@ const {
   removeEdges,
   toObject,
   fromObject,
+  setViewport,
   setNodes,
   findNode,
   getEdges
@@ -45,16 +61,26 @@ const nodeTypes = {
   task: markRaw(TaskNode),
   gateway: markRaw(GatewayNode)
 }
+const edgeTypes = {
+  special: markRaw(SpecialEdge)
+}
 
 onConnect(addEdges)
 
-const onSave = () => {
-  console.log('json', toObject())
+const getFlowObject = () => toObject()
+
+const loadFlow = (setting: Record<string, unknown>) => {
+  fromObject(setting as Parameters<typeof fromObject>[0])
+  setTimeout(() => setViewport({ x: 0, y: 0, zoom: 1 }), 0)
 }
 
-// const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
-//   console.log(event, node)
-// }
+const nodeMouseEnter = ({ event, node }: NodeMouseEvent) => {
+  if (props.readonly) emit('nodeHover', { nodeId: node.id, event })
+}
+
+const nodeMouseLeave = () => {
+  if (props.readonly) emit('nodeHover', null)
+}
 
 const flowDivClick = (e: MouseEvent) => {
   const dom = e.target as HTMLDivElement
@@ -116,10 +142,13 @@ onEdgesChange(async (changes) => {
     if (change.type === 'remove') {
       // console.log('edge change', change)
 
+      const sourceLabel = (findNode(change.source)?.data?.label as string) || change.source
+      const targetLabel = (findNode(change.target)?.data?.label as string) || change.target
+
       const isConfirmed = await createComfrim.open({
         message: t('Title.ConfirmText', {
           action: t('Action.Remove'),
-          title: 'Connection'
+          title: `${sourceLabel} -> ${targetLabel}`
         }),
         acceptProps: {
           label: t('Action.Remove'),
@@ -139,15 +168,18 @@ onEdgesChange(async (changes) => {
 })
 
 const nodeClick = () => {}
+
+defineExpose({ getFlowObject, loadFlow })
 </script>
 
 <template>
   <div class="flex h-full w-full flex-col">
-    <ToolbarBase class="shrink-0">
-      <Button :label="$t('Action.Save')" icon="pi pi-save" variant="text" @click="onSave" />
-    </ToolbarBase>
-    <div class="dnd-flow flex h-full w-full" @drop="onDrop">
-      <NodeBar class="h-full w-[100px] border"></NodeBar>
+    <div
+      class="dnd-flow flex h-full w-full"
+      :class="{ 'cursor-default': props.readonly }"
+      @drop="!props.readonly ? onDrop : undefined"
+    >
+      <NodeBar v-if="!props.readonly" class="h-full w-25 border"></NodeBar>
       <div class="grow" @click="flowDivClick">
         <VueFlow
           v-model:nodes="nodes"
@@ -155,14 +187,20 @@ const nodeClick = () => {}
           :connection-radius="40"
           delete-key-code="Delete"
           :default-edge-options="{
-            type: 'smoothstep',
+            type: 'special',
             markerEnd: 'arrowclosed'
           }"
           :node-types="nodeTypes"
+          :edge-types="edgeTypes"
           :zoomOnDoubleClick="false"
-          @dragover="onDragOver"
-          @dragleave="onDragLeave"
+          :nodes-draggable="!props.readonly"
+          :nodes-connectable="!props.readonly"
+          :elements-selectable="!props.readonly"
+          @dragover="!props.readonly ? onDragOver : undefined"
+          @dragleave="!props.readonly ? onDragLeave : undefined"
           :apply-default="false"
+          @node-mouse-enter="nodeMouseEnter"
+          @node-mouse-leave="nodeMouseLeave"
         >
           <template
             #connection-line="{

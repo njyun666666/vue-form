@@ -1,5 +1,7 @@
 {
   "Flow": {
+    "New": "新增流程",
+    "InfoTitle": "基本資料",
     "FlowId": "流程 Id",
     "FlowName": "流程名稱",
     "ModifiedAt": "修改日期",
@@ -22,8 +24,35 @@
           "func": "函式"
         },
         "owner": "負責人",
-        "funcName": "函式名稱"
+        "funcName": "函式名稱",
+        "buttons": {
+          "title": "按鈕設定",
+          "funcName": "{name}後執行函式",
+          "options": {
+            "approve": "核准",
+            "reject": "駁回",
+            "close": "銷案"
+          }
+        }
+      },
+      "gateway": {
+        "conditions": {
+          "title": "條件設定",
+          "add": "新增條件",
+          "name": "條件名稱",
+          "type": "條件類型",
+          "typeOptions": {
+            "func": "函式",
+            "default": "Default"
+          },
+          "funcName": "函式名稱",
+          "targetNode": "指向節點"
+        }
       }
+    },
+    "Edge": {
+      "edgeId": "EdgeId",
+      "label": "標籤"
     }
   }
 }

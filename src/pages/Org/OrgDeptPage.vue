@@ -5,14 +5,17 @@ import type { OrgDeptQuery } from '@/libs/models/OrgDept/OrgDeptQuery'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { orgDeptService } from '@/libs/services/orgDeptService'
 import { useDatatable } from '@/libs/utils/datatable'
+import { toTypedSchema } from '@vee-validate/zod'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import InputText from 'primevue/inputtext'
 import { useForm } from 'vee-validate'
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { z } from 'zod'
+
+const router = useRouter()
 
 const query = ref<QueryModel<OrgDeptQuery>>({
   pageIndex: 0,
@@ -31,7 +34,7 @@ const formSchema = z.object({
 })
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: formSchema,
+  validationSchema: toTypedSchema(formSchema),
   initialValues: {
     deptName: ''
   }
@@ -42,6 +45,8 @@ const [deptName] = defineField('deptName')
 const onSubmit = handleSubmit(async (values) => {
   await datatable.onSubmit(values)
 })
+
+onMounted(() => datatable.handleFetchData())
 </script>
 <template>
   <BasePage>
@@ -52,13 +57,15 @@ const onSubmit = handleSubmit(async (values) => {
         <InputField for="deptName" :label="$t('Org.DeptName')" :error="errors.deptName">
           <InputText id="deptName" v-model="deptName" />
         </InputField>
-        <div class="flex items-end">
-          <div>
-            <Button type="submit">
-              <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-              {{ $t('Action.Search') }}
-            </Button>
-          </div>
+        <div class="flex items-end gap-2">
+          <Button type="submit">
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+            {{ $t('Action.Search') }}
+          </Button>
+          <Button type="button" @click="router.push({ name: 'org-dept-new' })">
+            <font-awesome-icon icon="fa-solid fa-plus" />
+            {{ $t('Action.Add') }}
+          </Button>
         </div>
       </div>
     </form>
@@ -71,7 +78,7 @@ const onSubmit = handleSubmit(async (values) => {
         @page="datatable.onPage"
         @update:multiSortMeta="datatable.onUpdateMultiSortMeta"
       >
-        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="!p-0">
+        <Column field="deptName" :header="$t('Org.DeptName')" sortable bodyClass="p-0!">
           <template #body="{ data }">
             <RouterLink :to="{ name: 'org-dept-detail', params: { deptId: data.deptId } }">
               <div class="w-full px-4 py-3">
@@ -80,6 +87,7 @@ const onSubmit = handleSubmit(async (values) => {
             </RouterLink>
           </template>
         </Column>
+        <Column field="levelName" :header="$t('Org.DeptLevel')" sortable />
       </DataTable>
     </div>
   </BasePage>

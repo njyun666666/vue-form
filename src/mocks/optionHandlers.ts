@@ -1,9 +1,49 @@
 import appConfig from '@/appConfig'
+import { orgDeptQueryViewList } from '@/faker/orgDept'
+import { orgDeptLevelList } from '@/faker/orgDeptLevel'
+import { orgJobTitleList } from '@/faker/orgJobTitle'
+import { orgRoleList } from '@/faker/orgRole'
+import { orgUserList } from '@/faker/orgUser'
 import type { OptionModel } from '@/libs/models/Query/OptionModel'
 import { optionService } from '@/libs/services/optionService'
 import { HttpResponse, delay, http } from 'msw'
 
 export const optionHandlers = [
+  http.get(`${appConfig.FORM_API}${optionService.deptLevelUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgDeptLevelList.map(
+        (l) => ({ value: l.levelId, label: l.levelName }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
+  http.get(`${appConfig.FORM_API}${optionService.deptUrl}`, async ({ request }) => {
+    await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
+    const list = input
+      ? orgDeptQueryViewList.filter((d) => d.deptName.toLowerCase().includes(input))
+      : initValues.length
+        ? orgDeptQueryViewList.filter((d) => initValues.includes(d.deptId))
+        : orgDeptQueryViewList
+    return HttpResponse.json(
+      list.map(
+        (d) => ({ value: d.deptId, label: d.deptName, data: d }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
+  http.get(`${appConfig.FORM_API}${optionService.jobTitleUrl}`, async () => {
+    await delay()
+    return HttpResponse.json(
+      orgJobTitleList.map(
+        (j) => ({ value: j.jobTitleId, label: j.jobTitleName }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
   http.get(`${appConfig.FORM_API}${optionService.cityUrl}`, async () => {
     await delay()
     return HttpResponse.json([
@@ -12,6 +52,49 @@ export const optionHandlers = [
       { label: '桃園市', value: 'Taoyuan' }
     ] as OptionModel<string>[])
   }),
+  http.get(`${appConfig.FORM_API}${optionService.roleUrl}`, async ({ request }) => {
+    await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
+    const enabled = orgRoleList.filter((r) => r.enable)
+    const list = input
+      ? enabled.filter((r) => r.roleName.toLowerCase().includes(input))
+      : initValues.length
+        ? enabled.filter((r) => initValues.includes(r.roleId))
+        : enabled
+    return HttpResponse.json(
+      list.map(
+        (r) => ({ value: r.roleId, label: r.roleName, data: r }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
+  http.get(`${appConfig.FORM_API}${optionService.userUrl}`, async ({ request }) => {
+    await delay()
+    const url = new URL(request.url)
+    const input = url.searchParams.get('input')?.trim().toLowerCase() ?? ''
+    const initValues = url.searchParams.get('initValues')?.split(',').filter(Boolean) ?? []
+    const list = input
+      ? orgUserList.filter(
+          (u) =>
+            u.employeeId.toLowerCase().includes(input) || u.userName.toLowerCase().includes(input)
+        )
+      : initValues.length
+        ? orgUserList.filter((u) => initValues.includes(u.userId))
+        : orgUserList
+    return HttpResponse.json(
+      list.map(
+        (u) =>
+          ({
+            value: u.userId,
+            label: `${u.employeeId} ${u.userName}`,
+            data: u
+          }) satisfies OptionModel<string>
+      )
+    )
+  }),
+
   http.get(`${appConfig.FORM_API}${optionService.productCategoryUrl}`, async () => {
     await delay()
     return HttpResponse.json([

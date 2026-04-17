@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import GatewayNodeEditBtn from '../NodeToolbar/GatewayNodeEditBtn.vue'
 import NodeBaseToolbar from '../NodeToolbar/NodeBaseToolbar.vue'
 import NodeDeleteBtn from '../NodeToolbar/NodeDeleteBtn.vue'
-import NodeEditBtn from '../NodeToolbar/NodeEditBtn.vue'
 import GetewaySvg from './GetewaySvg.vue'
 import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowNode'
 import { cn } from '@/libs/utils/style'
@@ -18,11 +18,11 @@ const props = defineProps<FlowNodeProps>()
 
     <NodeResizer :min-width="50" :min-height="50" :isVisible="selected" />
     <NodeBaseToolbar>
-      <NodeEditBtn />
+      <GatewayNodeEditBtn />
       <NodeDeleteBtn />
     </NodeBaseToolbar>
 
-    <div class="relative z-[1]">{{ data.label }}</div>
+    <div class="relative z-1">{{ data.label }}</div>
 
     <Handle
       id="source-t"

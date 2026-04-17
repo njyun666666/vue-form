@@ -30,5 +30,13 @@
     "arrivedDate": "Arrived",
     "approverName": "Approver",
     "stepName": "Step"
+  },
+  "ApprovalHistory": {
+    "title": "Approval History",
+    "stepLabel": "Step",
+    "approverName": "Approver",
+    "result": "Result",
+    "comment": "Comment",
+    "approvalTime": "Approval Time"
   }
 }

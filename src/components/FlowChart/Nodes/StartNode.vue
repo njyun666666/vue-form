@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NodeBaseToolbar from '../NodeToolbar/NodeBaseToolbar.vue'
 import NodeDeleteBtn from '../NodeToolbar/NodeDeleteBtn.vue'
-import NodeEditBtn from '../NodeToolbar/NodeEditBtn.vue'
+import StartNodeEditBtn from '../NodeToolbar/StartNodeEditBtn.vue'
 import type { FlowNodeProps } from '@/libs/models/FlowChart/FlowNode'
 import { cn } from '@/libs/utils/style'
 import { Handle, Position } from '@vue-flow/core'
@@ -15,7 +15,7 @@ const props = defineProps<FlowNodeProps>()
   <div>
     <NodeResizer :min-width="50" :min-height="50" :isVisible="selected" />
     <NodeBaseToolbar>
-      <NodeEditBtn />
+      <StartNodeEditBtn />
       <NodeDeleteBtn />
     </NodeBaseToolbar>
 

@@ -5,4 +5,5 @@ export interface OrgDeptQuery {
 export interface OrgDeptQueryView {
   deptId: string
   deptName: string
+  levelName: string
 }

@@ -51,7 +51,10 @@
     "Reject": "駁回",
     "UploadFile": "上傳檔案",
     "Copy": "複製",
-    "Copied": "已複製"
+    "Copied": "已複製",
+    "ExpandAll": "展開全部",
+    "CollapseAll": "收起全部",
+    "FlowChart": "流程圖"
   },
   "Title": {
     "Add": "新增{title}",

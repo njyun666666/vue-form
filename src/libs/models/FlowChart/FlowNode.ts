@@ -13,6 +13,29 @@ export enum OwnerSettingEnum {
   func = 'func'
 }
 
+export enum FlowButtonEnum {
+  approve = 'approve',
+  reject = 'reject',
+  close = 'close'
+}
+
+export interface FlowNodeButtonConfig {
+  enabled?: boolean
+  funcName?: string
+}
+
+export enum GatewayConditionTypeEnum {
+  func = 'func',
+  default = 'default'
+}
+
+export interface GatewayCondition {
+  name?: string
+  type?: GatewayConditionTypeEnum
+  funcName?: string
+  targetNodeId?: string
+}
+
 export interface FlowNodeData {
   label?: string
   task?: {
@@ -20,9 +43,10 @@ export interface FlowNodeData {
     ownerSetting?: OwnerSettingEnum
     owner?: string[]
     funcName?: string
+    buttons?: Partial<Record<FlowButtonEnum, FlowNodeButtonConfig>>
   }
   gateway?: {
-    funcName?: string
+    conditions?: GatewayCondition[]
   }
 }
 

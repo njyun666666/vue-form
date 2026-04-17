@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import InputField from '@/components/UI/InputField.vue'
+import OrgSelector from '@/components/UI/OrgSelector.vue'
 import { FormFieldModeEnum } from '@/libs/enums/FormTypes'
-import { type FlowNodeData, FlowTaskEnum, OwnerSettingEnum } from '@/libs/models/FlowChart/FlowNode'
+import { FlowTaskEnum, OwnerSettingEnum } from '@/libs/models/FlowChart/FlowNode'
 import { parseOptions } from '@/libs/utils/parse'
-import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
-import MultiSelect from 'primevue/multiselect'
-import RadioButton from 'primevue/radiobutton'
 import Select from 'primevue/select'
-import { useField, useForm } from 'vee-validate'
-import { type Ref, computed, inject, onMounted } from 'vue'
+import { useField } from 'vee-validate'
+import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import * as z from 'zod'
 
 const { t } = useI18n()
 const field = {
@@ -32,43 +29,55 @@ const ownerSettingOptions = parseOptions<typeof OwnerSettingEnum, string>(
 
 const fieldMode = computed(() => {
   const mode: Record<string, FormFieldModeEnum> = {
-    type: FormFieldModeEnum.readonly,
-    ownerSetting: FormFieldModeEnum.readonly,
-    owner: FormFieldModeEnum.readonly,
-    funcName: FormFieldModeEnum.readonly
+    type: FormFieldModeEnum.required,
+    ownerSetting: FormFieldModeEnum.invisibility,
+    owner: FormFieldModeEnum.invisibility,
+    funcName: FormFieldModeEnum.invisibility
   }
 
-  switch (field.type.value.value as FlowTaskEnum) {
-    case FlowTaskEnum.applicant:
-      mode.ownerSetting = FormFieldModeEnum.invisibility
-      mode.owner = FormFieldModeEnum.invisibility
-      mode.funcName = FormFieldModeEnum.invisibility
-      break
-    case FlowTaskEnum.applicantDeptManager:
-      mode.ownerSetting = FormFieldModeEnum.invisibility
-      mode.owner = FormFieldModeEnum.invisibility
-      mode.funcName = FormFieldModeEnum.invisibility
-      break
-    case FlowTaskEnum.user:
-    case FlowTaskEnum.dept:
-    case FlowTaskEnum.role:
-      mode.ownerSetting = FormFieldModeEnum.required
+  if (!hrTypes.includes(field.type.value.value as FlowTaskEnum)) return mode
 
-      if (field.ownerSetting.value.value == OwnerSettingEnum.hr) {
-        mode.owner = FormFieldModeEnum.required
-        mode.funcName = FormFieldModeEnum.invisibility
-      } else {
-        mode.owner = FormFieldModeEnum.invisibility
-        mode.funcName = FormFieldModeEnum.required
-      }
+  mode.ownerSetting = FormFieldModeEnum.required
 
-      break
-    default:
-      break
+  if (field.ownerSetting.value.value === OwnerSettingEnum.hr) {
+    mode.owner = FormFieldModeEnum.required
+  } else if (field.ownerSetting.value.value === OwnerSettingEnum.func) {
+    mode.funcName = FormFieldModeEnum.required
   }
 
   return mode
 })
+
+const orgSelectorProps = computed(() => ({
+  user: field.type.value.value === FlowTaskEnum.user,
+  dept: field.type.value.value === FlowTaskEnum.dept,
+  role: field.type.value.value === FlowTaskEnum.role
+}))
+
+const hrTypes = [FlowTaskEnum.user, FlowTaskEnum.dept, FlowTaskEnum.role]
+
+watch(
+  () => field.type.value.value,
+  (type) => {
+    if (!hrTypes.includes(type as FlowTaskEnum)) {
+      field.ownerSetting.value.value = ''
+      field.owner.value.value = []
+      field.funcName.value.value = ''
+    }
+  }
+)
+
+watch(
+  () => field.ownerSetting.value.value,
+  (ownerSetting) => {
+    if (ownerSetting !== OwnerSettingEnum.hr) {
+      field.owner.value.value = []
+    }
+    if (ownerSetting !== OwnerSettingEnum.func) {
+      field.funcName.value.value = ''
+    }
+  }
+)
 
 defineExpose({
   fieldMode
@@ -93,8 +102,9 @@ defineExpose({
     </InputField>
 
     <InputField
+      v-if="fieldMode.ownerSetting !== FormFieldModeEnum.invisibility"
       class="col-span-full"
-      for="label"
+      for="ownerSetting"
       :label="$t('Flow.Node.task.ownerSetting')"
       :error="field.ownerSetting.errorMessage.value"
       :isRequired="true"
@@ -109,25 +119,31 @@ defineExpose({
     </InputField>
 
     <InputField
+      v-if="fieldMode.owner !== FormFieldModeEnum.invisibility"
       class="col-span-full"
-      for="label"
+      for="owner"
       :label="$t('Flow.Node.task.owner')"
       :error="field.owner.errorMessage.value"
       :isRequired="true"
     >
-      <!-- <MultiSelect v-model="selectedCities" :options="cities" optionLabel="name" filter 
-    class="w-full md:w-80" /> -->
+      <OrgSelector
+        v-model="field.owner.value.value"
+        v-bind="orgSelectorProps"
+        multiple
+        :invalid="!!field.owner.errorMessage.value"
+      />
     </InputField>
 
     <InputField
+      v-if="fieldMode.funcName !== FormFieldModeEnum.invisibility"
       class="col-span-full"
-      for="label"
+      for="funcName"
       :label="$t('Flow.Node.task.funcName')"
       :error="field.funcName.errorMessage.value"
       :isRequired="true"
     >
       <InputText
-        id="label"
+        id="funcName"
         type="text"
         v-model.trim="field.funcName.value.value"
         :invalid="!!field.funcName.errorMessage.value"

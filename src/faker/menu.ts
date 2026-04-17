@@ -26,10 +26,34 @@ export const menus: MenuViewModel[] = [
     url: '',
     children: [
       {
+        menuId: 'org-tree',
+        menuName: 'Org.OrgTree',
+        icon: 'fa-solid fa-sitemap',
+        url: '/org/tree'
+      },
+      {
+        menuId: 'org-dept-level',
+        menuName: 'Org.DeptLevel',
+        icon: 'fa-solid fa-layer-group',
+        url: '/org/dept-level'
+      },
+      {
         menuId: 'org-dept',
         menuName: 'Org.Dept',
         icon: 'fa-solid fa-building',
         url: '/org/dept'
+      },
+      {
+        menuId: 'org-role',
+        menuName: 'Org.Role',
+        icon: 'fa-solid fa-user-shield',
+        url: '/org/role'
+      },
+      {
+        menuId: 'org-job-title',
+        menuName: 'Org.JobTitle',
+        icon: 'fa-solid fa-id-badge',
+        url: '/org/job-title'
       },
       {
         menuId: 'org-user',
