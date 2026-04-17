@@ -1,5 +1,6 @@
 import { PendingApprovalModel } from './../libs/models/Form/FormModel'
 import appConfig from '@/appConfig'
+import { flowDetailFaker } from '@/faker/flowDetail'
 import { formFaker } from '@/faker/form'
 import { FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type {
@@ -51,14 +52,16 @@ export const formHandlers = [
         return HttpResponse.json({}, { status: 403 })
       }
 
+      const flowId = `${formClass}-flow-1`
       return HttpResponse.json({
         formPageAction: [
           FormPageActionEnum.application,
           FormPageActionEnum.info,
           FormPageActionEnum.approval
         ],
-        flowId: `${formClass}-flow-1`,
-        stepId: form.step
+        flowId,
+        stepId: form.step,
+        flow: flowDetailFaker[flowId] ?? null
       } as FormCheckAuthViewModel)
     }
   ),
@@ -67,14 +70,16 @@ export const formHandlers = [
     async ({ params }) => {
       await delay()
       const { formClass } = params
+      const flowId = `${formClass}-flow-1`
       return HttpResponse.json({
         formPageAction: [
           FormPageActionEnum.application,
           FormPageActionEnum.info,
           FormPageActionEnum.approval
         ],
-        flowId: `${formClass}-flow-1`,
-        stepId: 1
+        flowId,
+        stepId: 1,
+        flow: flowDetailFaker[flowId] ?? null
       } as FormCheckAuthViewModel)
     }
   ),

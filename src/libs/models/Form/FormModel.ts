@@ -39,6 +39,7 @@ export interface FormCheckAuthViewModel {
   formPageAction: FormPageActionEnum[]
   flowId?: string
   stepId: number
+  flow?: Record<string, unknown>
 }
 
 export class FormPageInfoModel {
