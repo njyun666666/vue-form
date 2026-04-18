@@ -4,9 +4,6 @@ import type { MyApplicationModel, PendingApprovalModel } from '@/libs/models/For
 import { formService } from '@/libs/services/formService'
 import { useQuery } from '@tanstack/vue-query'
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const { data: pendingData } = useQuery({
   queryKey: ['dashboard.pending'],
@@ -83,15 +80,15 @@ const cards = computed(() => [
 
 <template>
   <div class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-    <div
+    <RouterLink
       v-for="card in cards"
       :key="card.key"
+      :to="card.route"
       class="flex cursor-pointer flex-col items-center gap-2 rounded-lg border bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:bg-surface-800"
-      @click="router.push(card.route)"
     >
       <font-awesome-icon :icon="card.icon" :class="['text-3xl', card.color]" />
       <span class="text-3xl font-bold">{{ card.count }}</span>
       <span class="text-center text-sm text-surface-500">{{ $t(card.labelKey) }}</span>
-    </div>
+    </RouterLink>
   </div>
 </template>
