@@ -20,7 +20,8 @@ const visible = ref(false)
 const { data: approvalHistory } = useQuery({
   queryKey: computed(() => [formService.approvalHistoryUrl, props.formId]),
   queryFn: () => formService.getApprovalHistory(props.formId!).then(({ data }) => data),
-  enabled: computed(() => !!props.formId)
+  enabled: computed(() => !!props.formId),
+  staleTime: 30 * 60 * 1000
 })
 
 defineExpose({ open: () => (visible.value = true) })

@@ -166,6 +166,22 @@ const router = createRouter({
               component: () => import('@/pages/Form/ApplicationFormsPage.vue')
             },
             {
+              path: 'my-applications',
+              name: 'form-my-applications',
+              meta: {
+                title: 'Page.MyApplications'
+              },
+              component: () => import('@/pages/Form/MyApplicationsPage.vue')
+            },
+            {
+              path: 'my-handled',
+              name: 'form-my-handled',
+              meta: {
+                title: 'Page.MyHandled'
+              },
+              component: () => import('@/pages/Form/MyHandledPage.vue')
+            },
+            {
               path: ':formPageAction/:formClass',
               name: 'form-detail',
               component: () => import('@/pages/Form/FormPage.vue')

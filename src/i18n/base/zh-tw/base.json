@@ -16,6 +16,8 @@
     "ApplicationForm": "申請表單",
     "FlowList": "流程清單",
     "FlowNew": "新增流程",
+    "MyApplications": "我的申請",
+    "MyHandled": "我的已辦",
     "Message": "訊息"
   },
   "Datatable": {
@@ -49,6 +51,10 @@
     "Application": "申請",
     "Approve": "核准",
     "Reject": "駁回",
+    "Return": "退回申請人",
+    "Recall": "撤回",
+    "Draft": "儲存草稿",
+    "Close": "結案",
     "UploadFile": "上傳檔案",
     "Copy": "複製",
     "Copied": "已複製",

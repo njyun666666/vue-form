@@ -16,7 +16,8 @@ export enum OwnerSettingEnum {
 export enum FlowButtonEnum {
   approve = 'approve',
   reject = 'reject',
-  close = 'close'
+  close = 'close',
+  return = 'return'
 }
 
 export interface FlowNodeButtonConfig {

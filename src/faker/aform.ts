@@ -1,3 +1,16 @@
+export const A001 = {
+  baseInfo: {
+    formId: `A001`,
+    formClass: 'A',
+    applicantId: 'e68f5118902be0daaef0fa3300b643b6',
+    applicantName: 'Admin',
+    applicationDate: '2025-02-24T08:00:00.000Z',
+    description: '草稿表單'
+  },
+  info: { title: '草稿標題', content: '' },
+  productDetail: []
+}
+
 export const A002 = {
   baseInfo: {
     formId: `A002`,
@@ -61,4 +74,30 @@ export const A003 = {
       category: 'gpu'
     }
   ]
+}
+
+export const A005 = {
+  baseInfo: {
+    formId: `A005`,
+    formClass: 'A',
+    applicantId: 'user1',
+    applicantName: 'User1',
+    applicationDate: '2025-03-01T09:00:00.000Z',
+    description: '測試表單'
+  },
+  info: { title: '測試表單', content: 'test content' },
+  productDetail: []
+}
+
+export const A004 = {
+  baseInfo: {
+    formId: `A004`,
+    formClass: 'A',
+    applicantId: 'e68f5118902be0daaef0fa3300b643b6',
+    applicantName: 'Admin',
+    applicationDate: '2025-02-27T10:00:00.000Z',
+    description: '已退回需修改'
+  },
+  info: { title: '退回修改表單', content: '請修改後重新送出' },
+  productDetail: []
 }

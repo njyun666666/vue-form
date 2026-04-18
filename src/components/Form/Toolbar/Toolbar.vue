@@ -4,9 +4,10 @@ import FlowChartDialog from './FlowChartDialog.vue'
 import { useFormAction } from './useFormAction'
 import ToolbarBase from '@/components/UI/ToolbarBase.vue'
 import { FormPageActionEnum } from '@/libs/enums/FormTypes'
+import type { FlowNodeData } from '@/libs/models/FlowChart/FlowNode'
 import type { FormPageInfoModel } from '@/libs/models/Form/FormModel'
 import Button from 'primevue/button'
-import { type Ref, computed, inject, ref } from 'vue'
+import { type Ref, computed, inject, ref, watchEffect } from 'vue'
 
 const flowChartDialog = ref<InstanceType<typeof FlowChartDialog>>()
 const approvalHistoryDialog = ref<InstanceType<typeof ApprovalHistoryDialog>>()
@@ -22,24 +23,43 @@ const flowSetting = computed(
   () => pageInfo.value.flow?.flowSetting as Record<string, unknown> | undefined
 )
 
-const { applicationBtn, approveBtn, rejectBtn, handleClick, commentAction } =
-  useFormAction(pageInfo)
+const stepButtons = computed(() => {
+  const nodes = (pageInfo.value.flow?.flowSetting as any)?.nodes as
+    | Array<{ id: string; data?: FlowNodeData }>
+    | undefined
+  return nodes?.find((n) => n.id === pageInfo.value.stepId)?.data?.task?.buttons
+})
 
-switch (props.formPageAction) {
-  case FormPageActionEnum.application:
-    applicationBtn.value.display = true
-    break
+const {
+  applicationBtn,
+  approveBtn,
+  rejectBtn,
+  returnBtn,
+  recallBtn,
+  draftBtn,
+  handleClick,
+  commentAction
+} = useFormAction(pageInfo)
 
-  case FormPageActionEnum.approval:
-    approveBtn.value.display = true
-    rejectBtn.value.display = true
-    break
+watchEffect(() => {
+  applicationBtn.value.display = props.formPageAction === FormPageActionEnum.application
+  draftBtn.value.display = props.formPageAction === FormPageActionEnum.application
 
-  default:
-    break
-}
+  approveBtn.value.display =
+    props.formPageAction === FormPageActionEnum.approval &&
+    (stepButtons.value?.approve?.enabled ?? true)
+  rejectBtn.value.display =
+    props.formPageAction === FormPageActionEnum.approval &&
+    (stepButtons.value?.reject?.enabled ?? true)
+  returnBtn.value.display =
+    props.formPageAction === FormPageActionEnum.approval &&
+    (stepButtons.value?.return?.enabled ?? false)
 
-defineExpose({ applicationBtn, approveBtn, rejectBtn })
+  recallBtn.value.display =
+    props.formPageAction === FormPageActionEnum.info && !!pageInfo.value.canRecall
+})
+
+defineExpose({ applicationBtn, approveBtn, rejectBtn, returnBtn, recallBtn, draftBtn })
 </script>
 
 <template>
@@ -51,6 +71,16 @@ defineExpose({ applicationBtn, approveBtn, rejectBtn })
       variant="text"
       :loading="applicationBtn.loading"
       @click="handleClick(applicationBtn)"
+    />
+
+    <Button
+      v-if="draftBtn.display"
+      :label="$t('Action.Draft')"
+      icon="pi pi-save"
+      severity="secondary"
+      variant="text"
+      :loading="draftBtn.loading"
+      @click="handleClick(draftBtn)"
     />
 
     <Button
@@ -70,6 +100,26 @@ defineExpose({ applicationBtn, approveBtn, rejectBtn })
       variant="text"
       :loading="rejectBtn.loading"
       @click="commentAction(rejectBtn)"
+    />
+
+    <Button
+      v-if="returnBtn.display"
+      :label="$t('Action.Return')"
+      icon="pi pi-undo"
+      severity="warn"
+      variant="text"
+      :loading="returnBtn.loading"
+      @click="commentAction(returnBtn)"
+    />
+
+    <Button
+      v-if="recallBtn.display"
+      :label="$t('Action.Recall')"
+      icon="pi pi-ban"
+      severity="secondary"
+      variant="text"
+      :loading="recallBtn.loading"
+      @click="handleClick(recallBtn)"
     />
 
     <Button

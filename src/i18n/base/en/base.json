@@ -16,6 +16,8 @@
     "ApplicationForm": "Application form",
     "FlowList": "Flow list",
     "FlowNew": "New flow",
+    "MyApplications": "My Applications",
+    "MyHandled": "My Handled",
     "Message": "Message"
   },
   "Datatable": {
@@ -49,6 +51,10 @@
     "Application": "Application",
     "Approve": "Approve",
     "Reject": "Reject",
+    "Return": "Return to Applicant",
+    "Recall": "Withdraw",
+    "Draft": "Save Draft",
+    "Close": "Close Case",
     "UploadFile": "Upload file",
     "Copy": "Copy",
     "Copied": "Copied",

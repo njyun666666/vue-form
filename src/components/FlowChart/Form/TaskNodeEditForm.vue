@@ -42,7 +42,8 @@ const schema = z
           .object({
             [FlowButtonEnum.approve]: buttonSchema,
             [FlowButtonEnum.reject]: buttonSchema,
-            [FlowButtonEnum.close]: buttonSchema
+            [FlowButtonEnum.close]: buttonSchema,
+            [FlowButtonEnum.return]: buttonSchema
           })
           .partial()
       })

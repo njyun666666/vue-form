@@ -17,13 +17,22 @@
     "C": "C申請單",
     "D": "D申請單"
   },
+  "Status": {
+    "draft": "草稿",
+    "pending": "待簽核",
+    "approved": "已核准",
+    "rejected": "已駁回",
+    "returned": "已退回",
+    "recalled": "已撤回"
+  },
   "BaseInfo": {
     "formId": "單號",
     "formClass": "表單",
     "applicantId": "申請人代號",
     "applicantName": "申請人姓名",
     "applicationDate": "申請日期",
-    "description": "說明"
+    "description": "說明",
+    "status": "狀態"
   },
   "PendingApproval": {
     "title": "待簽核",
@@ -38,5 +47,11 @@
     "result": "簽核結果",
     "comment": "簽核意見",
     "approvalTime": "簽核時間"
+  },
+  "MyApplications": {
+    "title": "我的申請"
+  },
+  "MyHandled": {
+    "title": "我的已辦"
   }
 }

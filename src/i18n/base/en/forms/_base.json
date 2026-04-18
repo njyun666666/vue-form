@@ -17,13 +17,22 @@
     "C": "C form",
     "D": "D form"
   },
+  "Status": {
+    "draft": "Draft",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "returned": "Returned",
+    "recalled": "Recalled"
+  },
   "BaseInfo": {
     "formId": "No.",
     "formClass": "Form",
     "applicantId": "Application Id",
     "applicantName": "Application Name",
     "applicationDate": "Application Date",
-    "description": "Description"
+    "description": "Description",
+    "status": "Status"
   },
   "PendingApproval": {
     "title": "Pending Approval",
@@ -38,5 +47,11 @@
     "result": "Result",
     "comment": "Comment",
     "approvalTime": "Approval Time"
+  },
+  "MyApplications": {
+    "title": "My Applications"
+  },
+  "MyHandled": {
+    "title": "My Handled"
   }
 }
