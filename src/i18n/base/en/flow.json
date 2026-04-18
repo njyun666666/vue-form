@@ -31,7 +31,8 @@
           "options": {
             "approve": "Approve",
             "reject": "Reject",
-            "close": "Close"
+            "close": "Close Case",
+            "return": "Return to Applicant"
           }
         }
       },

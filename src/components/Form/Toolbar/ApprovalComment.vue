@@ -24,7 +24,7 @@ const closeDialog = () => {
 const update = (action: FormActionEnum) => {
   commentError.value = ''
 
-  if (action == 'reject' && !comment.value) {
+  if ((action === FormActionEnum.reject || action === FormActionEnum.return) && !comment.value) {
     commentError.value = t('Message.Required')
     return
   }
@@ -42,7 +42,7 @@ onMounted(() => {
       class="col-span-full"
       for="title"
       :error="commentError"
-      :isRequired="props?.action == 'reject'"
+      :isRequired="props?.action == 'reject' || props?.action == 'return'"
     >
       <Textarea v-model="comment" autoResize rows="5" class="w-full" :invalid="!!commentError" />
     </InputField>
@@ -65,6 +65,13 @@ onMounted(() => {
         icon="pi pi-times"
         severity="danger"
         @click="update(FormActionEnum.reject)"
+      />
+      <Button
+        v-if="props?.action == 'return'"
+        :label="$t('Action.Return')"
+        icon="pi pi-undo"
+        severity="warn"
+        @click="update(FormActionEnum.return)"
       />
     </div>
   </div>

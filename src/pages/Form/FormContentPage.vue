@@ -70,6 +70,8 @@ formService
     pageInfo.value.flowId = data.flowId
     pageInfo.value.stepId = data.stepId
     pageInfo.value.flow = data.flow
+    pageInfo.value.formStatus = data.formStatus
+    pageInfo.value.canRecall = data.canRecall
     auth.value = true
     loading.value = false
   })

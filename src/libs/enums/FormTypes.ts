@@ -14,7 +14,20 @@ export enum FormFieldModeEnum {
 export enum FormActionEnum {
   application = 'application',
   approve = 'approve',
-  reject = 'reject'
+  reject = 'reject',
+  return = 'return',
+  recall = 'recall',
+  draft = 'draft',
+  close = 'close'
+}
+
+export enum FormStatusEnum {
+  draft = 'draft',
+  pending = 'pending',
+  approved = 'approved',
+  rejected = 'rejected',
+  returned = 'returned',
+  recalled = 'recalled'
 }
 
 export enum FormClassEnum {

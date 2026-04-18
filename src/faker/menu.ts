@@ -14,6 +14,18 @@ export const menus: MenuViewModel[] = [
     url: '/form'
   },
   {
+    menuId: 'form-my-applications',
+    menuName: 'Page.MyApplications',
+    icon: 'fa-solid fa-file-lines',
+    url: '/form/my-applications'
+  },
+  {
+    menuId: 'form-my-handled',
+    menuName: 'Page.MyHandled',
+    icon: 'fa-solid fa-check-double',
+    url: '/form/my-handled'
+  },
+  {
     menuId: 'flow-list',
     menuName: 'Page.FlowList',
     icon: 'fa-solid fa-diagram-project',

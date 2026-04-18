@@ -25,6 +25,14 @@
     "Approval_Completed": "Approval completed",
     "Approval_Fail": "Approval fail",
     "Next_Approver": "Next approver",
-    "Please_check_the_field": "Please check the field"
+    "Please_check_the_field": "Please check the field",
+    "Return_Success": "Returned to applicant",
+    "Return_Fail": "Return failed",
+    "Recall_Success": "Withdrawn successfully",
+    "Recall_Fail": "Withdraw failed",
+    "Draft_Saved": "Draft saved",
+    "Draft_Fail": "Draft save failed",
+    "Close_Success": "Case closed",
+    "Close_Fail": "Close failed"
   }
 }

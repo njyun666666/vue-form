@@ -31,7 +31,8 @@
           "options": {
             "approve": "核准",
             "reject": "駁回",
-            "close": "銷案"
+            "close": "銷案",
+            "return": "退回申請人"
           }
         }
       },

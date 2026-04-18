@@ -177,7 +177,7 @@ defineExpose({ getFlowObject, loadFlow })
     <div
       class="dnd-flow flex h-full w-full"
       :class="{ 'cursor-default': props.readonly }"
-      @drop="!props.readonly ? onDrop : undefined"
+      @drop="(e: DragEvent) => !props.readonly && onDrop(e)"
     >
       <NodeBar v-if="!props.readonly" class="h-full w-25 border"></NodeBar>
       <div class="grow" @click="flowDivClick">
@@ -196,8 +196,8 @@ defineExpose({ getFlowObject, loadFlow })
           :nodes-draggable="!props.readonly"
           :nodes-connectable="!props.readonly"
           :elements-selectable="!props.readonly"
-          @dragover="!props.readonly ? onDragOver : undefined"
-          @dragleave="!props.readonly ? onDragLeave : undefined"
+          @dragover="(e: DragEvent) => !props.readonly && onDragOver(e)"
+          @dragleave="() => !props.readonly && onDragLeave()"
           :apply-default="false"
           @node-mouse-enter="nodeMouseEnter"
           @node-mouse-leave="nodeMouseLeave"

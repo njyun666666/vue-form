@@ -25,6 +25,14 @@
     "Approval_Completed": "簽核完成",
     "Approval_Fail": "簽核失敗",
     "Next_Approver": "下一關",
-    "Please_check_the_field": "請檢查欄位"
+    "Please_check_the_field": "請檢查欄位",
+    "Return_Success": "已退回申請人",
+    "Return_Fail": "退回失敗",
+    "Recall_Success": "撤回成功",
+    "Recall_Fail": "撤回失敗",
+    "Draft_Saved": "草稿已儲存",
+    "Draft_Fail": "草稿儲存失敗",
+    "Close_Success": "已結案",
+    "Close_Fail": "結案失敗"
   }
 }
