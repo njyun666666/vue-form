@@ -60,7 +60,8 @@
     "Copied": "已複製",
     "ExpandAll": "展開全部",
     "CollapseAll": "收起全部",
-    "FlowChart": "流程圖"
+    "FlowChart": "流程圖",
+    "Reset": "重置"
   },
   "Title": {
     "Add": "新增{title}",

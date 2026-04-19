@@ -41,15 +41,22 @@ export class PendingApprovalModel extends FormBaseInfoModel {
   approverName?: string
   stepId?: string
   stepName?: string
+  arrivedDateFrom?: Date
+  arrivedDateTo?: Date
 }
 
-export class MyApplicationModel extends FormBaseInfoModel {}
+export class MyApplicationModel extends FormBaseInfoModel {
+  applicationDateFrom?: Date
+  applicationDateTo?: Date
+}
 
 export class MyHandledModel extends FormBaseInfoModel {
   stepName?: string
   action?: FormActionEnum
   comment?: string
   approvalTime?: Date
+  approvalTimeFrom?: Date
+  approvalTimeTo?: Date
 }
 
 export class FormSaveViewModel {

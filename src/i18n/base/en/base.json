@@ -60,7 +60,8 @@
     "Copied": "Copied",
     "ExpandAll": "Expand all",
     "CollapseAll": "Collapse all",
-    "FlowChart": "Flow chart"
+    "FlowChart": "Flow chart",
+    "Reset": "Reset"
   },
   "Title": {
     "Add": "Add {title}",
