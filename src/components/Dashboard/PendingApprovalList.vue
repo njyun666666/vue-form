@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FormPageActionEnum } from '@/libs/enums/FormTypes'
+import { FormClassEnum, FormPageActionEnum } from '@/libs/enums/FormTypes'
 import type { PendingApprovalModel } from '@/libs/models/Form/FormModel'
 import type { QueryModel } from '@/libs/models/Query/QueryModel'
 import { formService } from '@/libs/services/formService'
@@ -8,8 +8,14 @@ import dayjs from 'dayjs'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
-import { ref } from 'vue'
+import DatePicker from 'primevue/datepicker'
+import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
+
+const { t } = useI18n()
 
 const query = ref<QueryModel<PendingApprovalModel>>({
   pageIndex: 0,
@@ -23,6 +29,30 @@ const fetchData = async (data: QueryModel<PendingApprovalModel>) => {
 
 const datatable = useDatatable(query, fetchData)
 datatable.handleFetchData()
+
+const formClassOptions = computed(() =>
+  Object.values(FormClassEnum).map((value) => ({ label: t(`Form.Class.${value}`), value }))
+)
+
+const filterFormClass = ref<string | null>(null)
+const filterFormId = ref('')
+const filterArrivedDateRange = ref<(Date | null)[] | null>(null)
+
+const handleSearch = () => {
+  const filter: Partial<PendingApprovalModel> = {}
+  if (filterFormClass.value) filter.formClass = filterFormClass.value
+  if (filterFormId.value) filter.formId = filterFormId.value
+  if (filterArrivedDateRange.value?.[0]) filter.arrivedDateFrom = filterArrivedDateRange.value[0]
+  if (filterArrivedDateRange.value?.[1]) filter.arrivedDateTo = filterArrivedDateRange.value[1]
+  datatable.onSubmit(filter as PendingApprovalModel)
+}
+
+const handleReset = () => {
+  filterFormClass.value = null
+  filterFormId.value = ''
+  filterArrivedDateRange.value = null
+  datatable.onSubmit({} as PendingApprovalModel)
+}
 </script>
 <template>
   <div>
@@ -42,6 +72,46 @@ datatable.handleFetchData()
             @click="datatable.onSubmit({})"
             v-tooltip="$t('Action.Reload')"
           />
+        </div>
+        <div class="mt-3 flex flex-wrap items-end gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="text-xs text-surface-500">{{ $t('Form.BaseInfo.formClass') }}</label>
+            <Select
+              v-model="filterFormClass"
+              :options="formClassOptions"
+              optionLabel="label"
+              optionValue="value"
+              :placeholder="$t('Form.BaseInfo.formClass')"
+              showClear
+              class="w-36"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-xs text-surface-500">{{
+              $t('Form.PendingApproval.arrivedDate')
+            }}</label>
+            <DatePicker
+              v-model="filterArrivedDateRange"
+              selectionMode="range"
+              :manualInput="false"
+              showButtonBar
+              dateFormat="yy/mm/dd"
+              class="w-56"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-xs text-surface-500">{{ $t('Form.BaseInfo.formId') }}</label>
+            <InputText v-model="filterFormId" class="w-36" />
+          </div>
+          <div class="flex gap-2 pb-0.5">
+            <Button :label="$t('Action.Search')" icon="pi pi-search" @click="handleSearch" />
+            <Button
+              :label="$t('Action.Reset')"
+              icon="pi pi-times"
+              severity="secondary"
+              @click="handleReset"
+            />
+          </div>
         </div>
       </template>
       <Column field="formClass" :header="$t('Form.BaseInfo.formClass')">
